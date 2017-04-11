@@ -28,12 +28,12 @@ requireNamespace("psych") # For descriptive functions
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-scale-assembly.R a long data file
-ds <- readRDS("./data-unshared/derived/data-long.rds")
+ds <- readRDS("../HRS/data-unshared/derived/data-long.rds")
 
 # ---- inspect-data -------------------------------------------------------------
 names(ds)
+# ---- tweak-data --------------------------------------------------------------
 
-# --------------------------------------------------------------------------------------
 # Number of close children (closechild) data correction 
 
 # Impliment Rule 1:	
@@ -55,8 +55,72 @@ ds$closechild <- as.numeric(ifelse(ds$digit1 == ds$digit2, ds$digit2, ds$closech
 # Impliment Rule 2:
 # Otherwise, recode closechild [number of children with whom one has a close relationship to NA if greater than]
 ds$closechild <- ifelse(ds$closechild>20, NA, ds$closechild)
+# ---- basic-table --------------------------------------------------------------
 
-# ------ Number of close family members (closefam) data correction -------
+# ---- basic-graph --------------------------------------------------------------
+
+# ---- detect-outliers ----------------------------------------------------------
+ids <- sample(size = 200, x = unique(ds$hhidpn) )
+selected_variables <- c("id","year",'lbwave', "closechild", "closefam", "closefri")
+
+# remove the values we consider outliers
+# Here is our rules for defining an outlier
+# If 1)the number of close family members is greater than 4 standard deviations above the mean (21) 
+# and 2)the change in number of close family members is greater than 4 standard deviations above the 
+# mean change (21) then recode to NA. This is 112 cases. 
+# identify cases in which the criteria for outliers is broken
+d <- ds %>% 
+  dplyr::rename(id = hhidpn) %>% 
+  # dplyr::filter(id %in% ids) %>%
+  # filter(id == 22860010 ) %>% 
+  dplyr::filter(lbwave > 0) %>%
+  dplyr::select_(.dots = selected_variables) %>% 
+  dplyr::group_by(id) %>%
+  dplyr::mutate(
+    closefam_lag  = abs(             closefam - dplyr::lag(closefam)),
+    closefam_lead = abs(dplyr::lead(closefam) - closefam),
+    closefri_lag  = abs(             closefri - dplyr::lag(closefri)),
+    closefri_lead = abs(dplyr::lead(closefri) - closefri)
+  ) %>% 
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    closefam_mean     = mean(closefam, na.rm=T),
+    closefam_sd       = sd(closefam, na.rm=T),
+    closefam_lag_mean = mean(closefam_lag, na.rm=T),
+    closefam_lag_sd   = sd(closefam_lag, na.rm=T),
+    closefam_flag     = ifelse(closefam     > closefam_mean + 4*closefam_sd, TRUE, FALSE),
+    closefam_lag_flag = ifelse(closefam_lag > closefam_mean + 4*closefam_sd, TRUE, FALSE),
+    
+    closefam_out      = ifelse( closefam_flag & closefam_lag_flag, TRUE, FALSE),
+    # TODO : Cassandra, please finish for the other two variables
+    # closefri_out      = ifelse( closefri_flag & closefri__lag_flag, TRUE, FALSE),
+    # closechild_out    = ifelse( closefri_flag & closefri__lag_flag, TRUE, FALSE),
+    # 
+    # flag_out = ifelse(closefam_out | closefri_out | closechild_out, TRUE, FALSE)
+    flag_out_obs = closefam_out # replace this when finsih for all three  
+  ) %>% 
+  dplyr::group_by(id) %>% 
+  dplyr::mutate(
+    flag_out_id  = ifelse(sum(flag_out_obs)>0L, TRUE, FALSE)
+  ) %>% 
+  dplyr::ungroup()
+
+d %>% group_by(closefam_out) %>% summarize(n=n())
+
+
+
+# ---- save-to-disk ----------------------------------
+
+saveRDS(d, "./data-unshared/derived/dto-ellis.rds")
+
+
+###################################################################
+# developmental code after this point
+
+
+
+
+# Number of close family members (closefam) data correction
 # Rule 1:
 # If the number of close family members is greater than 4 standard deviations above the mean (21) 
 # and the change in number of close family members is greater than 4 standard deviations above the 
