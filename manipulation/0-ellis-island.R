@@ -88,16 +88,29 @@ d <- ds %>%
     closefam_sd       = sd(closefam, na.rm=T),
     closefam_lag_mean = mean(closefam_lag, na.rm=T),
     closefam_lag_sd   = sd(closefam_lag, na.rm=T),
+    closefam_lead_m   = mean(closefam_lead, na.rm=T),
+    closefam_lead_sd  = sd(closefam_lead, na.rm = T),
     closefam_flag     = ifelse(closefam     > closefam_mean + 4*closefam_sd, TRUE, FALSE),
-    closefam_lag_flag = ifelse(closefam_lag > closefam_mean + 4*closefam_sd, TRUE, FALSE),
-    
-    closefam_out      = ifelse( closefam_flag & closefam_lag_flag, TRUE, FALSE),
+    closefam_lag_flag = ifelse(closefam_lag > closefam_lag_mean + 4*closefam_lag_sd, TRUE, FALSE),
+    closefam_lead_flag= ifelse(closefam_lead > closefam_lead_m + 4*closefam_lead_sd, TRUE, FALSE),
+    closefam_out      = ifelse( (closefam_flag & closefam_lag_flag) | (closefam_flag & closefam_lead_flag), TRUE, FALSE),
+   #closefri
+    closefri_mean     = mean(closefri, na.rm=T),
+    closefri_sd       = sd(closefri, na.rm=T),
+    closefri_lag_mean = mean(closefri_lag, na.rm=T),
+    closefri_lag_sd   = sd(closefri_lag, na.rm=T),
+    closefri_lead_m   = mean(closefri_lead, na.rm=T),
+    closefri_lead_sd  = sd(closefri_lead, na.rm = T),
+    closefri_flag     = ifelse(closefri     > closefri_mean + 4*closefri_sd, TRUE, FALSE),
+    closefri_lag_flag = ifelse(closefri_lag > closefri_lag_mean + 4*closefri_lag_sd, TRUE, FALSE),
+    closefri_lead_flag= ifelse(closefri_lead > closefri_lead_m + 4*closefri_lead_sd, TRUE, FALSE),
+    closefri_out      = ifelse( (closefri_flag & closefri_lag_flag) | (closefri_flag & closefri_lead_flag), TRUE, FALSE),
     # TODO : Cassandra, please finish for the other two variables
     # closefri_out      = ifelse( closefri_flag & closefri__lag_flag, TRUE, FALSE),
     # closechild_out    = ifelse( closefri_flag & closefri__lag_flag, TRUE, FALSE),
     # 
     # flag_out = ifelse(closefam_out | closefri_out | closechild_out, TRUE, FALSE)
-    flag_out_obs = closefam_out # replace this when finsih for all three  
+    flag_out_obs = closefam_out | closefri_out # replace this when finsih for all three  
   ) %>% 
   dplyr::group_by(id) %>% 
   dplyr::mutate(
@@ -105,7 +118,7 @@ d <- ds %>%
   ) %>% 
   dplyr::ungroup()
 
-d %>% group_by(closefam_out) %>% summarize(n=n())
+d %>% dplyr::group_by(closefam_out) %>% summarize(n=n())
 
 
 
@@ -148,7 +161,11 @@ saveRDS(d, "./data-unshared/derived/dto-ellis.rds")
 
 # - select only those who are older than 65 for the analysis
 
-ds <- subset(ds, intage_r > 64)
+ds_65 <- subset(ds, intage_r > 64)
+#convert year to numeric for the wide to long conversion
+ds_65$year <- as.numeric(as.character(ds_65$year))
+
+psych::describeBy(ds_65$score_loneliness_3, group=ds_65$lbwave)
 
 #-Select only relevant demographic variables and total scores for analysis----------
 
@@ -178,13 +195,14 @@ d_wide <- ds %>%
   dplyr::select(-variable,-year) %>% 
   tidyr::spread(temp, value)
 
-d_long <- ds %>%
+
+d_long <- ds_65 %>%
   dplyr::select_(.dots = c(variables_static,  "lbwave", variables_longitudinal)) 
-
-
-
+names(d_long)
+dplyr::glimpse(d_long)
 
 ds_lb <- subset(d_long, lbwave>0 & lbwave!=5)
+
 # define variable properties for long-to-wide conversion
 (variables_longitudinal <- variables_longitudinal[!variables_longitudinal=="lbwave"]) # all except year
 
@@ -201,6 +219,7 @@ dlb_wide <- ds_lb %>%
   dplyr::select(-variable,-lbwave) %>% 
   tidyr::spread(temp, value)
 
+dplyr::glimpse(dlb_wide)
 
 # ---- save-r-data -------------------
 # tranformed data with supplementary variables
@@ -212,8 +231,7 @@ saveRDS(dlb_wide, file="./data-unshared/derived/lb-data-wide.rds")
 
 # convert NA and NaN to 9999 for Mplus.
 dlb_wide[is.na(dlb_wide)] <- 9999
-d_long[is.nan(d_long)]<- 9999
-dlb_wide <- rapply(dlb_wide, f=function(dlb_wide[,"activity_mean_1"]) ifelse(is.nan(dlb_wide[,"activity_mean_1"]),9999,dlb_wide[,"activity_mean_1"]), how="replace")
+
 # prepared for Mplus
 write.table(dlb_wide, "./data-unshared/derived/wide-dataset.dat", row.names=F, col.names=F)
 write(names(dlb_wide), "./data-unshared/derived/wide-variable-names.txt", sep=" ")
