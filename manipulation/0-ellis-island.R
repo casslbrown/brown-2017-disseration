@@ -106,11 +106,9 @@ d <- ds %>%
     closefri_lead_flag= ifelse(closefri_lead > closefri_lead_m + 4*closefri_lead_sd, TRUE, FALSE),
     closefri_out      = ifelse( (closefri_flag & closefri_lag_flag) | (closefri_flag & closefri_lead_flag), TRUE, FALSE),
     # TODO : Cassandra, please finish for the other two variables
-    # closefri_out      = ifelse( closefri_flag & closefri__lag_flag, TRUE, FALSE),
     # closechild_out    = ifelse( closefri_flag & closefri__lag_flag, TRUE, FALSE),
-    # 
     # flag_out = ifelse(closefam_out | closefri_out | closechild_out, TRUE, FALSE)
-    flag_out_obs = closefam_out | closefri_out # replace this when finsih for all three  
+    flag_out_obs = closefam_out | closefri_out # replace this when finished for all three  
   ) %>% 
   dplyr::group_by(id) %>% 
   dplyr::mutate(
@@ -118,11 +116,110 @@ d <- ds %>%
   ) %>% 
   dplyr::ungroup()
 
-d %>% dplyr::group_by(closefam_out) %>% summarize(n=n())
+#d %>% dplyr::group_by(closefam_out) %>% summarize(n=n())
 
+#rename id for merging
+ds <- ds %>% 
+  dplyr::rename(id = hhidpn)
 
+#add the flag variables to the larger data set
+ds2 <- merge(ds, d, by = selected_variables, all.x = TRUE)
+
+#test <- ds2 %>% dplyr::filter(id == 22860010)
+# recode closefam values flagged as errors to NA
+ds2$closefam <- ifelse(ds2$closefam_out == TRUE, NA, ds2$closefam)
+# recode closefri values flagged as errors to NA
+ds2$closefri <- ifelse(ds2$closefri_out == TRUE, NA, ds2$closefri)
+
+networkvars <- c("snspouse", "snchild", "snfamily", "snfriends")
+closevars <- c("closechild","closefam","closefri")
+
+# Compute total scores with corrected data
+compute_socialnetwork_scale_scores <- function(d){
+  #d <- ds_long %>% dplyr::filter(hhidpn %in% c(3010,10281010))
+  d[,"socialnetwork_total"] <- apply(d[networkvars],1,sum, na.rm = TRUE)
+  d[,"close_social_network"] <- apply(d[closevars],1,sum, na.rm = TRUE)
+  d$missing_count <- apply(d[networkvars], 1, function(z) sum(is.na(z)))
+  d <- d %>%
+    dplyr::mutate(
+      socialnetwork_total = ifelse(missing_count<4,
+                                   socialnetwork_total,NA))
+  d$missing_count <- apply(d[closevars], 1, function(z) sum(is.na(z)))
+  d <- d %>%
+    dplyr::mutate(
+      close_social_network = ifelse(missing_count<4,
+                                    close_social_network,NA)
+    )
+  return(d)
+}
+
+ds2 <- ds2 %>% compute_socialnetwork_scale_scores()
 
 # ---- save-to-disk ----------------------------------
+
+saveRDS(ds2, "./data-unshared/derived/dto-ellis.rds")
+
+
+range(ds2$intage_r, na.rm = T)
+
+# select only those who are older than 65 for the analysis
+#ds_65 <- subset(ds2, intage_r > 64)
+ds_65 <- ds2
+# convert year to numeric for the wide to long conversion
+ds_65$year <- as.numeric(as.character(ds_65$year))
+
+#-Select only relevant demographic variables and total scores for analysis----------
+
+# list variables to keep separated for long to wide conversion
+variables_static <- c("id", "male", "birthyr_rand", "birthmo_rand", "race_rand", "hispanic_rand", "cohort", "raedyrs","raedegrm")
+
+variables_longitudinal <- c("year","lbwave","responded","proxy","countb20r","shhidpnr","rmaritalst","intage_r","rpartst","score_loneliness_3", "score_loneliness_11",
+                            "snspouse", "snchild", "snfamily", "snfriends","socialnetwork_total", "close_social_network",
+                            "support_spouse_total", "support_child_total", "support_fam_total", "support_friend_total",
+                            "strain_spouse_total", "strain_child_total", "strain_family_total", "strain_friends_total",
+                            "children_contact_mean", "family_contact_mean", "friend_contact_mean",
+                            "activity_mean", "activity_sum","srmemory", "srmemoryp","wrectoti", "wrectotd","mentalstatus_tot","vocab_total",
+                            "dep_total","healthcond", "exercise")  # not static
+
+# create a smaller dataset
+d_long <- ds_65 %>%
+  dplyr::select_(.dots = c(variables_static,  "lbwave", variables_longitudinal)) 
+names(d_long)
+
+ds_lb <- subset(d_long, lbwave>0 & lbwave!=5)
+
+# define variable properties for long-to-wide conversion
+(variables_longitudinal <- variables_longitudinal[!variables_longitudinal=="lbwave"]) # all except year
+
+# an lb wave based wide data set
+dlb_wide <- ds_lb %>%
+  dplyr::select_(.dots = c(variables_static,  "lbwave", variables_longitudinal))  %>%
+  tidyr::gather_(key="variable", value="value", variables_longitudinal)  %>%
+  dplyr::mutate(lbwave=as.character(lbwave)) %>%
+  dplyr::mutate(male=as.character(male)) %>%
+  dplyr::arrange(id) %>% 
+  dplyr::mutate(
+    # variable = gsub("^v","",variable),
+    temp = paste0(variable,"_",lbwave)) %>%
+  dplyr::select(-variable,-lbwave) %>% 
+  tidyr::spread(temp, value)
+
+dplyr::glimpse(dlb_wide)
+
+#mean(dlb_wide$close_social_network_1, na.rm = TRUE)
+#sd(dlb_wide$close_social_network_1, na.rm = TRUE)
+
+table(dlb_wide$year_1)
+table(dlb_wide$year_2)
+table(dlb_wide$year_3)
+table(dlb_wide$year_4)
+# ---- save-to-disk ----------------------------------
+# convert NA and NaN to 9999 for Mplus.
+dlb_wide[is.na(dlb_wide)] <- 9999
+
+# prepared for Mplus
+write.table(dlb_wide, "./data-unshared/derived/wide-dataset.dat", row.names=F, col.names=F)
+write(names(dlb_wide), "./data-unshared/derived/wide-variable-names.txt", sep=" ")
 
 saveRDS(d, "./data-unshared/derived/dto-ellis.rds")
 
@@ -130,50 +227,15 @@ saveRDS(d, "./data-unshared/derived/dto-ellis.rds")
 ###################################################################
 # developmental code after this point
 
-
-
-
-# Number of close family members (closefam) data correction
-# Rule 1:
-# If the number of close family members is greater than 4 standard deviations above the mean (21) 
-# and the change in number of close family members is greater than 4 standard deviations above the 
-# mean change (21) then recode to NA. This is 112 cases. 
-
-# compute_socialnetwork_scale_scores <- function(d){
-#   #d <- ds_long %>% dplyr::filter(hhidpn %in% c(3010,10281010))
-#   d[,"socialnetwork_total"] <- apply(d[networkvars],1,sum, na.rm = TRUE)
-#   d[,"close_social_network"] <- apply(d[closevars],1,sum, na.rm = TRUE)
-#   d$missing_count <- apply(d[networkvars], 1, function(z) sum(is.na(z)))
-#   d <- d %>% 
-#     dplyr::mutate( 
-#       socialnetwork_total = ifelse(missing_count<4, 
-#                                    socialnetwork_total,NA))
-#   d$missing_count <- apply(d[closevars], 1, function(z) sum(is.na(z)))   
-#   d <- d %>% 
-#     dplyr::mutate( 
-#       close_social_network = ifelse(missing_count<4, 
-#                                     close_social_network,NA)
-#     )
-#   return(d)
-# }
-# 
-# ds <- ds %>% compute_socialnetwork_scale_scores()
-
-# - select only those who are older than 65 for the analysis
-
-ds_65 <- subset(ds, intage_r > 64)
-#convert year to numeric for the wide to long conversion
-ds_65$year <- as.numeric(as.character(ds_65$year))
-
 psych::describeBy(ds_65$score_loneliness_3, group=ds_65$lbwave)
 
 #-Select only relevant demographic variables and total scores for analysis----------
 
 # list variables to keep separated for long to wide conversion
-variables_static <- c("hhidpn", "male", "birthyr_rand", "birthmo_rand", "race_rand", "hispanic_rand", "cohort", "raedyrs","raedegrm")
+variables_static <- c("id", "male", "birthyr_rand", "birthmo_rand", "race_rand", "hispanic_rand", "cohort", "raedyrs","raedegrm")
 
 variables_longitudinal <- c("year","lbwave","responded","proxy","countb20r","shhidpnr","rmaritalst","intage_r","rpartst","score_loneliness_3", "score_loneliness_11",
-                            "snspouse", "snchild", "snfamily", "snfriends",
+                            "snspouse", "snchild", "snfamily", "snfriends","socialnetwork_total", "close_social_network",
                             "support_spouse_total", "support_child_total", "support_fam_total", "support_friend_total",
                             "strain_spouse_total", "strain_child_total", "strain_family_total", "strain_friends_total",
                             "children_contact_mean", "family_contact_mean", "friend_contact_mean",
@@ -221,6 +283,8 @@ dlb_wide <- ds_lb %>%
 
 dplyr::glimpse(dlb_wide)
 
+mean(dlb_wide$intage_r_1)
+sd(dlb_wide$intage_r_1)
 # ---- save-r-data -------------------
 # tranformed data with supplementary variables
 #saveRDS(ds,"./data-unshared/derived/data-long-select.rds")
@@ -231,6 +295,7 @@ saveRDS(dlb_wide, file="./data-unshared/derived/lb-data-wide.rds")
 
 # convert NA and NaN to 9999 for Mplus.
 dlb_wide[is.na(dlb_wide)] <- 9999
+
 
 # prepared for Mplus
 write.table(dlb_wide, "./data-unshared/derived/wide-dataset.dat", row.names=F, col.names=F)
