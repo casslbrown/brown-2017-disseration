@@ -1,5 +1,5 @@
 #############################################################
-# laundry room
+# 0-ellis-is
 # This script is to be run following 1-scale-assembly.R
 # The purpose of this script is to take the long format data frame produced by that script and perform data cleaning operations.
 # Data exploration and explanations of rational for data cleaning can be found (insert that here when available)
@@ -29,7 +29,7 @@ requireNamespace("zoo")
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-scale-assembly.R a long data file
-ds <- readRDS("../HRS/data-unshared/derived/data-long.rds")
+ds <- readRDS("../HRS/data-unshared/derived/1-dto.rds")
 
 # ---- inspect-data -------------------------------------------------------------
 names(ds)
