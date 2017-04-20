@@ -1,8 +1,8 @@
 #############################################################
-# 0-ellis-is
+# 0-ellis-island
 # This script is to be run following 1-scale-assembly.R
-# The purpose of this script is to take the long format data frame produced by that script and perform data cleaning operations.
-# Data exploration and explanations of rational for data cleaning can be found (insert that here when available)
+# The purpose of this script is to take the list of data frames from the HRS respository
+# read them in and merge them to create a single long format longitudinal file. 
 
 # knitr::stitch_rmd(script="./___/___.R", output="./___/___/___.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
@@ -74,19 +74,7 @@ saveRDS(ds, path_output)
 ### TODO:  Cassandra, continue going through script from here
 # placing the updated version of the code in the appropriate file
 
-# ---- save-to-disk ----------------------------------
 
-saveRDS(ds2, "./data-unshared/derived/dto-ellis.rds")
-
-
-
-range(ds2$intage_r, na.rm = T)
-
-# select only those who are older than 65 for the analysis
-#ds_65 <- subset(ds2, intage_r > 64)
-ds_65 <- ds2
-# convert year to numeric for the wide to long conversion
-ds_65$year <- as.numeric(as.character(ds_65$year))
 
 #-Select only relevant demographic variables and total scores for analysis----------
 
@@ -159,7 +147,7 @@ saveRDS(d, "./data-unshared/derived/dto-ellis.rds")
 ###################################################################
 # developmental code after this point
 
-psych::describeBy(ds_65$score_loneliness_3, group=ds_65$lbwave)
+
 
 #-Select only relevant demographic variables and total scores for analysis----------
 
