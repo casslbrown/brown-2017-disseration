@@ -13,6 +13,7 @@ cat("\f") # clear console
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr) # enables piping : %>% 
 library(TabularManifest)
+library(dplyr)
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 # source("./scripts/common-functions.R") # used in multiple reports
@@ -27,38 +28,84 @@ requireNamespace("testit")# For asserting conditions meet expected patterns.
 requireNamespace("psych") # For descriptive functions
 requireNamespace("zoo")
 
+# ---- declare-globals --------------------------------------------------------
+# connect to the data transfer object from the HRS repository
+path_input      <- "../HRS/data-unshared/derived/1-dto.rds" # product of 1-assembly-line.R
+path_input_list <- "../HRS/data-unshared/derived/1-dto-list.rds" # product of 1-assembly-line.R
+path_output     <- "./data-unshared/derived/0-dto.rds"
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-scale-assembly.R a long data file
-ds <- readRDS("../HRS/data-unshared/derived/1-dto.rds")
+ds <- readRDS(path_input)
+ls <- readRDS(path_input_list)
 
 # ---- inspect-data -------------------------------------------------------------
 names(ds)
+names(ls)
+
+# ---- merge-assembles-scales ----------------------------------
+# you can recreate ds from ls by running the following merging script:
+# merge multiple datasets that are stored as elements of a list
+# merge_multiple_files <- function(list, by_columns){
+#   Reduce(function( d_1, d_2 ) dplyr::full_join(d_1, d_2, by=by_columns), list)
+# }
+# 
+# ds <- merge_multiple_files(ls, by_columns = c("year","hhidpn"))
+
+# ---- tweak-data --------------------------------------------------------------
+ds <- ds %>% dplyr::rename(id = hhidpn)
+set.seed(41) # to set specific seed
+# set.seed(NULL) # to disable specific seed
+sample_size <- 3
+ids <- sample(unique(ds$id), sample_size)
+ids
+
+
+# ---- save-to-disk ----------------------------------------
+saveRDS(ds_long, path_output)
+
+
+
 # ---- tweak-data --------------------------------------------------------------
 
-# Number of close children (closechild) data correction 
-
-# Impliment Rule 1:	
-# If the number of close children listed was a double digit (e.g., 22, 33, 44) the number of 
-# children was made equal to the single digit. 
-# [This solves the problem for the majority of cases with greater than 20 close children from 239 to 86]
-
-# create separate variables for each digit.
-ds$digit1 <- substr(ds$closechild,1,1)
-ds$digit2 <- substr(ds$closechild,2,3)
-
-
-ds$digit1 <- plyr::mapvalues(ds$digit1, from=c("N"), to=c(NA))
-ds$digit2 <- plyr::mapvalues(ds$digit2, from=c("aN"), to=c(NA))
-
-# replace the double values with the single digit value.
-ds$closechild <- as.numeric(ifelse(ds$digit1 == ds$digit2, ds$digit2, ds$closechild))
-
-# Impliment Rule 2:
-# Otherwise, recode closechild [number of children with whom one has a close relationship to NA if greater than]
-ds$closechild <- ifelse(ds$closechild>20, NA, ds$closechild)
 # ---- basic-table --------------------------------------------------------------
 
 # ---- basic-graph --------------------------------------------------------------
+# get a small subset for illustration and development
+set.seed(42)
+ids <- sample(unique(ds$id),1)
+
+d <- ds
+# A list of the psychosocial variables to use to check for completion of the psychosocial variables.
+ds_lbvars <- d %>% 
+  dplyr::select(score_loneliness_3, score_loneliness_11, snspouse, snchild, 
+                snfamily, snfriends,support_spouse_total, support_child_total, support_fam_total, 
+                support_friend_total, strain_spouse_total, strain_child_total, strain_family_total, 
+                strain_friends_total, children_contact_mean, family_contact_mean, friend_contact_mean,
+                activity_mean, activity_sum)
+
+# an indicator variable of whether or not there are any psychosocial variables not NA for that wave.
+# leave-behind questionnaire = lbql
+d$leave_behind_tag <- ifelse(rowSums(!is.na(ds_lbvars)) >1 , TRUE, FALSE)
+
+d <- d %>% 
+  dplyr::filter(leave_behind_tag) %>% 
+  dplyr::group_by(id, leave_behind_tag) %>% 
+  dplyr::mutate(
+    n  = n()
+    ,lbwavecount =seq(n())
+    ) %>% 
+  dplyr::ungroup()
+d$lbwave <- ifelse(d$leave_behind_tag==1, d$lbwavecount, 0)
+
+d %>% 
+  dplyr::select(id,year, leave_behind_tag, n,lbwavecount, lbwave)
+
+d %>% 
+  dplyr::select(id, year, leave_behind_tag)
+  dplyr::select(id, year,leave_behind_tag, lbwavecount, lbwave)
+# create an indicator only of waves  
+d$lbwave <- ifelse(d$leave_behind_tag==1, d$lbwavecount, 0)
+
 
 # ---- detect-outliers ----------------------------------------------------------
 ids <- sample(size = 200, x = unique(ds$hhidpn) )
