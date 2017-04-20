@@ -43,15 +43,14 @@ loneliness <- c(
 
 focal_variables <- c(loneliness)
 
-set.seed(41) # to set specific seed
-# set.seed(NULL) # to disable specific seed
-sample_size <- 3
-ids <- sample(unique(ds$id), sample_size)
-
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-scale-assembly.R a long data file
 ds <- readRDS(path_input)
 
+set.seed(41) # to set specific seed
+# set.seed(NULL) # to disable specific seed
+sample_size <- 3
+ids <- sample(unique(ds$id), sample_size)
 # ---- inspect-data -------------------------------------------------------------
 names(ds)
 
@@ -157,6 +156,11 @@ ids_high_score <- ds %>%
   dplyr::distinct(id)
 ids_high_score <- as.integer(ids_high_score$id)
 
+ids_discordant_nchild <- ds %>% 
+  dplyr::filter(closechild > nchild) %>% 
+  dplyr::distinct(id)
+ids_discordant_nchild <- as.integer(ids_discordant_nchild$id)
+
 target_ids <- unique( c(ids_repeating_digit, ids_high_score))   
 target_ids %>% length()
 # TODO : rexpress the above code as two new variables in dplyr::mutate() statement
@@ -166,27 +170,22 @@ ds %>% distinct(id) %>% count()
 # If the number of close children listed was a double digit (e.g., 22, 33, 44) the number of 
 # children was made equal to the single digit. 
 # [This solves the problem for the majority of cases with greater than 20 close children from 239 to 86]
+
+# print a few cases for visual inspection
 set.seed(42)
-ids <- sample(target_ids,5)
-ids
-ds %>% 
-  dplyr::filter(id %in% ids) %>% 
-  dplyr::select(id, year, closechild) %>% 
-  print(n=nrow(.))
+target_sample <- sample(target_ids,5)
 
 ds %>% 
-  dplyr::filter(id %in% target_ids) %>% 
-  dplyr::select(id, year, closechild) %>% 
+  dplyr::filter(id %in% target_sample) %>% 
+  dplyr::select(id, year, nchild, closechild, lb_65_wave, lb_wave) %>% 
   print(n=nrow(.))
 
-
-for(i in ids){
-  ds %>% 
-    dplyr::filter(id %in% i) %>% 
-    dplyr::select(id, year, closechild) %>% 
-    print(n=nrow(.))
-}
-
+# for(i in ids_repeating_digit){
+#   ds %>%
+#     dplyr::filter(id %in% i) %>%
+#     dplyr::select(id, year, nchild, closechild, lb_65_wave, lb_wave) %>%
+#     print(n=nrow(.))
+# }
 
 # create separate variables for each digit.
 ds$digit1 <- substr(ds$closechild,1,1)
@@ -197,18 +196,26 @@ ds$digit1 <- plyr::mapvalues(ds$digit1, from=c("N"), to=c(NA))
 ds$digit2 <- plyr::mapvalues(ds$digit2, from=c("aN"), to=c(NA))
 
 # replace the double values with the single digit value.
-ds$closechild <- as.numeric(ifelse(ds$digit1 == ds$digit2, ds$digit2, ds$closechild))
+ds$closechild <- as.numeric(ifelse(ds$digit1 == ds$digit2 & ds$closechild > ds$nchild, ds$digit2, ds$closechild))
 
 # Impliment Rule 2:
-# Otherwise, recode closechild [number of children with whom one has a close relationship to NA if greater than]
-ds$closechild <- ifelse(ds$closechild>20, NA, ds$closechild)
+# Recode closechild [number of children with whom one has a close relationship to NA if greater than 20 and this is discordant
+# with the given number of living children]
 
+# print a few cases for visual inspection
+set.seed(42)
+target_sample <- sample(ids_high_score,5)
 
+ds %>% 
+  dplyr::filter(id %in% target_sample) %>% 
+  dplyr::select(id, year, nchild, closechild, lb_65_wave, lb_wave) %>% 
+  print(n=nrow(.))
 
+ds$closechild <- ifelse(ds$closechild>20 & ds$closechild > ds$nchild, NA, ds$closechild)
 
 # ---- detect-outliers ----------------------------------------------------------
-ids <- sample(size = 200, x = unique(ds$hhidpn) )
-selected_variables <- c("id","year",'lbwave', "closechild", "closefam", "closefri")
+ids <- sample(size = 10, x = unique(ds$id) )
+selected_variables <- c("id","year",'lb_wave', "closechild", "closefam", "closefri")
 
 # remove the values we consider outliers
 # Here is our rules for defining an outlier
@@ -217,10 +224,9 @@ selected_variables <- c("id","year",'lbwave', "closechild", "closefam", "closefr
 # mean change (21) then recode to NA. This is 112 cases. 
 # identify cases in which the criteria for outliers is broken
 d <- ds %>% 
-  dplyr::rename(id = hhidpn) %>% 
   # dplyr::filter(id %in% ids) %>%
   # filter(id == 22860010 ) %>% 
-  dplyr::filter(lbwave > 0) %>%
+  dplyr::filter(lb_wave > 0) %>%
   dplyr::select_(.dots = selected_variables) %>% 
   dplyr::group_by(id) %>%
   dplyr::mutate(
@@ -263,23 +269,33 @@ d <- ds %>%
   ) %>% 
   dplyr::ungroup()
 
-#d %>% dplyr::group_by(closefam_out) %>% summarize(n=n())
 
-#rename id for merging
-ds <- ds %>% 
-  dplyr::rename(id = hhidpn)
+# print a case for inspection
+ds %>%
+  dplyr::filter(id == 22860010) %>%
+  dplyr::select_(.dots = selected_variables) %>%
+  print(n=nrow(.))
 
-#add the flag variables to the larger data set
-ds2 <- merge(ds, d, by = selected_variables, all.x = TRUE)
+# add the flag variables to the larger data set
+ds <- dplyr::left_join(
+  ds,  
+  d %>% dplyr::select(id, year, closefam_out, closefri_out), 
+  by = c("id","year")
+)
 
-#test <- ds2 %>% dplyr::filter(id == 22860010)
+# print a case for inspection
+ds %>%
+  dplyr::filter(id == 22860010) %>%
+  dplyr::select_("id","year",'lb_wave', "closechild", "closefam", "closefri", "closefam_out", "closefri_out") %>%
+  print(n=nrow(.))
+
 # recode closefam values flagged as errors to NA
-ds2$closefam <- ifelse(ds2$closefam_out == TRUE, NA, ds2$closefam)
+ds$closefam_clean <- ifelse(ds$closefam_out == TRUE, NA, ds$closefam)
 # recode closefri values flagged as errors to NA
-ds2$closefri <- ifelse(ds2$closefri_out == TRUE, NA, ds2$closefri)
+ds$closefri_clean <- ifelse(ds$closefri_out == TRUE, NA, ds$closefri)
 
 networkvars <- c("snspouse", "snchild", "snfamily", "snfriends")
-closevars <- c("closechild","closefam","closefri")
+closevars <- c("closechild","closefam_clean","closefri_clean")
 
 # Compute total scores with corrected data
 compute_socialnetwork_scale_scores <- function(d){
@@ -300,14 +316,16 @@ compute_socialnetwork_scale_scores <- function(d){
   return(d)
 }
 
-ds2 <- ds2 %>% compute_socialnetwork_scale_scores()
+ds <- ds %>% compute_socialnetwork_scale_scores()
 
 # create a merge interview date variables for more precise time calculations and create a time variable for HRS data waves
-ds2 <- ds2 %>%
+ds <- ds %>%
   dplyr::mutate(
     interview_date = paste0(interview_mth,"/",interview_yr),
     interview_date = zoo::as.yearmon(interview_date, "%m/%Y"),
     hrs_tscore = interview_date-dplyr::lag(interview_date)
   )
 
+# ---- save-to-disk ----------------------------------------
+saveRDS(ds, path_output)
 

@@ -25,11 +25,11 @@ requireNamespace("zoo")
 
 # ---- declare-globals --------------------------------------------------------
 # connect to the data transfer object from the HRS repository
-path_input      <- "../HRS/data-unshared/derived/1-dto.rds" # product of 1-assembly-line.R
+path_input      <- "../HRS/data-unshared/derived/1-dto.rds" # product of 1-groom-augment.R
 path_output     <- "./data-unshared/derived/2-dto.rds"
 
 # convert year to numeric for the wide to long conversion
-ds_65$year <- as.numeric(as.character(ds_65$year))
+ds$year <- as.numeric(as.character(ds$year))
 
 #-Select only relevant demographic variables and total scores for analysis----------
 

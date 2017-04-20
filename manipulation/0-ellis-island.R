@@ -56,7 +56,6 @@ set.seed(41) # to set specific seed
 # set.seed(NULL) # to disable specific seed
 sample_size <- 3
 ids <- sample(unique(ds$id), sample_size)
-ids
 
 
 # ---- save-to-disk ----------------------------------------
