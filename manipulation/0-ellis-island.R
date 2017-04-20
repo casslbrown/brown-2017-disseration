@@ -71,23 +71,60 @@ saveRDS(ds_long, path_output)
 
 # ---- basic-graph --------------------------------------------------------------
 # get a small subset for illustration and development
-set.seed(42)
-ids <- sample(unique(ds$id),1)
+set.seed(41)
+ids <- sample(unique(ds$id),4)
 
-d <- ds
-# A list of the psychosocial variables to use to check for completion of the psychosocial variables.
-ds_lbvars <- d %>% 
-  dplyr::select(score_loneliness_3, score_loneliness_11, snspouse, snchild, 
-                snfamily, snfriends,support_spouse_total, support_child_total, support_fam_total, 
-                support_friend_total, strain_spouse_total, strain_child_total, strain_family_total, 
-                strain_friends_total, children_contact_mean, family_contact_mean, friend_contact_mean,
-                activity_mean, activity_sum)
+# The following items beling to the leave-behind questionnaire
+# if any of these items show a non-NA value, we consider that person
+# to be engaged with the leave-behind qstn in this year
+leave_behind_items  <- c(
+ "score_loneliness_3"
+,"score_loneliness_11"
+,"snspouse"
+,"snchild"
+,"snfamily"
+,"snfriends"
+,"support_spouse_total"
+,"support_child_total"
+,"support_fam_total"
+,"support_friend_total"
+,"strain_spouse_total"
+,"strain_child_total"
+,"strain_family_total"
+,"strain_friends_total"
+,"children_contact_mean"
+,"family_contact_mean"
+,"friend_contact_mean"
+,"activity_mean"
+,"activity_sum"
+)
+ds$leave_behind_tag <- ifelse(rowSums(!is.na(ds[leave_behind_items])) > 0 , TRUE, FALSE)
+  
+ds %>% 
+  dplyr::filter(id %in% ids) %>% 
+  dplyr::select(id, year, closechild, leave_behind_tag) %>% 
+  print(n=nrow(.))
 
-# an indicator variable of whether or not there are any psychosocial variables not NA for that wave.
-# leave-behind questionnaire = lbql
-d$leave_behind_tag <- ifelse(rowSums(!is.na(ds_lbvars)) >1 , TRUE, FALSE)
+d_temp <- ds %>% 
+  dplyr::group_by(id) %>% 
+  dplyr::filter(leave_behind_tag) %>%
+  dplyr::mutate(
+    n_lb_wave     = sum(leave_behind_tag), # number of lb_waves for which data exists
+    lb_wave = seq(n())
+  ) 
 
-d <- d %>% 
+
+d_temp %>% 
+  dplyr::filter(id %in% ids) %>% 
+  dplyr::select(id, year, closechild, leave_behind_tag, n_lb_wave, order_lb_wave) %>% 
+  print(n=nrow(.))
+
+d
+
+%>% 
+  dplyr::filter(id %in% ids)
+
+d <- ds %>% 
   dplyr::filter(leave_behind_tag) %>% 
   dplyr::group_by(id, leave_behind_tag) %>% 
   dplyr::mutate(
