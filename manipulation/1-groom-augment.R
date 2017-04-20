@@ -32,7 +32,7 @@ requireNamespace("zoo")
 
 # ---- declare-globals --------------------------------------------------------
 # connect to the data transfer object from the HRS repository
-path_input      <- "../HRS/data-unshared/derived/0-dto.rds" # product of 1-assembly-line.R
+path_input      <- "./data-unshared/derived/0-dto.rds" # product of 0-ellis-island
 path_output     <- "./data-unshared/derived/1-dto.rds"
 
 
@@ -41,12 +41,12 @@ loneliness <- c(
   ,"score_loneliness_11" # score computed based on all 11 items
 )
 
-life_satisfaction <- c(
-  
-)
+focal_variables <- c(loneliness)
 
-focal_variables <- c(loneliness, life_satisfaction)
-
+set.seed(41) # to set specific seed
+# set.seed(NULL) # to disable specific seed
+sample_size <- 3
+ids <- sample(unique(ds$id), sample_size)
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-scale-assembly.R a long data file
@@ -111,7 +111,34 @@ ds <- dplyr::left_join(
   by = c("id","year")
 )
 
+# ---- create-lb_wave-age-65-or-older-counter ------------------------
 
+ds$lb_65plus_tag <- ifelse(rowSums(!is.na(ds[leave_behind_items])) > 0 & ds[,"intage_r"] > 64, TRUE, FALSE)
+# inspect data for a few ids  
+ds %>% 
+  dplyr::filter(id %in% ids) %>% 
+  dplyr::select(id, year, intage_r, closechild, lb_65plus_tag) %>% 
+  print(n=nrow(.))
+# create a temp object to store selected id-year values
+d_temp <- ds %>% 
+  dplyr::group_by(id) %>% 
+  dplyr::filter(lb_65plus_tag) %>%
+  dplyr::mutate(
+    n_lb65_wave = sum(lb_65plus_tag), # number of lb_waves for which data exists, auxillary 
+    lb_65_wave   = seq(n())               # oder of LB response
+  ) 
+d_temp %>% glimpse()
+# print a few cases for visual inspection
+d_temp %>% 
+  dplyr::filter(id %in% ids) %>%
+  dplyr::select(id, year, closechild, lb_65plus_tag, n_lb65_wave, lb_65_wave, lb_wave) %>% 
+  print(n=nrow(.))
+# bring the lb_wave variabe into the larger file
+ds <- dplyr::left_join(
+  ds,  
+  d_temp %>% dplyr::select(id, year, lb_65_wave ), 
+  by = c("id","year")
+)
 # ---- correct-number-children ----------------------------------------------------
 # Some of the values of closechild (number of children with which R stays close)
 # are supsicious (e.g. 66, 44, 127) of bying typoes
