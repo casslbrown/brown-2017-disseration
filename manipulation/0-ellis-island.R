@@ -25,6 +25,7 @@ requireNamespace("tidyr") # data manipulation
 requireNamespace("dplyr") # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit")# For asserting conditions meet expected patterns.
 requireNamespace("psych") # For descriptive functions
+requireNamespace("zoo")
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-scale-assembly.R a long data file
@@ -155,9 +156,18 @@ compute_socialnetwork_scale_scores <- function(d){
 
 ds2 <- ds2 %>% compute_socialnetwork_scale_scores()
 
+# create a merge interview date variables for more precise time calculations and create a time variable for HRS data waves
+ds2 <- ds2 %>%
+  dplyr::mutate(
+    interview_date = paste0(interview_mth,"/",interview_yr),
+    interview_date = zoo::as.yearmon(interview_date, "%m/%Y"),
+    hrs_tscore = interview_date-dplyr::lag(interview_date)
+  )
+
 # ---- save-to-disk ----------------------------------
 
 saveRDS(ds2, "./data-unshared/derived/dto-ellis.rds")
+
 
 
 range(ds2$intage_r, na.rm = T)
@@ -173,7 +183,7 @@ ds_65$year <- as.numeric(as.character(ds_65$year))
 # list variables to keep separated for long to wide conversion
 variables_static <- c("id", "male", "birthyr_rand", "birthmo_rand", "race_rand", "hispanic_rand", "cohort", "raedyrs","raedegrm")
 
-variables_longitudinal <- c("year","lbwave","responded","proxy","countb20r","shhidpnr","rmaritalst","intage_r","rpartst","score_loneliness_3", "score_loneliness_11",
+variables_longitudinal <- c("year","lbwave","interview_date", "responded","proxy","countb20r","shhidpnr","rmaritalst","intage_r","rpartst","score_loneliness_3", "score_loneliness_11",
                             "snspouse", "snchild", "snfamily", "snfriends","socialnetwork_total", "close_social_network",
                             "support_spouse_total", "support_child_total", "support_fam_total", "support_friend_total",
                             "strain_spouse_total", "strain_child_total", "strain_family_total", "strain_friends_total",
@@ -187,7 +197,8 @@ d_long <- ds_65 %>%
 names(d_long)
 
 ds_lb <- subset(d_long, lbwave>0 & lbwave!=5)
-
+less65 <- subset(ds_lb, intage_r < 65)
+length(unique(less65$id))
 # define variable properties for long-to-wide conversion
 (variables_longitudinal <- variables_longitudinal[!variables_longitudinal=="lbwave"]) # all except year
 
@@ -206,10 +217,21 @@ dlb_wide <- ds_lb %>%
 
 dplyr::glimpse(dlb_wide)
 
+# Now that the data is in wide format it is easier to calculate a time score for lbwaves.
+
+dlb_wide <- dlb_wide %>% 
+  dplyr::mutate(
+    lbtime_1 = 0,
+    lbtime_2 = interview_date_2 - interview_date_1,
+    lbtime_3 = interview_date_3 - interview_date_2,
+    lbtime_4 = interview_date_4 - interview_date_3
+  )
+
+l
 #mean(dlb_wide$close_social_network_1, na.rm = TRUE)
 #sd(dlb_wide$close_social_network_1, na.rm = TRUE)
-
-table(dlb_wide$year_1)
+class(dlb_wide$lbtime_2)
+mean(dlb_wide$lbtime_2)
 table(dlb_wide$year_2)
 table(dlb_wide$year_3)
 table(dlb_wide$year_4)
