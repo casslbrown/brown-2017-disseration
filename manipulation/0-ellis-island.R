@@ -30,26 +30,25 @@ requireNamespace("zoo")
 
 # ---- declare-globals --------------------------------------------------------
 # connect to the data transfer object from the HRS repository
-path_input      <- "../HRS/data-unshared/derived/1-dto.rds" # product of 1-assembly-line.R
+# path_input      <- "../HRS/data-unshared/derived/1-dto.rds" # product of 1-assembly-line.R
 path_input_list <- "../HRS/data-unshared/derived/1-dto-list.rds" # product of 1-assembly-line.R
 path_output     <- "./data-unshared/derived/0-dto.rds"
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-scale-assembly.R a long data file
-ds <- readRDS(path_input)
+# ds <- readRDS(path_input)
 ls <- readRDS(path_input_list)
 
 # ---- inspect-data -------------------------------------------------------------
-names(ds)
 names(ls)
 
 # ---- merge-assembles-scales ----------------------------------
 # you can recreate ds from ls by running the following merging script:
 # merge multiple datasets that are stored as elements of a list
-# merge_multiple_files <- function(list, by_columns){
-#   Reduce(function( d_1, d_2 ) dplyr::full_join(d_1, d_2, by=by_columns), list)
-# }
-# 
-# ds <- merge_multiple_files(ls, by_columns = c("year","hhidpn"))
+merge_multiple_files <- function(list, by_columns){
+  Reduce(function( d_1, d_2 ) dplyr::full_join(d_1, d_2, by=by_columns), list)
+}
+
+ds <- merge_multiple_files(ls, by_columns = c("year","hhidpn"))
 
 # ---- tweak-data --------------------------------------------------------------
 ds <- ds %>% dplyr::rename(id = hhidpn)
@@ -61,192 +60,19 @@ ids
 
 
 # ---- save-to-disk ----------------------------------------
-saveRDS(ds_long, path_output)
+saveRDS(ds, path_output)
 
 
 
-# ---- tweak-data --------------------------------------------------------------
-
-# ---- basic-table --------------------------------------------------------------
-
-# ---- basic-graph --------------------------------------------------------------
-# get a small subset for illustration and development
-set.seed(41)
-ids <- sample(unique(ds$id),4)
-
-# The following items beling to the leave-behind questionnaire
-# if any of these items show a non-NA value, we consider that person
-# to be engaged with the leave-behind qstn in this year
-leave_behind_items  <- c(
- "score_loneliness_3"
-,"score_loneliness_11"
-,"snspouse"
-,"snchild"
-,"snfamily"
-,"snfriends"
-,"support_spouse_total"
-,"support_child_total"
-,"support_fam_total"
-,"support_friend_total"
-,"strain_spouse_total"
-,"strain_child_total"
-,"strain_family_total"
-,"strain_friends_total"
-,"children_contact_mean"
-,"family_contact_mean"
-,"friend_contact_mean"
-,"activity_mean"
-,"activity_sum"
-)
-ds$leave_behind_tag <- ifelse(rowSums(!is.na(ds[leave_behind_items])) > 0 , TRUE, FALSE)
-  
-ds %>% 
-  dplyr::filter(id %in% ids) %>% 
-  dplyr::select(id, year, closechild, leave_behind_tag) %>% 
-  print(n=nrow(.))
-
-d_temp <- ds %>% 
-  dplyr::group_by(id) %>% 
-  dplyr::filter(leave_behind_tag) %>%
-  dplyr::mutate(
-    n_lb_wave     = sum(leave_behind_tag), # number of lb_waves for which data exists
-    lb_wave = seq(n())
-  ) 
 
 
-d_temp %>% 
-  dplyr::filter(id %in% ids) %>% 
-  dplyr::select(id, year, closechild, leave_behind_tag, n_lb_wave, order_lb_wave) %>% 
-  print(n=nrow(.))
-
-d
-
-%>% 
-  dplyr::filter(id %in% ids)
-
-d <- ds %>% 
-  dplyr::filter(leave_behind_tag) %>% 
-  dplyr::group_by(id, leave_behind_tag) %>% 
-  dplyr::mutate(
-    n  = n()
-    ,lbwavecount =seq(n())
-    ) %>% 
-  dplyr::ungroup()
-d$lbwave <- ifelse(d$leave_behind_tag==1, d$lbwavecount, 0)
-
-d %>% 
-  dplyr::select(id,year, leave_behind_tag, n,lbwavecount, lbwave)
-
-d %>% 
-  dplyr::select(id, year, leave_behind_tag)
-  dplyr::select(id, year,leave_behind_tag, lbwavecount, lbwave)
-# create an indicator only of waves  
-d$lbwave <- ifelse(d$leave_behind_tag==1, d$lbwavecount, 0)
 
 
-# ---- detect-outliers ----------------------------------------------------------
-ids <- sample(size = 200, x = unique(ds$hhidpn) )
-selected_variables <- c("id","year",'lbwave', "closechild", "closefam", "closefri")
 
-# remove the values we consider outliers
-# Here is our rules for defining an outlier
-# If 1)the number of close family members is greater than 4 standard deviations above the mean (21) 
-# and 2)the change in number of close family members is greater than 4 standard deviations above the 
-# mean change (21) then recode to NA. This is 112 cases. 
-# identify cases in which the criteria for outliers is broken
-d <- ds %>% 
-  dplyr::rename(id = hhidpn) %>% 
-  # dplyr::filter(id %in% ids) %>%
-  # filter(id == 22860010 ) %>% 
-  dplyr::filter(lbwave > 0) %>%
-  dplyr::select_(.dots = selected_variables) %>% 
-  dplyr::group_by(id) %>%
-  dplyr::mutate(
-    closefam_lag  = abs(             closefam - dplyr::lag(closefam)),
-    closefam_lead = abs(dplyr::lead(closefam) - closefam),
-    closefri_lag  = abs(             closefri - dplyr::lag(closefri)),
-    closefri_lead = abs(dplyr::lead(closefri) - closefri)
-  ) %>% 
-  dplyr::ungroup() %>%
-  dplyr::mutate(
-    closefam_mean     = mean(closefam, na.rm=T),
-    closefam_sd       = sd(closefam, na.rm=T),
-    closefam_lag_mean = mean(closefam_lag, na.rm=T),
-    closefam_lag_sd   = sd(closefam_lag, na.rm=T),
-    closefam_lead_m   = mean(closefam_lead, na.rm=T),
-    closefam_lead_sd  = sd(closefam_lead, na.rm = T),
-    closefam_flag     = ifelse(closefam     > closefam_mean + 4*closefam_sd, TRUE, FALSE),
-    closefam_lag_flag = ifelse(closefam_lag > closefam_lag_mean + 4*closefam_lag_sd, TRUE, FALSE),
-    closefam_lead_flag= ifelse(closefam_lead > closefam_lead_m + 4*closefam_lead_sd, TRUE, FALSE),
-    closefam_out      = ifelse( (closefam_flag & closefam_lag_flag) | (closefam_flag & closefam_lead_flag), TRUE, FALSE),
-   #closefri
-    closefri_mean     = mean(closefri, na.rm=T),
-    closefri_sd       = sd(closefri, na.rm=T),
-    closefri_lag_mean = mean(closefri_lag, na.rm=T),
-    closefri_lag_sd   = sd(closefri_lag, na.rm=T),
-    closefri_lead_m   = mean(closefri_lead, na.rm=T),
-    closefri_lead_sd  = sd(closefri_lead, na.rm = T),
-    closefri_flag     = ifelse(closefri     > closefri_mean + 4*closefri_sd, TRUE, FALSE),
-    closefri_lag_flag = ifelse(closefri_lag > closefri_lag_mean + 4*closefri_lag_sd, TRUE, FALSE),
-    closefri_lead_flag= ifelse(closefri_lead > closefri_lead_m + 4*closefri_lead_sd, TRUE, FALSE),
-    closefri_out      = ifelse( (closefri_flag & closefri_lag_flag) | (closefri_flag & closefri_lead_flag), TRUE, FALSE),
-    # TODO : Cassandra, please finish for the other two variables
-    # closechild_out    = ifelse( closefri_flag & closefri__lag_flag, TRUE, FALSE),
-    # flag_out = ifelse(closefam_out | closefri_out | closechild_out, TRUE, FALSE)
-    flag_out_obs = closefam_out | closefri_out # replace this when finished for all three  
-  ) %>% 
-  dplyr::group_by(id) %>% 
-  dplyr::mutate(
-    flag_out_id  = ifelse(sum(flag_out_obs)>0L, TRUE, FALSE)
-  ) %>% 
-  dplyr::ungroup()
+### DEVELOPMENTAL SCRIPT BEYOND THIS POINT 
 
-#d %>% dplyr::group_by(closefam_out) %>% summarize(n=n())
-
-#rename id for merging
-ds <- ds %>% 
-  dplyr::rename(id = hhidpn)
-
-#add the flag variables to the larger data set
-ds2 <- merge(ds, d, by = selected_variables, all.x = TRUE)
-
-#test <- ds2 %>% dplyr::filter(id == 22860010)
-# recode closefam values flagged as errors to NA
-ds2$closefam <- ifelse(ds2$closefam_out == TRUE, NA, ds2$closefam)
-# recode closefri values flagged as errors to NA
-ds2$closefri <- ifelse(ds2$closefri_out == TRUE, NA, ds2$closefri)
-
-networkvars <- c("snspouse", "snchild", "snfamily", "snfriends")
-closevars <- c("closechild","closefam","closefri")
-
-# Compute total scores with corrected data
-compute_socialnetwork_scale_scores <- function(d){
-  #d <- ds_long %>% dplyr::filter(hhidpn %in% c(3010,10281010))
-  d[,"socialnetwork_total"] <- apply(d[networkvars],1,sum, na.rm = TRUE)
-  d[,"close_social_network"] <- apply(d[closevars],1,sum, na.rm = TRUE)
-  d$missing_count <- apply(d[networkvars], 1, function(z) sum(is.na(z)))
-  d <- d %>%
-    dplyr::mutate(
-      socialnetwork_total = ifelse(missing_count<4,
-                                   socialnetwork_total,NA))
-  d$missing_count <- apply(d[closevars], 1, function(z) sum(is.na(z)))
-  d <- d %>%
-    dplyr::mutate(
-      close_social_network = ifelse(missing_count<4,
-                                    close_social_network,NA)
-    )
-  return(d)
-}
-
-ds2 <- ds2 %>% compute_socialnetwork_scale_scores()
-
-# create a merge interview date variables for more precise time calculations and create a time variable for HRS data waves
-ds2 <- ds2 %>%
-  dplyr::mutate(
-    interview_date = paste0(interview_mth,"/",interview_yr),
-    interview_date = zoo::as.yearmon(interview_date, "%m/%Y"),
-    hrs_tscore = interview_date-dplyr::lag(interview_date)
-  )
+### TODO:  Cassandra, continue going through script from here
+# placing the updated version of the code in the appropriate file
 
 # ---- save-to-disk ----------------------------------
 
