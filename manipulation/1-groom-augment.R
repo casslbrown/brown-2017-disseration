@@ -55,6 +55,7 @@ ids <- sample(unique(ds$id), sample_size)
 names(ds)
 
 
+
 # ---- create-lb_wave-counter ------------------------
 # We will create a new variable that counts 
 # the number of times a person provided a response on leave-behind qustnr. 
@@ -95,7 +96,7 @@ d_temp <- ds %>%
   dplyr::filter(leave_behind_tag) %>%
   dplyr::mutate(
     n_lb_wave = sum(leave_behind_tag), # number of lb_waves for which data exists, auxillary 
-    lb_wave   = seq(n())               # oder of LB response
+    lb_wave   = seq(n())               # order of LB response
   ) 
 d_temp %>% glimpse()
 # print a few cases for visual inspection
@@ -317,6 +318,40 @@ compute_socialnetwork_scale_scores <- function(d){
 }
 
 ds <- ds %>% compute_socialnetwork_scale_scores()
+
+
+# ---- create-social_support-social_strain-and-social-contact variables --------
+
+#social-support
+#if the person states the presence of any social network members in that category
+social_support <- c("support_spouse_total", "support_child_total", "support_fam_total", "support_friend_total")
+social_strain <- c("strain_spouse_total","strain_child_total", "strain_family_total", "strain_friends_total")
+social_contact <- c("spkchild","spkfriend","spkfam", "mtchild", "mtfam", "mtfriend","wrtchild","wrtfriend","wrtfam")
+ds[,"supp_missing_count"] <- apply(ds[social_support], 1, function(z) sum(is.na(z)))
+ds[,"strain_missing_count"] <- apply(ds[social_strain], 1, function(z) sum(is.na(z)))
+ds[,"social_support_total"] <- apply(ds[social_support],1,sum, na.rm = TRUE)
+ds[,"social_strain_total"] <- apply(ds[social_strain],1,sum, na.rm = TRUE)
+ds[,"social_contact_total"] <- apply(ds[social_contact],1,sum, na.rm = TRUE)
+ds[,"social_contact_total"] <- ifelse(ds$social_contact_total==0, NA, ds$social_contact_total)
+ds <- ds %>% 
+  dplyr::mutate(
+    social_support_mean = social_support_total/(4-supp_missing_count),
+    social_strain_mean = social_strain_total/(4-strain_missing_count)
+  )
+mean(ds$snchild, na.rm = T)
+which(ds$nchild!=0 & ds$snchild==0)
+which(ds$nchild==0 & ds$snchild==1)
+
+# print two cases for inspection
+ds %>%
+  dplyr::filter(id == 22860010|id==3010) %>%
+  dplyr::select_("support_spouse_total", "support_child_total", "support_fam_total", "support_friend_total","social_support_total","social_support_mean","socialnetwork_total","social_strain_total") %>%
+  print(n=nrow(.))
+
+ds %>%
+  dplyr::filter(id == 22860010|id==3010|id==10001010) %>%
+  dplyr::select_("strain_spouse_total","strain_child_total", "strain_family_total", "strain_friends_total","socialnetwork_total","social_strain_total","social_strain_mean","social_contact_total", "nchild", "closechild") %>%
+  print(n=nrow(.))
 
 # create a merge interview date variables for more precise time calculations and create a time variable for HRS data waves
 ds <- ds %>%
