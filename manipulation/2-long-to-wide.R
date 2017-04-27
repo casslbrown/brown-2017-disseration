@@ -1,3 +1,6 @@
+# NOTE:
+# R does not consume and data objects resulting from the execution of this script
+# The function of this scripts is to prepare the data for modelingin MPlus
 
 # knitr::stitch_rmd(script="./___/___.R", output="./___/___/___.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
