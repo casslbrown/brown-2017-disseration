@@ -151,7 +151,7 @@ dlb65_wide <- dlb65_wide %>%
 # ---- save-r-data -------------------
 # tranformed data with supplementary variables
 
-saveRDS(ds_lb65,"./data-unshared/derived/data-long-lbwaves65+.rds")
+saveRDS(ds_lb65,"./data-unshared/derived/data-long-lbwaves65.rds")
 
 # lb wave based wide file
 saveRDS(dlb65_wide, file="./data-unshared/derived/lb65-data-wide.rds")
