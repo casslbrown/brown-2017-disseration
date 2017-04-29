@@ -9,9 +9,11 @@ library(magrittr) # enables piping : %>%
 library(dplyr)
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
-source("./scripts/common-functions.R") # used in multiple reports
-source("./scripts/graph-presets.R") # fonts, colors, themes 
-source("./scripts/general-graphs.R") 
+# source("./scripts/common-functions.R") # used in multiple reports
+source("./scripts/graphing/graph-presets.R") # fonts, colors, themes 
+source("./scripts/graphing/graph-elemental.R") # graphs to be used in dipslays
+source("./scripts/graphing/graph-complex.R") # info displays
+
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2") # graphing
 # requireNamespace("readr") # data input
@@ -29,30 +31,67 @@ path_input <- "./data-unshared/derived/1-dto.rds"
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
 dto <- readRDS(path_input)
-dto %>% glimpse()
-# each element this list is another list:
-names(dto)
-# 3rd element - data set with unit data
-dplyr::tbl_df(dto[["unitData"]]) 
-# 4th element - dataset with augmented names and labels of the unit data
-dplyr::tbl_df(dto[["metaData"]])
 
 # ---- inspect-data -------------------------------------------------------------
+dto %>% glimpse()
+
+# ---- object-glossary ----------------------------------------------------
+# list variables to keep separated for long to wide conversion
+variables_static <- c(
+  "id"
+  ,"male"
+  ,"birthyr_rand"
+  ,"birthmo_rand"
+  ,"race_rand"
+  ,"hispanic_rand"
+  ,"cohort"
+  ,"raedyrs"
+  ,"raedegrm"
+) # static
+
+variables_longitudinal <- c(
+  "lb_wave"
+  ,"year"
+  ,"lb_65_wave"
+  ,"interview_date"
+  ,"responded"
+  ,"proxy"
+  ,"hhres"
+  ,"countb20r"
+  ,"shhidpnr"
+  ,"rmaritalst"
+  ,"intage_r"
+  ,"rpartst"
+  ,"score_loneliness_3"
+  ,"score_loneliness_11"
+  ,"snspouse"
+  ,"snchild"
+  ,"snfamily"
+  ,"snfriends"
+  ,"socialnetwork_total"
+  ,"close_social_network"
+  ,"social_support_mean"
+  ,"social_strain_mean"
+  ,"social_contact_total"
+  ,"activity_mean"
+  ,"activity_sum"
+  ,"srmemory"
+  ,"srmemoryp"
+  ,"wrectoti"
+  ,"wrectotd"
+  ,"mentalstatus_tot"
+  ,"vocab_total"
+  ,"dep_total"
+  ,"healthcond"
+  ,"exercise"
+)  # not static
 
 # ---- tweak-data --------------------------------------------------------------
-# list variables to keep separated for long to wide conversion
-variables_static <- c("id", "male", "birthyr_rand", "birthmo_rand", "race_rand", "hispanic_rand", "cohort", "raedyrs","raedegrm")
-
-variables_longitudinal <- c("lb_wave", "year","lb_65_wave","interview_date", "responded","proxy", "hhres","countb20r","shhidpnr","rmaritalst","intage_r","rpartst","score_loneliness_3", "score_loneliness_11",
-                            "snspouse", "snchild", "snfamily", "snfriends","socialnetwork_total", "close_social_network",
-                            "social_support_mean", "social_strain_mean","social_contact_total",
-                            "activity_mean", "activity_sum","srmemory", "srmemoryp","wrectoti", "wrectotd","mentalstatus_tot","vocab_total",
-                            "dep_total","healthcond", "exercise")  # not static
 
 ds <- dto %>% 
   dplyr::select_(.dots = c(variables_static, variables_longitudinal))
                  
-
+ds %>% glimpse()
 # ---- basic-table --------------------------------------------------------------
 
 # ---- basic-graph --------------------------------------------------------------
