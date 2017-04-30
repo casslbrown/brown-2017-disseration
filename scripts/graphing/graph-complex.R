@@ -14,16 +14,14 @@ complex_line <- function(
   # by_y = round(top_y/10,0),
   bottom_age  = 60,
   top_age     = 100,
-  bottom_time = 0,
-  top_time    = 20
+  bottom_time = 1,
+  top_time    = 4
 ){
-  # d <- dto[["unitData"]]
-  d <- ds
   # browser()
   g11 <- elemental_line(d, variable_name, "age_at_visit", "black", line_alpha, line_size, F)
   g21 <- elemental_line(d, variable_name, "age_at_visit", "salmon", line_alpha, line_size, T)
-  g12 <- elemental_line(d, variable_name, "fu_year", "black", line_alpha, line_size, F)
-  g22 <- elemental_line(d, variable_name, "fu_year", "salmon", line_alpha, line_size, T)
+  g12 <- elemental_line(d, variable_name, "lb_wave", "black", line_alpha, line_size, F)
+  g22 <- elemental_line(d, variable_name, "lb_wave", "salmon", line_alpha, line_size, T)
   
   g13 <- elemental_line(d, variable_name, "date_at_visit", "black", line_alpha, line_size, F)
   g23 <- elemental_line(d, variable_name, "date_at_visit", "salmon", line_alpha, line_size, T)
@@ -45,8 +43,8 @@ complex_line <- function(
   g11 <- g11 + labs(x="Age at visit")
   g21 <- g21 + labs(x="Age at visit")
   
-  g12 <- g12 + labs(x="Follow-up year")
-  g22 <- g22 + labs(x="Follow-up year")
+  g12 <- g12 + labs(x="Leave-Behind Wave")
+  g22 <- g22 + labs(x="Leave-Behind Wave")
   
   g13 <- g13 + labs(x="Date at visit")
   g23 <- g23 + labs(x="Date at visit")
@@ -59,8 +57,8 @@ complex_line <- function(
   g11 <- g11 + scale_x_continuous(breaks=seq(bottom_age,top_age,by=5), limits=c(bottom_age,top_age))
   g21 <- g21 + scale_x_continuous(breaks=seq(bottom_age,top_age,by=5), limits=c(bottom_age,top_age))
   
-  g12 <- g12 + scale_x_continuous(breaks=seq(bottom_time,top_time,by=5), limits=c(bottom_time,top_time))
-  g22 <- g22 + scale_x_continuous(breaks=seq(bottom_time,top_time,by=5), limits=c(bottom_time,top_time))
+  g12 <- g12 + scale_x_continuous(breaks=seq(bottom_time,top_time,by=1), limits=c(bottom_time,top_time))
+  g22 <- g22 + scale_x_continuous(breaks=seq(bottom_time,top_time,by=1), limits=c(bottom_time,top_time))
   
   # top_y <- 10
   # bottom_y <- 0
