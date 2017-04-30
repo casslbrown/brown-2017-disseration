@@ -98,6 +98,41 @@ ds <- dto %>%
 ds %>% glimpse(width = 105)
 ds %>% names_labels()
 
+ds <- ds %>% 
+  dplyr::mutate(
+    
+  )
+
+# ---- temporal-triangulation --------------------------
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, social_support_mean
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# A single, elemental graph
+d %>% elemental_line(
+  variable_name  = "social_support_mean", 
+  time_metric    = "age_at_visit", 
+  color_name     = "black", 
+  line_alpha     = .5, 
+  line_size      = 1,
+  smoothed       = T
+)
+# assemble various sinle graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "social_support_mean", 
+  line_size = 1,
+  line_alpha = .5
+)
+
 # ---- eda-a-1 -------------------------------------------------------------------
 #What does data look like for variables that do not change with time?
 ds %>%
@@ -129,6 +164,9 @@ ds %>% over_time("lb_wave", "srmemory")
 # ---- basic-table --------------------------------------------------------------
 
 # ---- basic-graph --------------------------------------------------------------
+
+
+  
 
 
 # ---- ----------------------------------------------
