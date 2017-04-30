@@ -24,13 +24,6 @@ requireNamespace("testit")# For asserting conditions meet expected patterns.
 # requireNamespace("car") # For it's `recode()` function.
 
 # ---- declare-globals ---------------------------------------------------------
-<<<<<<< HEAD
-# path_input <- "./data-unshared/derived/data-long-lbwaves65.rds"
-# path_input <- "./data-unshared/derived/data-wide.rds"
-# path_input <- "./data-unshared/derived/lb-data-wide.rds"
-path_input <- "./data-unshared/derived/1-dto.rds"
-# path_output <-
-=======
 path_input  <- "./data-unshared/derived/1-dto.rds" # product of ./manipulation/1-groom-augment.R
 # path_output <- ""
 
@@ -86,7 +79,6 @@ variables_longitudinal <- c(
 )  # not static
 
 
->>>>>>> origin/master
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
 dto <- readRDS(path_input)
