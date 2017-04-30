@@ -86,7 +86,7 @@ dto <- readRDS(path_input)
 # ---- inspect-data -------------------------------------------------------------
 # dto %>% glimpse()
 class(dto)
-str(dto)
+#str(dto)
 
 # ---- tweak-data --------------------------------------------------------------
 # subset variables of relevance for this project
@@ -95,13 +95,15 @@ ds <- dto %>%
   as.data.frame() %>% 
   tibble::as_tibble()
 
-ds %>% glimpse()
+ds %>% glimpse(width = 105)
 ds %>% names_labels()
 
 # ---- eda-a-1 -------------------------------------------------------------------
+#What does data look like for variables that do not change with time?
 ds %>%
   select_(.dots = variables_static)
 
+#How many distinct values are there for each static variable?
 set.seed(42)
 ds %>%
   select_(.dots = variables_static) %>% 
@@ -109,6 +111,7 @@ ds %>%
   summarize_all(n_distinct)  %>% 
   t()
 
+#How many distinct values are there for variables that change over time?
 ds %>%
   select_(.dots = variables_longitudinal) %>% 
   summarize_all(n_distinct)  %>% 
@@ -129,9 +132,21 @@ ds %>% over_time("lb_wave", "srmemory")
 
 
 # ---- ----------------------------------------------
+
+# ---- id --------------------------------------------
 # How many persons are in the sample?
 ds %>% distinct(id) %>% count()
 ds %>% group_by(id) %>% summarize(n=n())
+
+# ---- male ------------------------------------------
+ds %>% group_by(male) %>% summarize(n=n())
+ds %>% histogram_discrete("male")
+
+# ---- srmemory ----------------------------------------------
+ds %>% over_time("year","srmemory")
+ds %>% over_time("lb_wave", "srmemory")
+
+
 # ---- publish ---------------------------------------
 path_report_1 <- "./sandbox/eda-1/eda-1.Rmd"
 # path_report_2 <- "./reports/*/report_2.Rmd"
