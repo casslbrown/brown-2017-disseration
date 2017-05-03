@@ -48,7 +48,7 @@ variables_static <- c("id", "male", "birthyr_rand", "birthmo_rand", "race_rand",
 variables_longitudinal <- c("lb_wave", "year","lb_65_wave","interview_date", "responded","proxy", "hhres","countb20r","shhidpnr","rmaritalst","intage_r","rpartst","score_loneliness_3", "score_loneliness_11",
                             "snspouse", "snchild", "snfamily", "snfriends","socialnetwork_total", "close_social_network",
                             "social_support_mean", "social_strain_mean","social_contact_total",
-                            "activity_mean", "activity_sum","srmemory", "srmemoryp","wrectoti", "wrectotd","mentalstatus_tot","vocab_total",
+                            "activity_mean", "activity_sum","srmemory", "srmemoryp","listassi", "wrectoti", "wrectotd","mentalstatus_tot","vocab_total",
                             "dep_total","healthcond", "exercise")  # not static
 
 # create a smaller dataset

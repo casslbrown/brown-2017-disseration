@@ -71,6 +71,7 @@ variables_longitudinal <- c(
   ,"srmemoryp"                 #
   ,"wrectoti"                  #
   ,"wrectotd"                  #
+  ,"listassi"
   ,"mentalstatus_tot"          #
   ,"vocab_total"               #
   ,"dep_total"                 #
@@ -103,7 +104,42 @@ ds <- ds %>%
     
   )
 
-# ---- temporal-triangulation --------------------------
+# ---- word-list-recall --------------------------
+# examine the assignment of word lists over time
+ds %>% over_time("year", "listassi")
+ds %>% over_time("lb_wave", "listassi")
+
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, wrectoti, wrectotd, listassi
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# A single, elemental graph
+d %>% elemental_line(
+  variable_name  = "wrectoti", 
+  time_metric    = "age_at_visit", 
+  color_name     = "black", 
+  line_alpha     = .5, 
+  line_size      = 1,
+  smoothed       = T
+)
+
+# assemble various single graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "wrectoti", 
+  line_size = 1, 
+  line_alpha = .5 
+)
+
+# ---- social-suppport --------------------------
 set.seed(42)
 # ids_1000 <- sample(unique(ds$id), 
 
@@ -129,9 +165,41 @@ d %>% elemental_line(
 # assemble various sinle graphs in a integrated information display
 d %>% complex_line(
   variable_name  = "social_support_mean", 
-  line_size = 1,
-  line_alpha = .5
+  line_size = 1, 
+  line_alpha = .5 
 )
+
+
+# ---- loneliness-three --------------------------
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, score_loneliness_3
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# A single, elemental graph
+d %>% elemental_line(
+  variable_name  = "score_loneliness_3", 
+  time_metric    = "age_at_visit", 
+  color_name     = "black", 
+  line_alpha     = .5, 
+  line_size      = 1,
+  smoothed       = T
+)
+# assemble various sinle graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "score_loneliness_3", 
+  line_size = 1, 
+  line_alpha = .5 
+)
+
 
 # ---- eda-a-1 -------------------------------------------------------------------
 #What does data look like for variables that do not change with time?
