@@ -30,15 +30,15 @@ path_input  <- "./data-unshared/derived/1-dto.rds" # product of ./manipulation/1
 # ---- object-glossary ----------------------------------------------------
 # list variables to keep separated for long to wide conversion
 variables_static <- c(
-  "id"                         #
-  ,"male"                      #
-  ,"birthyr_rand"              #
-  ,"birthmo_rand"              #
-  ,"race_rand"                 #
-  ,"hispanic_rand"             #
-  ,"cohort"                    #
-  ,"raedyrs"                   #
-  ,"raedegrm"                  #
+   "id"                        #    
+  ,"male"                      # 
+  ,"birth_year"                # 
+  ,"birth_month"               # 
+  ,"race"                      # 
+  ,"hispanic"                  # 
+  ,"cohort"                    # 
+  ,"edu_years"                 # 
+  ,"highest_degree"            #   
 ) # static
 
 variables_longitudinal <- c(
@@ -90,16 +90,32 @@ class(dto)
 #str(dto)
 
 # ---- tweak-data --------------------------------------------------------------
-# subset variables of relevance for this project
+# rename variables for graphing convenience, Cassandra, please move upstream when stable
 ds <- dto %>% 
+  dplyr::rename_(
+      "id"             = "id"                         
+    , "male"           = "male"                      
+    , "birth_year"     = "birthyr_rand"              
+    , "birth_month"    = "birthmo_rand"              
+    , "race"           = "race_rand"                 
+    , "hispanic"       = "hispanic_rand"             
+    , "cohort"         = "cohort"                    
+    , "edu_years"      = "raedyrs"                   
+    , "highest_degree" = "raedegrm"                  
+  ) 
+
+# subset variables of relevance for this project
+ds <- ds %>% 
   dplyr::select_(.dots = c(variables_static, variables_longitudinal)) %>% 
   as.data.frame() %>% 
   dplyr::mutate(
-      male         = factor(male, levels = c(1,2), labels = c("Men", "Women"))
-     ,age_at_visit = intage_r
+     male         = factor(male, levels = c(1,2), labels = c("Men", "Women"))
+    ,race         = factor(race, levels = c(1, 2, 3), labels = c("White","Black","Other") )
+    ,age_at_visit = intage_r
     ,date_at_visit = interview_date
   ) %>% 
-  tibble::as_tibble()
+  tibble::as_tibble() 
+  
 
 ds %>% glimpse(width = 105)
 ds %>% names_labels()
@@ -119,21 +135,27 @@ ds %>% distinct(id) %>% count() # n = 28225
 # 
 
 # ---- investigate -----------------------------
-# these targets have NA for gender in 2014. Cassandra, please investigate
-target_ids <- ds %>%
-  # dplyr::filter(id %in% ids)
-  dplyr::filter(is.na(male)) %>% 
-  dplyr::select(id) %>% 
-  as.list() %>% unlist()
+# # these targets have NA for gender in 2014. Cassandra, please investigate
+# target_ids <- ds %>%
+#   # dplyr::filter(id %in% ids)
+#   dplyr::filter(is.na(male)) %>% 
+#   dplyr::select(id) %>% 
+#   as.list() %>% unlist()
+# 
+# d <- ds %>% dplyr::filter(id %in% target_ids)
+# ds %>% mutate(id=as.character(id)) %>% View()
 
-d <- ds %>% dplyr::filter(id %in% target_ids)
-ds %>% mutate(id=as.character(id)) %>% View()
 
-
-# ---- color-options ----------------------------
+# ---- color-palettes ----------------------------
 color_male <- c(
    "Men"   =  "#b3cde3" # blue
   ,"Women" =  "#fbb4ae" # salmon
+)
+
+color_race <- c(
+  "White"  = "#66c2a5" # meak green
+  ,"Black" = "#fc8d62" # burnt organe
+  ,"Other" = "#8da0cb" # lily purpe
 )
 
 
@@ -160,46 +182,31 @@ ds %>%
 ds %>% distinct(id) %>% count()
 ds %>% group_by(id) %>% summarize(n=n())
 
+
 # ---- male ------------------------------------------
 # what is the gender composion of the sample?
 ds %>% group_by(male) %>% summarize(n=n())
 ds %>% histogram_discrete("male")
 
 # what is gender composition over time?
-# d <- ds %>% group_by(year, male) %>% summarize(n=n())
-d <- ds %>% 
-  # dplyr::group_by(male, year) %>% 
-  dplyr::group_by(year, male) %>% 
-  dplyr::summarize(n=n()) %>% 
-  dplyr::group_by(year) %>% 
-  dplyr::mutate(
-    year_sum = sum(n)
-  ) %>% 
-  dplyr::ungroup() %>% 
-  dplyr::mutate(
-    pct = scales::percent( n / year_sum )
-  )
-d
-g <- d %>% 
-  # ggplot(aes(x=year, y=pct, fill = male)) +
-  ggplot(aes(x=year, y=n, fill = male)) +
-  geom_bar(stat = "identity")+
-  geom_text( inherit.aes = TRUE,
-    aes(x = year, y = n, label = pct) 
-    ,nudge_y = 1000 # see recipe
-    # ,colour   = "white"
-    # ,position = position_dodge(.9)
-    # ,size=3
-  )+
-  scale_fill_manual(values=color_male)+
-  # scale_y_continuous(limits = c(0,100))+
-  # coord_flip()+
-  theme_minimal()
-g
+ds %>% count_over_time("year","male")
+ds %>% count_over_time("lb_wave","male")
 
+# ---- race ------------------------------
+# what is the race compositon of the sample
+ds %>% group_by(male) %>% summarize(n=n()) %>% neat("pandoc")
+ds %>% histogram_discrete("male")
 
+# what is race composition over time?
+ds %>% count_over_time("year","race")
+ds %>% count_over_time("lb_wave","race")
 
-# ---- male ------------------------------------
+# there may not be enough sample size if split by race
+ds %>% 
+  dplyr::filter(lb_wave == 4) %>% 
+  group_by(race) %>% 
+  distinct(id ) %>% count()
+
 
 # ---- word-list-recall --------------------------
 # examine the assignment of word lists over time
@@ -311,13 +318,6 @@ ds %>% over_time("lb_wave", "srmemory")
 # ---- basic-table --------------------------------------------------------------
 
 # ---- basic-graph --------------------------------------------------------------
-
-
-  
-
-
-# ---- ----------------------------------------------
-
 
 # ---- srmemory ----------------------------------------------
 ds %>% over_time("year","srmemory")
