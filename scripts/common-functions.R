@@ -42,8 +42,11 @@ over_time <- function(ds,time, measure_name, exclude_values="") {
 
 # ---- utility-functions -------------------------------------------------------
 # adds neat styling to your knitr table
-neat <- function(x, output_format = "html"){
-  # knitr.table.format = "html"
+neat <- function(x, output_format = "html"){ 
+  # knitr.table.format = output_format
+  if(output_format == "pandoc"){
+    x_t <- knitr::kable(x)
+  }else{
   x_t <- x %>%
   # x %>%
     # knitr::kable() %>%
@@ -54,8 +57,7 @@ neat <- function(x, output_format = "html"){
       full_width = F,
       position = "left"
     )
-  # cat("\n",x_t,"\n")
-  # print(x_t, n=n_)
+  } 
   return(x_t)
 }
 # ds %>% distinct(id) %>% count() %>% neat(10)
