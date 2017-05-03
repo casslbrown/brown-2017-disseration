@@ -94,15 +94,112 @@ class(dto)
 ds <- dto %>% 
   dplyr::select_(.dots = c(variables_static, variables_longitudinal)) %>% 
   as.data.frame() %>% 
+  dplyr::mutate(
+      male         = factor(male, levels = c(1,2), labels = c("Men", "Women"))
+     ,age_at_visit = intage_r
+    ,date_at_visit = interview_date
+  ) %>% 
   tibble::as_tibble()
 
 ds %>% glimpse(width = 105)
 ds %>% names_labels()
 
-ds <- ds %>% 
+# replace static variables with NA for those interview_dates that are NA
+# this means that the person did not have any observation in that wave
+# However, this is a temp fix. Address it upstream (possibly during elongation)
+# these rows are the ones we've created, so we remove them now
+
+ds %>% distinct(id) %>% count() # n = 37495
+ds <- ds %>%  dplyr::filter(!is.na(interview_date))
+ds %>% distinct(id) %>% count() # n = 28225
+
+
+# # select a single case for inspection 
+# ids <- sample(unique(ds$id),1)
+# 
+
+# ---- investigate -----------------------------
+# these targets have NA for gender in 2014. Cassandra, please investigate
+target_ids <- ds %>%
+  # dplyr::filter(id %in% ids)
+  dplyr::filter(is.na(male)) %>% 
+  dplyr::select(id) %>% 
+  as.list() %>% unlist()
+
+d <- ds %>% dplyr::filter(id %in% target_ids)
+ds %>% mutate(id=as.character(id)) %>% View()
+
+
+# ---- color-options ----------------------------
+color_male <- c(
+   "Men"   =  "#b3cde3" # blue
+  ,"Women" =  "#fbb4ae" # salmon
+)
+
+
+# ---- eda-a-1 -------------------------------------------------------------------
+#What does data look like for variables that do not change with time?
+ds %>% select_(.dots = variables_static) 
+
+#How many distinct values are there for each static variable?
+set.seed(42)
+ds %>%
+  select_(.dots = variables_static) %>% 
+  # filter(id %in% sample(unique(id),100)) %>%
+  summarize_all(n_distinct)  %>% 
+  t()
+
+#How many distinct values are there for variables that change over time?
+ds %>%
+  select_(.dots = variables_longitudinal) %>% 
+  summarize_all(n_distinct)  %>% 
+  t()
+
+# ---- id --------------------------------------------
+# How many respondents are in the sample?
+ds %>% distinct(id) %>% count()
+ds %>% group_by(id) %>% summarize(n=n())
+
+# ---- male ------------------------------------------
+# what is the gender composion of the sample?
+ds %>% group_by(male) %>% summarize(n=n())
+ds %>% histogram_discrete("male")
+
+# what is gender composition over time?
+# d <- ds %>% group_by(year, male) %>% summarize(n=n())
+d <- ds %>% 
+  # dplyr::group_by(male, year) %>% 
+  dplyr::group_by(year, male) %>% 
+  dplyr::summarize(n=n()) %>% 
+  dplyr::group_by(year) %>% 
   dplyr::mutate(
-    
+    year_sum = sum(n)
+  ) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate(
+    pct = scales::percent( n / year_sum )
   )
+d
+g <- d %>% 
+  # ggplot(aes(x=year, y=pct, fill = male)) +
+  ggplot(aes(x=year, y=n, fill = male)) +
+  geom_bar(stat = "identity")+
+  geom_text( inherit.aes = TRUE,
+    aes(x = year, y = n, label = pct) 
+    ,nudge_y = 1000 # see recipe
+    # ,colour   = "white"
+    # ,position = position_dodge(.9)
+    # ,size=3
+  )+
+  scale_fill_manual(values=color_male)+
+  # scale_y_continuous(limits = c(0,100))+
+  # coord_flip()+
+  theme_minimal()
+g
+
+
+
+# ---- male ------------------------------------
 
 # ---- word-list-recall --------------------------
 # examine the assignment of word lists over time
@@ -201,24 +298,6 @@ d %>% complex_line(
 )
 
 
-# ---- eda-a-1 -------------------------------------------------------------------
-#What does data look like for variables that do not change with time?
-ds %>%
-  select_(.dots = variables_static)
-
-#How many distinct values are there for each static variable?
-set.seed(42)
-ds %>%
-  select_(.dots = variables_static) %>% 
-  # filter(id %in% sample(unique(id),100)) %>%
-  summarize_all(n_distinct)  %>% 
-  t()
-
-#How many distinct values are there for variables that change over time?
-ds %>%
-  select_(.dots = variables_longitudinal) %>% 
-  summarize_all(n_distinct)  %>% 
-  t()
 
 
 # ---- eda-summaries ------------------------------------------------------------
@@ -239,14 +318,6 @@ ds %>% over_time("lb_wave", "srmemory")
 
 # ---- ----------------------------------------------
 
-# ---- id --------------------------------------------
-# How many persons are in the sample?
-ds %>% distinct(id) %>% count()
-ds %>% group_by(id) %>% summarize(n=n())
-
-# ---- male ------------------------------------------
-ds %>% group_by(male) %>% summarize(n=n())
-ds %>% histogram_discrete("male")
 
 # ---- srmemory ----------------------------------------------
 ds %>% over_time("year","srmemory")
