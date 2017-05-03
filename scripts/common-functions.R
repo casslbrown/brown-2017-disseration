@@ -38,3 +38,38 @@ over_time <- function(ds,time, measure_name, exclude_values="") {
 }
 # ds %>% over_time("year", "srmemory")
 # ds %>% over_time("lb_wave", "srmemory")
+
+
+# ---- utility-functions -------------------------------------------------------
+# adds neat styling to your knitr table
+neat <- function(x, output_format = "html"){
+  # knitr.table.format = "html"
+  x_t <- x %>%
+  # x %>%
+    # knitr::kable() %>%
+    knitr::kable(format=output_format) %>%
+    kableExtra::kable_styling(
+      bootstrap_options = c("striped", "hover", "condensed","responsive"),
+      # bootstrap_options = c( "condensed"),
+      full_width = F,
+      position = "left"
+    )
+  # cat("\n",x_t,"\n")
+  # print(x_t, n=n_)
+  return(x_t)
+}
+# ds %>% distinct(id) %>% count() %>% neat(10)
+
+# adds a formated datatable
+neat_DT <- function(x, filter_="top"){
+  xt <- x %>%
+    DT::datatable(
+      class   = 'cell-border stripe'
+      ,filter  = filter_
+      ,options = list(
+        pageLength = 6,
+        autoWidth  = FALSE
+      )
+    )
+  return(dt)
+}
