@@ -39,7 +39,21 @@ over_time <- function(ds,time, measure_name, exclude_values="") {
 # ds %>% over_time("year", "srmemory")
 # ds %>% over_time("lb_wave", "srmemory")
 
-
+# a function that provides a table of mean, sd, and count over time.
+summarize_over_time <- function(ds,time, measure_name, exclude_values="") {
+  d <- ds[!(ds[,measure_name] %in% exclude_values), ]
+  a <- lazyeval::interp(~ round(mean(var),2) , var = as.name(measure_name))
+  b <- lazyeval::interp(~ round(sd(var),3),   var = as.name(measure_name))
+  c <- lazyeval::interp(~ n())
+  dots <- list(a,b,c)
+  t <- d %>%
+    dplyr::select_("id",time, measure_name) %>%
+    na.omit() %>%
+    # dplyr::mutate_(measure_name = as.numeric(measure_name)) %>%
+    dplyr::group_by_(time) %>%
+    dplyr::summarize_(.dots = setNames(dots, c("mean","sd","count")))
+  return(as.data.frame(t))
+}
 # ---- utility-functions -------------------------------------------------------
 # adds neat styling to your knitr table
 neat <- function(x, output_format = "html"){ 
