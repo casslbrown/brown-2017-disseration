@@ -51,6 +51,9 @@ variables_longitudinal <- c("lb_wave", "year","lb_65_wave","interview_date", "re
                             "activity_mean", "activity_sum","srmemory", "srmemoryp","listassi", "wrectoti", "wrectotd","mentalstatus_tot","vocab_total",
                             "dep_total","healthcond", "exercise")  # not static
 
+
+ds$listassi <- plyr::mapvalues(ds$listassi, from=c(1, 11, 21, 31), to=c(1, 2, 3, 4))
+
 # create a smaller dataset
 #ds <- ds %>%
 #  dplyr::select_(.dots = c(variables_static,  "year", variables_longitudinal)) 
@@ -93,7 +96,6 @@ dlb_wide <- ds_lb %>%
 dplyr::glimpse(dlb_wide)
 
 # Now that the data is in wide format it is easier to calculate a time score for lbwaves.
-
 dlb_wide <- dlb_wide %>% 
   dplyr::mutate(
     lbtime_1 = 0,
@@ -147,6 +149,7 @@ dlb65_wide <- dlb65_wide %>%
     lbtime_3 = interview_date_3 - interview_date_1,
     lbtime_4 = interview_date_4 - interview_date_1
   )
+
 
 # ---- save-r-data -------------------
 # tranformed data with supplementary variables
