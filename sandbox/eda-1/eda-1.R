@@ -111,6 +111,7 @@ ds <- ds %>%
   dplyr::mutate(
      male         = factor(male, levels = c(1,2), labels = c("Men", "Women"))
     ,race         = factor(race, levels = c(1, 2, 3), labels = c("White","Black","Other") )
+    ,cohort       = factor(cohort, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("Not in any cohort", "Ahead", "Coda", "Hrs", "WarBabies", "Early BabyBoomers", "Mid BabyBoomers", "Mid BabyBoomers") )
     ,age_at_visit = intage_r
     ,date_at_visit = interview_date
   ) %>% 
@@ -211,6 +212,11 @@ ds %>%
 # what is the race compositon of the sample
 ds %>% group_by(hispanic) %>% summarize(n=n()) %>% neat("pandoc")
 
+# ---- cohort ------------------------------
+# what is the race compositon of the sample
+ds %>% group_by(cohort) %>% summarize(n=n()) %>% neat("pandoc")
+ds %>% over_time("year", "cohort")
+
 # ---- word-list-recall --------------------------
 # examine the assignment of word lists over time
 ds %>% over_time("year", "listassi")
@@ -283,8 +289,10 @@ d %>% complex_line(
   line_alpha = .5 
 )
 
-
 # ---- loneliness-three --------------------------
+ds %>% summarize_over_time("year", "score_loneliness_3")
+ds %>% summarize_over_time("lb_wave", "score_loneliness_3")
+
 set.seed(42)
 # ids_1000 <- sample(unique(ds$id), 
 
@@ -316,8 +324,8 @@ d %>% complex_line(
 
 # ---- loneliness-eleven --------------------------
 # examine the assignment of word lists over time
+ds %>% summarize_over_time("year", "score_loneliness_11")
 ds %>% summarize_over_time("lb_wave", "score_loneliness_11")
-
 set.seed(42)
 # ids_1000 <- sample(unique(ds$id), 
 
@@ -337,6 +345,54 @@ d %>% complex_line(
   line_size = 1, 
   line_alpha = .5 
 )
+
+# ---- socialnetwork_total ---------------------------
+ds %>% summarize_over_time("year", "socialnetwork_total")
+ds %>% summarize_over_time("lb_wave", "socialnetwork_total")
+
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, socialnetwork_total
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# assemble various sinle graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "close_social_network", 
+  line_size = 1, 
+  line_alpha = .5 
+)
+# ---- close_social_network --------------------------
+# examine the assignment of word lists over time
+ds %>% summarize_over_time("year", "close_social_network")
+ds %>% summarize_over_time("lb_wave", "close_social_network")
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, close_social_network
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# assemble various single graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "close_social_network", 
+  line_size = 1, 
+  line_alpha = .5 
+)
+
 
 
 # ---- eda-summaries ------------------------------------------------------------
