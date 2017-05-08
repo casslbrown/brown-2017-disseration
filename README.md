@@ -9,5 +9,5 @@ Linking Social, Psychological and Lifestyle Factors to Cognitive Decline in Agin
 
 
 
-[eda_1_html]:https://github.com/casslbrown/brown-2017-disseration/blob/master/sandbox/eda-1/eda-1.html
+[eda_1_html]:https://rawgit.com/user/repo/branch/file/brown-2017-disseration/sandbox/eda-1/eda-1.html
 [eda_1_md]:https://github.com/casslbrown/brown-2017-disseration/blob/master/sandbox/eda-1/eda-1.md
