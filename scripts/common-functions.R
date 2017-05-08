@@ -89,3 +89,25 @@ neat_DT <- function(x, filter_="top"){
     )
   return(dt)
 }
+
+# Some variables have different character codes for missing values
+# Translate various character values into NA values
+replace_with_na <- function(x){
+  # x <- ds_location_map$facility_name
+  na_tokens <- c(
+    "^NULL$"
+    ,"^-$"
+    ,"^NA$"
+    ,"^\\{blank\\}$"
+    ,"^n/a$"
+  )
+  for(token in na_tokens){
+    if(is.character(x)){
+      x <- gsub(token,NA,x)
+    }
+  }
+  return(x)
+}
+# Usage:
+# ds_patient_profiles <- ds_patient_profiles %>% 
+# dplyr::mutate_all(dplyr::funs(replace_with_na) )

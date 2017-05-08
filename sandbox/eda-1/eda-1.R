@@ -42,11 +42,11 @@ variables_static <- c(
 ) # static
 
 variables_longitudinal <- c(
-  "lb_wave"                    # Leave-behind
-  ,"year"                      #
-  ,"lb_65_wave"                #
-  ,"interview_date"            #
-  ,"responded"                 #
+  "lb_wave"                    # Leave-behind wave
+  ,"year"                      # Year
+  ,"lb_65_wave"                # Leave-behind wave at age 65 or older
+  ,"interview_date"            # Interview data year and month
+  ,"responded"                 # 
   ,"proxy"                     #
   ,"hhres"                     #
   ,"countb20r"                 #
@@ -79,6 +79,29 @@ variables_longitudinal <- c(
   ,"exercise"                  #
 )  # not static
 
+# ---- utility-functions ---------------------------------------------------------------
+# Some variables have different character codes for missing values
+# Translate various character values into NA values
+replace_with_na <- function(x){
+  # x <- ds_location_map$facility_name
+  na_tokens <- c(
+    # "^NULL$"
+    # ,"^-$"
+    # ,"^NA$"
+    # ,"^\\{blank\\}$"
+    # ,"^n/a$"
+    "^NaN$"
+  )
+  for(token in na_tokens){
+    if(is.character(x)){
+      x <- gsub(token,NA,x)
+    }
+  }
+  return(x)
+}
+# Usage:
+# ds_patient_profiles <- ds_patient_profiles %>% 
+# dplyr::mutate_all(dplyr::funs(replace_with_na) )
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
@@ -90,6 +113,7 @@ class(dto)
 #str(dto)
 
 # ---- tweak-data --------------------------------------------------------------
+
 # rename variables for graphing convenience, Cassandra, please move upstream when stable
 ds <- dto %>% 
   dplyr::rename_(
@@ -111,7 +135,7 @@ ds <- ds %>%
   dplyr::mutate(
      male         = factor(male, levels = c(1,2), labels = c("Men", "Women"))
     ,race         = factor(race, levels = c(1, 2, 3), labels = c("White","Black","Other") )
-    ,cohort       = factor(cohort, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("Not in any cohort", "Ahead", "Coda", "Hrs", "WarBabies", "Early BabyBoomers", "Mid BabyBoomers", "Mid BabyBoomers") )
+    ,cohort       = factor(cohort, levels = c(0, 1, 2, 3, 4, 5, 6), labels = c("Not in any cohort", "Ahead", "Coda", "Hrs", "WarBabies", "Early BabyBoomers", "Mid BabyBoomers") )
     ,age_at_visit = intage_r
     ,date_at_visit = interview_date
   ) %>% 
@@ -294,6 +318,39 @@ d %>% complex_line(
   line_alpha = .5 
 )
 
+# ---- social-strain --------------------------
+ds %>% summarize_over_time("year", "social_strain_mean")
+ds %>% summarize_over_time("lb_wave", "social_strain_mean")
+
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, social_strain_mean
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# A single, elemental graph
+d %>% elemental_line(
+  variable_name  = "social_strain_mean", 
+  time_metric    = "age_at_visit", 
+  color_name     = "black", 
+  line_alpha     = .5, 
+  line_size      = 1,
+  smoothed       = T
+)
+# assemble various sinle graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "social_strain_mean", 
+  line_size = 1, 
+  line_alpha = .5 
+)
+
 # ---- loneliness-three --------------------------
 ds %>% summarize_over_time("year", "score_loneliness_3")
 ds %>% summarize_over_time("lb_wave", "score_loneliness_3")
@@ -370,7 +427,7 @@ d <- ds %>%
 
 # assemble various sinle graphs in a integrated information display
 d %>% complex_line(
-  variable_name  = "close_social_network", 
+  variable_name  = "socialnetwork_total", 
   line_size = 1, 
   line_alpha = .5 
 )
