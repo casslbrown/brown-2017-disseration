@@ -31,18 +31,18 @@ path_input  <- "./data-unshared/derived/1-dto.rds" # product of ./manipulation/1
 # list variables to keep separated for long to wide conversion
 variables_static <- c(
    "id"                        #    
-  ,"male"                      # 
-  ,"birth_year"                # 
-  ,"birth_month"               # 
-  ,"race"                      # 
-  ,"hispanic"                  # 
-  ,"cohort"                    # 
-  ,"edu_years"                 # 
-  ,"highest_degree"            #   
+  ,"male"                      # Gender 
+  ,"birth_year"                # Birth year from RAND longitudinal file
+  ,"birth_month"               # Month of birth
+  ,"race"                      # Race
+  ,"hispanic"                  # Whether Hispanic
+  ,"cohort"                    # Cohort based on birth yr
+  ,"edu_years"                 # Years of Education
+  ,"highest_degree"            # Highest Degree
 ) # static
 
 variables_longitudinal <- c(
-  "lb_wave"                    #
+  "lb_wave"                    # Leave-behind
   ,"year"                      #
   ,"lb_65_wave"                #
   ,"interview_date"            #
@@ -217,6 +217,11 @@ ds %>% group_by(hispanic) %>% summarize(n=n()) %>% neat("pandoc")
 ds %>% group_by(cohort) %>% summarize(n=n()) %>% neat("pandoc")
 ds %>% over_time("year", "cohort")
 
+# ---- years-education ------------------------------
+# what is the race compositon of the sample
+ds %>% group_by(cohort) %>% summarize(n=n()) %>% neat("pandoc")
+ds %>% over_time("year", "cohort")
+edu_years
 # ---- word-list-recall --------------------------
 # examine the assignment of word lists over time
 ds %>% over_time("year", "listassi")
@@ -369,6 +374,7 @@ d %>% complex_line(
   line_size = 1, 
   line_alpha = .5 
 )
+
 # ---- close_social_network --------------------------
 # examine the assignment of word lists over time
 ds %>% summarize_over_time("year", "close_social_network")
@@ -393,6 +399,29 @@ d %>% complex_line(
   line_alpha = .5 
 )
 
+# ---- activity --------------------------
+# examine the assignment of activity over time
+ds %>% summarize_over_time("year", "activity_sum")
+ds %>% summarize_over_time("lb_wave", "activity_sum")
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, activity_sum
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# assemble various single graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "activity_sum", 
+  line_size = 1, 
+  line_alpha = .5 
+)
 
 
 # ---- eda-summaries ------------------------------------------------------------
