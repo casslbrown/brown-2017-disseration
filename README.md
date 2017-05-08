@@ -1,9 +1,11 @@
 Linking Social, Psychological and Lifestyle Factors to Cognitive Decline in Aging: Pathways and Challenges to Optimal Function
 
 
-## Available reports
+# Available reports
 
-- [exploratory data analysis][eda_1_html] ( [md][eda_1_md])
+## Sandbox
+
+- [exploratory data analysis (v.1)][eda_1_html] ( [md][eda_1_md])
 
 
 
