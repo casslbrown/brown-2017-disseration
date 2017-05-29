@@ -30,8 +30,8 @@ requireNamespace("zoo")
 
 # ---- declare-globals --------------------------------------------------------
 # connect to the data transfer object from the HRS repository
-# path_input      <- "../HRS/data-unshared/derived/1-dto.rds" # product of 1-assembly-line.R
-path_input_list <- "../HRS/data-unshared/derived/1-dto-list.rds" # product of 1-assembly-line.R
+# path_input      <- "../HRS/data-unshared/derived/1-dto.rds" # product of 1-scale-assembly.R
+path_input_list <- "../HRS/data-unshared/derived/1-dto-list.rds" # product of 1-scale-assembly.R
 path_output     <- "./data-unshared/derived/0-dto.rds"
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-scale-assembly.R a long data file
