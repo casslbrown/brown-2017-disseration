@@ -31,7 +31,6 @@ requireNamespace("psych") # For descriptive functions
 requireNamespace("zoo")
 
 # ---- declare-globals --------------------------------------------------------
-# connect to the data transfer object from the HRS repository
 path_input      <- "./data-unshared/derived/0-dto.rds" # product of 0-ellis-island
 path_output     <- "./data-unshared/derived/1-dto.rds"
 
@@ -360,6 +359,60 @@ ds <- ds %>%
     interview_date = zoo::as.yearmon(interview_date, "%m/%Y"),
     hrs_tscore = interview_date-dplyr::lag(interview_date)
   )
+
+# create a variable to indicate 
+# create variables indicating if the respondent and spouse has ever reported memory problems, dementia, or alzheimers
+ds <- ds %>%
+  dplyr::group_by(id) %>%
+  dplyr::mutate(
+    dementia_baseline    = ifelse(!is.na(dplyr::nth(demen, 4)), dplyr::nth(demen, 4), 
+                                  ifelse(!is.na(dplyr::nth(demen, 5)), dplyr::nth(demen, 5), 
+                                         ifelse(!is.na(dplyr::nth(demen, 6)), dplyr::nth(demen, 6), NA))),
+    alzheimer_baseline    = ifelse(!is.na(dplyr::nth(alzhe, 4)), dplyr::nth(alzhe, 4), 
+                                   ifelse(!is.na(dplyr::nth(alzhe, 5)), dplyr::nth(alzhe, 5), 
+                                          ifelse(!is.na(dplyr::nth(alzhe, 6)), dplyr::nth(alzhe, 6), NA))),
+    memoryproblems_baseline    = ifelse(!is.na(dplyr::first(memry)), dplyr::first(memry), 
+                                        ifelse(!is.na(dplyr::nth(memry, 2)), dplyr::nth(memry, 2), 
+                                               ifelse(!is.na(dplyr::nth(memry, 3)), dplyr::nth(memry, 3), NA))),
+    dementia_ever = ifelse(any(demene==1, na.rm = T)==TRUE, TRUE, ifelse(all(is.na(demene)==T), NA, FALSE)),
+    alzheimer_ever    = ifelse(any(alzhee==1, na.rm = T)==TRUE, TRUE, ifelse(all(is.na(alzhee)==T), NA, FALSE)),
+    memoryproblems_ever    = ifelse(any(memrye==1, na.rm = T)==TRUE, TRUE, ifelse(all(is.na(memrye)==T), NA, FALSE)),
+    memory_disease_ever = ifelse(dementia_ever==1 | alzheimer_ever==1 | memoryproblems_ever==1, T, F),
+    spouse_dementia_ever = ifelse(any(sdemene==1, na.rm = T)==TRUE, TRUE, ifelse(all(is.na(sdemene)==T), NA, FALSE)),
+    spouse_alzheimer_ever    = ifelse(any(salzhee==1, na.rm = T)==TRUE, TRUE, ifelse(all(is.na(salzhee)==T), NA, FALSE)),
+    spouse_memoryproblems_ever    = ifelse(any(smemrye==1, na.rm = T)==TRUE, TRUE, ifelse(all(is.na(smemrye)==T), NA, FALSE)),
+    spouse_memory_disease_ever = ifelse(spouse_dementia_ever==1 | spouse_alzheimer_ever==1 | spouse_memoryproblems_ever==1, T, F)
+  ) %>%
+  dplyr::ungroup()
+
+# sample to show baseline memory, dementia, and alzheimer variable.
+ds %>%
+  dplyr::filter(id == 22860010|id==3010|id==10001010) %>%
+  dplyr::select_("id","memoryproblems_baseline", "dementia_baseline", "memry", "demen", "alzheimer_baseline", "alzhe") %>%
+  print(n=nrow(.))
+
+# create a baseline age variable that gives a static age variable of the partcipant at the first wave that they were
+# 65 years old or older (because younger participant are excluded from some analyses)
+
+ds <- ds %>%
+  dplyr::group_by(id) %>%
+  dplyr::mutate(
+    age_baseline  = ifelse(!is.na(dplyr::first(intage_r)) & dplyr::first(intage_r)>64, dplyr::first(intage_r), 
+                                        ifelse(!is.na(dplyr::nth(intage_r, 2)) & dplyr::nth(intage_r,2)>64, dplyr::nth(intage_r, 2), 
+                                               ifelse(!is.na(dplyr::nth(intage_r, 3)) & dplyr::nth(intage_r, 3)>64, dplyr::nth(intage_r, 3), 
+                                                      ifelse(!is.na(dplyr::nth(intage_r, 4)) & dplyr::nth(intage_r, 4)>64, dplyr::nth(intage_r, 4),
+                                                             ifelse(!is.na(dplyr::nth(intage_r, 5)) & dplyr::nth(intage_r, 5)>64, dplyr::nth(intage_r, 5),
+                                                                    ifelse(!is.na(dplyr::nth(intage_r, 6)) & dplyr::nth(intage_r, 6)>64, dplyr::nth(intage_r, 6), NA))))))
+) %>%
+  dplyr::ungroup()
+
+# sample to show age_baseline variable is correct.
+ds %>%
+  dplyr::filter(id == 22860010|id==3010|id==10001010 | id==923486010) %>%
+  dplyr::select_("id","intage_r", "age_baseline") %>%
+  print(n=nrow(.))
+
+
 
 # ---- save-to-disk ----------------------------------------
 saveRDS(ds, path_output)
