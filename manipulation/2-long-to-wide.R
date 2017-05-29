@@ -60,6 +60,12 @@ ds$listassi <- plyr::mapvalues(ds$listassi, from=c(1, 11, 21, 31), to=c(1, 2, 3,
 names(ds)
 ds %>% glimpse()
 
+mean(ds$mentalstatus_tot, na.rm=T)
+table(ds$mentalstatus_tot)
+
+ds <- dplyr::filter(ds, proxy != 1) # exclude proxy interviews
+  
+  
 (variables_longitudinal <- variables_longitudinal[!variables_longitudinal=="year"]) # all except year
 # a year based wide data set
 d_wide <- ds %>%
@@ -116,9 +122,15 @@ saveRDS(dlb_wide, file="./data-unshared/derived/lb-data-wide.rds")
 # convert NA and NaN to 9999 for Mplus.
 dlb_wide[is.na(dlb_wide)] <- 9999
 
+# convert NA and NaN to 9999 for Mplus.
+d_wide[is.na(d_wide)] <- 9999
+
 # prepared for Mplus
-write.table(dlb_wide, "./data-unshared/derived/wide-dataset.dat", row.names=F, col.names=F)
-write(names(dlb_wide), "./data-unshared/derived/wide-variable-names.txt", sep=" ")
+write.table(d_wide, "./data-unshared/derived/wide-dataset.dat", row.names=F, col.names=F)
+write(names(d_wide), "./data-unshared/derived/wide-variable-names.txt", sep=" ")
+
+write.table(dlb_wide, "./data-unshared/derived/lb-wide-dataset.dat", row.names=F, col.names=F)
+write(names(dlb_wide), "./data-unshared/derived/lb-wide-variable-names.txt", sep=" ")
 
 # ----- Create-data-file --------
 # a data set that contains only lb waves for those aged 65 or older. 
