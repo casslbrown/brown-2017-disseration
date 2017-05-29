@@ -398,7 +398,7 @@ srmemoryp                5
 wrectoti                12
 wrectotd                12
 listassi                 5
-mentalstatus_tot        10
+mentalstatus_tot        12
 vocab_total             13
 dep_total               11
 healthcond               9
@@ -549,6 +549,132 @@ ds %>%
 ```
 
 ## Dynamic
+
+### Mental Status
+
+```r
+# examine mental status over time
+ds %>% over_time("year", "mentalstatus_tot")
+```
+
+```
+Measure : mentalstatus_tot
+      
+       2004 2006 2008 2010 2012  2014 <NA>
+  0    5    8    13   4    5     9    .   
+  1    17   22   20   18   24    26   .   
+  2    30   48   50   46   41    58   .   
+  3    60   61   63   75   68    76   .   
+  4    109  90   112  131  120   110  .   
+  5    185  181  159  265  216   172  .   
+  6    407  365  357  752  477   450  .   
+  7    1192 962  1006 2238 1355  1283 .   
+  8    3260 2755 2774 5902 3183  2989 .   
+  9    7715 5937 5884 6507 4680  4439 .   
+  NaN  7055 7952 6699 6003 10304 9056 .   
+  <NA> 94   88   80   93   81    80   .   
+```
+
+```
+  year mean    sd count
+1 2004 8.31 1.124 12980
+2 2006 8.24 1.225 10429
+3 2008 8.23 1.245 10438
+4 2010 8.04 1.145 15938
+5 2012 8.04 1.272 10169
+6 2014 8.03 1.316  9612
+```
+
+```r
+ds %>% over_time("lb_wave", "mentalstatus_tot")
+```
+
+```
+Measure : mentalstatus_tot
+      
+       1    2    3    4   5 <NA> 
+  0    8    .    2    .   . 34   
+  1    13   14   8    .   . 92   
+  2    24   28   13   1   . 207  
+  3    42   38   22   3   . 298  
+  4    88   65   29   3   . 487  
+  5    137  143  52   7   . 839  
+  6    409  321  153  19  . 1906 
+  7    1272 1023 487  73  . 5181 
+  8    3722 2619 1316 196 . 13010
+  9    7092 4116 2154 325 . 21475
+  NaN  8375 5110 1443 240 1 31900
+  <NA> 78   36   18   1   . 383  
+```
+
+```
+  lb_wave mean    sd count
+1       1 8.29 1.068 12807
+2       2 8.16 1.157  8367
+3       3 8.20 1.146  4236
+4       4 8.26 1.023   627
+```
+
+```r
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, mentalstatus_tot
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# assemble various single graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "mentalstatus_tot", 
+  line_size = 1, 
+  line_alpha = .5 
+)
+```
+
+```
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : pseudoinverse used at 0.985
+```
+
+```
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : neighborhood radius 1.015
+```
+
+```
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : reciprocal condition number 0
+```
+
+```
+Warning in simpleLoess(y, x, w, span, degree = degree, parametric = parametric, : There are other near singularities as
+well. 1
+```
+
+```
+Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if (is.data.frame(newdata))
+as.matrix(model.frame(delete.response(terms(object)), : pseudoinverse used at 0.985
+```
+
+```
+Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if (is.data.frame(newdata))
+as.matrix(model.frame(delete.response(terms(object)), : neighborhood radius 1.015
+```
+
+```
+Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if (is.data.frame(newdata))
+as.matrix(model.frame(delete.response(terms(object)), : reciprocal condition number 0
+```
+
+```
+Warning in predLoess(object$y, object$x, newx = if (is.null(newdata)) object$x else if (is.data.frame(newdata))
+as.matrix(model.frame(delete.response(terms(object)), : There are other near singularities as well. 1
+```
+
+<img src="figure_rmd/mental-status-1.png" width="750px" />
 
 ### Word List Recall 
 

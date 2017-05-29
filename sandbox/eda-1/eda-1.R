@@ -45,7 +45,8 @@ variables_longitudinal <- c(
   "lb_wave"                    # Leave-behind wave
   ,"year"                      # Year
   ,"lb_65_wave"                # Leave-behind wave at age 65 or older
-  ,"interview_date"            # Interview data year and month
+  ,"hrs_tscore" 
+  ,"interview_date"            # Interview data year and   month
   ,"responded"                 # 
   ,"proxy"                     #
   ,"hhres"                     #
@@ -106,7 +107,7 @@ replace_with_na <- function(x){
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
 dto <- readRDS(path_input)
-
+ds_wide <- readRDS("./data-unshared/derived/lb65-data-wide.rds")
 # ---- inspect-data -------------------------------------------------------------
 # dto %>% glimpse()
 class(dto)
@@ -246,6 +247,56 @@ ds %>% over_time("year", "cohort")
 ds %>% group_by(cohort) %>% summarize(n=n()) %>% neat("pandoc")
 ds %>% over_time("year", "cohort")
 edu_years
+
+# ----- lb-wave ---------------------------------------
+# examine hrs time
+ds %>% over_time("year", "hrs_tscore")
+
+# examine lb wave over time
+ds %>% over_time("year", "lb_wave")
+
+# examine lb wave time
+psych::describe(ds_wide$lbtime_1)
+table(ds_wide$lbtime_1)
+
+psych::describe(ds_wide$lbtime_2)
+table(ds_wide$lbtime_2)
+
+psych::describe(ds_wide$lbtime_3)
+table(ds_wide$lbtime_3)
+
+psych::describe(ds_wide$lbtime_4)
+table(ds_wide$lbtime_4)
+
+# ----- proxy-interview -------------------------------
+# examine proxy interview frequency over time
+ds %>% over_time("year", "proxy")
+
+# ----- mental-status ---------------------------------
+# examine mental status over time
+ds %>% over_time("year", "mentalstatus_tot")
+ds %>% over_time("lb_wave", "mentalstatus_tot")
+
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, mentalstatus_tot
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# assemble various single graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "mentalstatus_tot", 
+  line_size = 1, 
+  line_alpha = .5 
+)
+
 # ---- word-list-recall --------------------------
 # examine the assignment of word lists over time
 ds %>% over_time("year", "listassi")
@@ -289,6 +340,9 @@ d %>% complex_line(
 )
 
 # ---- social-suppport --------------------------
+
+ds %>% summarize_over_time("year", "social_support_mean")
+ds %>% summarize_over_time("lb_wave", "social_support_mean")
 set.seed(42)
 # ids_1000 <- sample(unique(ds$id), 
 
