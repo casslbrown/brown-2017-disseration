@@ -1,3 +1,4 @@
+# This script will read in model results from Mplus. 
 # knitr::stitch_rmd(script="./___/___.R", output="./___/stitched-output/___.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
@@ -23,13 +24,18 @@ requireNamespace("stringr")
 requireNamespace("relimp")
 
 # ---- load-data ---------------------------------------------------------------
-# load the product of 1-scale-assembly.R a long data file
-lgc_loneliness <- MplusAutomation::readModels("./data-unshared/derived/LGCM Loneliness.out")
-lonelinessmodel <- extractModelSummaries("./data-unshared/derived/LGCM Loneliness.out")
-lgc_loneliness_parameters <- as.data.frame(extractModelParameters("./data-unshared/derived/ATL immediate word recall by year.out"))
-class(lonelinessmodel)
-SummaryTable(lonelinessmodel)
-SummaryTable(lgc_loneliness_parameters)
 
-alt_model <- extractModelSummaries("./data-unshared/derived/ATL loneliness and mental status by year.out")
-alt_model_parameters <- extractModelParameters("./data-unshared/derived/ATL loneliness and mental status by year.out")
+# Immediate Word Recall
+# Extract the fit indices of relevant models
+immed_word_recall_fit <- extractModelSummaries("./data-unshared/derived/Immediate word recall")
+
+# Extract relevant parameters
+immed_word_recall_all <- MplusAutomation::readModels("./data-unshared/derived/LGM year based aged 65 plus/LGCM word recall immediate.out")
+
+# Show a summary table
+HTMLSummaryTable(immed_word_recall_fit, filename="./data-unshared/derived/Immediate word recall/ImmediateWordRecallSummary", keepCols = c("Title","ChiSqM_Value", "ChiSqM_DF", "CFI", "TLI","RMSEA_Estimate","SRMR"))
+
+# Create a table of relevant parameters
+immed_word_recall_parameters <- extractModelParameters("./data-unshared/derived/Immediate word recall/LGCM word recall immediate.out")
+
+
