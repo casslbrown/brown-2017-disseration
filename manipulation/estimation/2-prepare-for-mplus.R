@@ -41,15 +41,16 @@ ds <- readRDS(path_input)
 # list variables to keep separated for long to wide conversion
 variables_static <- c(
   "id"                        #    
-  ,"male"                      # Gender 
-  ,"birth_year"                # Birth year from RAND longitudinal file
-  ,"birth_month"               # Month of birth
-  ,"race"                      # Race
-  ,"hispanic"                  # Whether Hispanic
-  ,"cohort"                    # Cohort based on birth yr
-  ,"edu_years"                 # Years of Education
-  ,"highest_degree"            # Highest Degree
-  ,"memoryproblems_baseline"   # Memory-related disease reported at the participant's first included wave
+  ,"male"                    # Gender 
+  ,"birthyr_rand"            # Birth year from RAND longitudinal file
+  ,"birthmo_rand"            # Month of birth
+  ,"race_rand"               # Race
+  ,"hispanic_rand"           # Whether Hispanic
+  ,"cohort"                  # Cohort based on birth yr
+  ,"raedyrs"                 # Years of Education
+  ,"raedegrm"                # Highest Degree
+  ,"memoryproblems_baseline" # Memory-related disease reported at the participant's first included wave
+  ,"age_baseline"            # Age at baseline is age at the first wave when the partipant was 65 or older
 ) # static
 
 variables_longitudinal <- c(
@@ -97,12 +98,16 @@ ds$year <- as.numeric(as.character(ds$year))
 
 # recode the listassi variable indicating which word list was given for word list learning for simplicity.
 ds$listassi <- plyr::mapvalues(ds$listassi, from=c(1, 11, 21, 31), to=c(1, 2, 3, 4))
+ds$listassi[is.na(ds$listassi)] <- 888
+
+sum(is.na(ds$listassi))
 
 # impliment exclusion criteria
 # exclude proxy interviews
 length(unique(ds$id))
 ds <- dplyr::filter(ds, proxy != 1) 
 length(unique(ds$id))
+
 # exclude waves where the participant is younger than 65
 ds <- dplyr::filter(ds, intage_r > 64) 
 length(unique(ds$id))
@@ -110,12 +115,37 @@ length(unique(ds$id))
 # note that baseline is considered the first non NA response to the question about memory-related disease.
 ds <- dplyr::filter(ds, memoryproblems_baseline==0) 
 
+
+(variables_longitudinal <- variables_longitudinal[!variables_longitudinal=="year"]) # all except year
+# a year based wide data set
+d_wide <- ds %>%
+  dplyr::select_(.dots = c(variables_static,  "year", variables_longitudinal))  %>%
+  tidyr::gather_(key="variable", value="value", variables_longitudinal)  %>%
+  dplyr::mutate(year=as.character(year)) %>%
+  dplyr::mutate(male=as.character(male)) %>%
+  dplyr::arrange(id) %>% 
+  dplyr::mutate(
+    # variable = gsub("^v","",variable),
+    temp = paste0(variable,"_",year)) %>%
+  dplyr::select(-variable,-year) %>% 
+  tidyr::spread(temp, value)
+
+# convert NA and NaN to 9999 for Mplus.
+d_wide[is.na(d_wide)] <- 9999
+
+# convert 9999 for TVC listassi to another number
+
+d_wide$listassi_2004[d_wide$listassi_2004==9999] <- 0
+d_wide$listassi_2006[d_wide$listassi_2006==9999] <- 0
+d_wide$listassi_2008[d_wide$listassi_2008==9999] <- 0
+d_wide$listassi_2010[d_wide$listassi_2010==9999] <- 0
+d_wide$listassi_2012[d_wide$listassi_2012==9999] <- 0
+d_wide$listassi_2014[d_wide$listassi_2014==9999] <- 0
+
 # ---- save-to-disk ----------------------------------------
 saveRDS(ds, path_output)
 
-# ---- save-r-data -------------------
-
-
 # ---- save-mplus-data -------------------
-
+write.table(d_wide, "./data-unshared/derived/LGM year based aged 65 plus/wide-dataset.dat", row.names=F, col.names=F)
+write(names(d_wide), "./data-unshared/derived/LGM year based aged 65 plus/wide-variable-names.txt", sep=" ")
 
