@@ -28,7 +28,7 @@ requireNamespace("zoo")
 requireNamespace("mice")
 
 # ---- declare-globals --------------------------------------------------------
-# connect to the data transfer object from the HRS repository
+# Use 
 path_input      <- "./data-unshared/derived/1-dto.rds" # product of 1-groom-augment.R
 path_output     <- "./data-unshared/derived/2-dto.rds"
 
