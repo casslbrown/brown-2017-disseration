@@ -246,7 +246,6 @@ ds %>% over_time("year", "cohort")
 # what is the race compositon of the sample
 ds %>% group_by(cohort) %>% summarize(n=n()) %>% neat("pandoc")
 ds %>% over_time("year", "cohort")
-edu_years
 
 # ----- lb-wave ---------------------------------------
 # examine hrs time
@@ -338,6 +337,9 @@ d %>% complex_line(
   line_size = 1, 
   line_alpha = .5 
 )
+
+# ---- vocabulary -------------------------------
+ds %>% summarize_over_time("year", "vocab_total")
 
 # ---- social-suppport --------------------------
 
