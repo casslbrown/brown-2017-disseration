@@ -41,6 +41,7 @@ ds <- readRDS(path_input)
 # list variables to keep separated for long to wide conversion
 variables_static <- c(
   "id"                        #    
+  ,"hhid"                    # Household id
   ,"male"                    # Gender 
   ,"birthyr_rand"            # Birth year from RAND longitudinal file
   ,"birthmo_rand"            # Month of birth
@@ -50,6 +51,7 @@ variables_static <- c(
   ,"raedyrs"                 # Years of Education
   ,"raedegrm"                # Highest Degree
   ,"memoryproblems_baseline" # Memory-related disease reported at the participant's first included wave
+  ,"memory_disease_ever"     # Memory-disease, dementia, alzheimer disease, ever reported
   ,"age_baseline"            # Age at baseline is age at the first wave when the partipant was 65 or older
 ) # static
 
@@ -111,10 +113,49 @@ length(unique(ds$id))
 # exclude waves where the participant is younger than 65
 ds <- dplyr::filter(ds, intage_r > 64) 
 length(unique(ds$id))
+
+# exclude those who are not in a cohort
+ds <- dplyr::filter(ds, cohort!=0) 
+length(unique(ds$id))
+
 # exclude participants who reported having been diagnosed with a memory-related disease at baseline
 # note that baseline is considered the first non NA response to the question about memory-related disease.
-ds <- dplyr::filter(ds, memoryproblems_baseline==0) 
+#ds <- dplyr::filter(ds, memoryproblems_baseline==0) 
+sum(is.na(ds$memoryproblems_baseline))
+# alternative exclusion criteria is to exclude those who ever reported any kind of memory disease (i.e., "memory-related disease, AD, dementia)
+#ds <- dplyr::filter(ds, memory_disease_ever==F)
+sum(is.na(ds$memory_disease_ever))
 
+# exclude those who have no data for the variables of interest
+ds <- ds %>%
+  dplyr::group_by(id) %>%
+  dplyr::mutate(
+    dep_total_missing = ifelse(all(is.na(dep_total)), T, F),
+    mentalstatus_tot_missing = ifelse(all(is.na(mentalstatus_tot)), T, F),
+    score_loneliness_3_missing = ifelse(all(is.na(score_loneliness_3)), T, F),
+    social_contact_total_missing = ifelse(all(is.na(social_contact_total)), T, F),
+    social_strain_mean_missing = ifelse(all(is.na(social_strain_mean)), T, F),
+    social_support_mean_missing = ifelse(all(is.na(social_support_mean)), T, F),
+    socialnetwork_total_missing = ifelse(all(is.na(socialnetwork_total)), T, F),
+    wrectotd_missing = ifelse(all(is.na(wrectotd)), T, F),
+    wrectoti_missing = ifelse(all(is.na(wrectoti)), T, F),
+    missing_flag = sum(dep_total_missing, mentalstatus_tot_missing, score_loneliness_3_missing, social_contact_total_missing, 
+                       social_strain_mean_missing,social_support_mean_missing, socialnetwork_total_missing, wrectotd_missing, wrectoti_missing)
+  ) %>%
+  dplyr::ungroup()
+
+
+# sample to show missing flags.
+ds %>%
+  dplyr::filter(id==11323010|id==164888020|id == 211578010) %>%
+  dplyr::select_("id","dep_total", "dep_total_missing","mentalstatus_tot", "mentalstatus_tot_missing", "score_loneliness_3","score_loneliness_3_missing", 
+                 "social_contact_total_missing", "social_strain_mean_missing", "social_support_mean_missing", "socialnetwork_total_missing", 
+                 "wrectotd_missing", "wrectoti_missing", "missing_flag") %>%
+  print(n=nrow(.))
+
+# Exclude those who have missing on all of one of the relevant variables.
+ds <- dplyr::filter(ds, missing_flag==0)
+length(unique(ds$id))
 
 (variables_longitudinal <- variables_longitudinal[!variables_longitudinal=="year"]) # all except year
 # a year based wide data set
@@ -142,10 +183,21 @@ d_wide$listassi_2010[d_wide$listassi_2010==9999] <- 0
 d_wide$listassi_2012[d_wide$listassi_2012==9999] <- 0
 d_wide$listassi_2014[d_wide$listassi_2014==9999] <- 0
 
+mean(d_wide$raedyrs)
+mean(d_wide$age_baseline)
+range(d_wide$age_baseline)
+
+sum(is.na(d_wide$hhid))
+
 # ---- save-to-disk ----------------------------------------
 saveRDS(ds, path_output)
 
 # ---- save-mplus-data -------------------
-write.table(d_wide, "./data-unshared/derived/LGM year based aged 65 plus/wide-dataset.dat", row.names=F, col.names=F)
-write(names(d_wide), "./data-unshared/derived/LGM year based aged 65 plus/wide-variable-names.txt", sep=" ")
+write.table(d_wide, "./data-unshared/derived/wide-dataset.dat", row.names=F, col.names=F)
+write(names(d_wide), "./data-unshared/derived/wide-variable-names.txt", sep=" ")
 
+write.table(d_wide, "./data-unshared/derived/wide-dataset-ex.dat", row.names=F, col.names=F)
+write(names(d_wide), "./data-unshared/derived/wide-variable-names-ex.txt", sep=" ")
+
+write.table(d_wide, "./data-unshared/derived/wide-dataset-nodem.dat", row.names=F, col.names=F)
+write(names(d_wide), "./data-unshared/derived/wide-variable-names-nodem.txt", sep=" ")

@@ -1,0 +1,94 @@
+TITLE:
+LGM, bivariate unconditional
+
+DATA:
+File = wide-dataset.dat ;
+
+VARIABLE:
+NAMES are
+ %names_are%
+	;
+
+Missing are all (9999);
+
+USEVARIABLES are
+	!define the variables used in the analysis
+	! covariates used in the model
+%covariate_set%	
+	!modelled time points of process (A)
+%process_a_timepoints% 
+	!modelled time points of process (B)
+%process_b_timepoints% 
+;
+
+SUBPOPULATION are
+	!select a subset of observations
+%subset_condition_1%
+;
+
+CLUSTER = hhid;
+
+DEFINE:
+  ! centre baseline age
+a = age_baseline - 69;
+	! assign variables to the process (A)
+%match_timepoints_process_a%
+	! assign variables to the process (B)
+%match_timepoints_process_b%
+
+
+ANALYSIS:
+TYPE = COMPLEX RANDOM;
+COVERAGE=.00;  
+H1ITERATIONS = 10000;
+
+
+MODEL:
+	!first-level equation
+	! assign process (A) to time points 
+ia sa | %assigning_a_to_timepoints%;
+	! assign process (B) to time points 
+ib sb | %assigning_b_to_timepoints%;
+	!variance of the first-level terms
+ia (v_ia);
+sa (v_sa);
+ib (v_ib);
+sb (v_sb);
+	!covariance among first-level terms
+ia WITH sa (c_iasa);
+ia WITH ib (c_iaib);
+ia WITH sb (c_iasb);
+sa WITH ib (c_saib);
+sa WITH sb (c_sasb);
+ib WITH sb (c_ibsb);
+	!second-level equation
+!ia sa ib sb ON %covariate_set%;
+	
+OUTPUT: sampstat cinterval;
+PLOT: Type is Plot1 Plot2 Plot3;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

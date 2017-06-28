@@ -1,0 +1,649 @@
+Mplus VERSION 7.4 (Mac)
+MUTHEN & MUTHEN
+06/24/2017  10:27 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  LGM, bivariate unconditional
+  DATA:
+  File = wide-dataset.dat ;
+  VARIABLE:
+  NAMES are
+   id hhid male birthyr_rand birthmo_rand race_rand hispanic_rand cohort
+      raedyrs raedegrm memoryproblems_baseline memory_disease_ever age_baseline
+      activity_mean_2004 activity_mean_2006 activity_mean_2008 activity_mean_2010
+      activity_mean_2012 activity_mean_2014 activity_sum_2004 activity_sum_2006
+      activity_sum_2008 activity_sum_2010 activity_sum_2012 activity_sum_2014
+      close_social_network_2004 close_social_network_2006 close_social_network_2008
+      close_social_network_2010 close_social_network_2012 close_social_network_2014
+      countb20r_2004 countb20r_2006 countb20r_2008 countb20r_2010 countb20r_2012
+      countb20r_2014 dep_total_2004 dep_total_2006 dep_total_2008 dep_total_2010
+      dep_total_2012 dep_total_2014 exercise_2004 exercise_2006 exercise_2008
+      exercise_2010 exercise_2012 exercise_2014 healthcond_2004 healthcond_2006
+      healthcond_2008 healthcond_2010 healthcond_2012 healthcond_2014 hhres_2004
+      hhres_2006 hhres_2008 hhres_2010 hhres_2012 hhres_2014 hrs_tscore_2004
+      hrs_tscore_2006 hrs_tscore_2008 hrs_tscore_2010 hrs_tscore_2012 hrs_tscore_2014
+      intage_r_2004 intage_r_2006 intage_r_2008 intage_r_2010 intage_r_2012
+      intage_r_2014 interview_date_2004 interview_date_2006 interview_date_2008
+      interview_date_2010 interview_date_2012 interview_date_2014 lb_65_wave_2004
+      lb_65_wave_2006 lb_65_wave_2008 lb_65_wave_2010 lb_65_wave_2012 lb_65_wave_2014
+      lb_wave_2004 lb_wave_2006 lb_wave_2008 lb_wave_2010 lb_wave_2012 lb_wave_2014
+      listassi_2004 listassi_2006 listassi_2008 listassi_2010 listassi_2012
+      listassi_2014 mentalstatus_tot_2004 mentalstatus_tot_2006 mentalstatus_tot_2008
+      mentalstatus_tot_2010 mentalstatus_tot_2012 mentalstatus_tot_2014 proxy_2004
+      proxy_2006 proxy_2008 proxy_2010 proxy_2012 proxy_2014 responded_2004
+      responded_2006 responded_2008 responded_2010 responded_2012 responded_2014
+      rmaritalst_2004 rmaritalst_2006 rmaritalst_2008 rmaritalst_2010 rmaritalst_2012
+      rmaritalst_2014 rpartst_2004 rpartst_2006 rpartst_2008 rpartst_2010
+      rpartst_2012 rpartst_2014 score_loneliness_11_2004 score_loneliness_11_2006
+      score_loneliness_11_2008 score_loneliness_11_2010 score_loneliness_11_2012
+      score_loneliness_11_2014 score_loneliness_3_2004 score_loneliness_3_2006
+      score_loneliness_3_2008 score_loneliness_3_2010 score_loneliness_3_2012
+      score_loneliness_3_2014 shhidpnr_2004 shhidpnr_2006 shhidpnr_2008 shhidpnr_2010
+      shhidpnr_2012 shhidpnr_2014 snchild_2004 snchild_2006 snchild_2008 snchild_2010
+      snchild_2012 snchild_2014 snfamily_2004 snfamily_2006 snfamily_2008
+      snfamily_2010 snfamily_2012 snfamily_2014 snfriends_2004 snfriends_2006
+      snfriends_2008 snfriends_2010 snfriends_2012 snfriends_2014 snspouse_2004
+      snspouse_2006 snspouse_2008 snspouse_2010 snspouse_2012 snspouse_2014
+      social_contact_total_2004 social_contact_total_2006 social_contact_total_2008
+      social_contact_total_2010 social_contact_total_2012 social_contact_total_2014
+      social_strain_mean_2004 social_strain_mean_2006 social_strain_mean_2008
+      social_strain_mean_2010 social_strain_mean_2012 social_strain_mean_2014
+      social_support_mean_2004 social_support_mean_2006 social_support_mean_2008
+      social_support_mean_2010 social_support_mean_2012 social_support_mean_2014
+      socialnetwork_total_2004 socialnetwork_total_2006 socialnetwork_total_2008
+      socialnetwork_total_2010 socialnetwork_total_2012 socialnetwork_total_2014
+      srmemory_2004 srmemory_2006 srmemory_2008 srmemory_2010 srmemory_2012
+      srmemory_2014 srmemoryp_2004 srmemoryp_2006 srmemoryp_2008 srmemoryp_2010
+      srmemoryp_2012 srmemoryp_2014 vocab_total_2004 vocab_total_2006 vocab_total_2008
+      vocab_total_2010 vocab_total_2012 vocab_total_2014 wrectotd_2004 wrectotd_2006
+      wrectotd_2008 wrectotd_2010 wrectotd_2012 wrectotd_2014 wrectoti_2004
+      wrectoti_2006 wrectoti_2008 wrectoti_2010 wrectoti_2012 wrectoti_2014
+  	;
+  Missing are all (9999);
+  USEVARIABLES are
+  	!define the variables used in the analysis
+  	! covariates used in the model
+  a	
+  	!modelled time points of process (A)
+  a_01
+  a_02
+  a_03
+  a_04
+  a_05
+  a_06
+  	!modelled time points of process (B)
+  b_01
+  b_02
+  b_03
+  b_04
+  b_05
+  b_06
+  ;
+  SUBPOPULATION are
+  	!select a subset of observations
+  memoryproblems_baseline EQ 0
+  ;
+  CLUSTER = hhid;
+  DEFINE:
+    ! centre baseline age
+  a = age_baseline - 69;
+  	! assign variables to the process (A)
+  a_01=wrectotd_2004;
+  a_02=wrectotd_2006;
+  a_03=wrectotd_2008;
+  a_04=wrectotd_2010;
+  a_05=wrectotd_2012;
+  a_06=wrectotd_2014;
+  	! assign variables to the process (B)
+  b_01=socialnetwork_total_2004;
+  b_02=socialnetwork_total_2006;
+  b_03=socialnetwork_total_2008;
+  b_04=socialnetwork_total_2010;
+  b_05=socialnetwork_total_2012;
+  b_06=socialnetwork_total_2014;
+  ANALYSIS:
+  TYPE = COMPLEX RANDOM;
+  COVERAGE=.00;
+  H1ITERATIONS = 10000;
+  MODEL:
+  	!first-level equation
+  	! assign process (A) to time points
+  ia sa | a_01@0
+  a_02@2
+  a_03@4
+  a_04@6
+  a_05@8
+  a_06@10;
+  	! assign process (B) to time points
+  ib sb | b_01@0
+  b_02@2
+  b_03@4
+  b_04@6
+  b_05@8
+  b_06@10;
+  	!variance of the first-level terms
+  ia (v_ia);
+  sa (v_sa);
+  ib (v_ib);
+  sb (v_sb);
+  	!covariance among first-level terms
+  ia WITH sa (c_iasa);
+  ia WITH ib (c_iaib);
+  ia WITH sb (c_iasb);
+  sa WITH ib (c_saib);
+  sa WITH sb (c_sasb);
+  ib WITH sb (c_ibsb);
+  	!second-level equation
+  !ia sa ib sb ON a;
+  	
+  OUTPUT: sampstat cinterval;
+  PLOT: Type is Plot1 Plot2 Plot3;
+
+
+
+*** WARNING in MODEL command
+  Variable is uncorrelated with all other variables:  A
+*** WARNING in MODEL command
+  At least one variable is uncorrelated with all other variables in the model.
+  Check that this is what is intended.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+LGM, bivariate unconditional
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                       11556
+
+Number of dependent variables                                   13
+Number of independent variables                                  0
+Number of continuous latent variables                            4
+
+Observed dependent variables
+
+  Continuous
+   A           A_01        A_02        A_03        A_04        A_05
+   A_06        B_01        B_02        B_03        B_04        B_05
+   B_06
+
+Continuous latent variables
+   IA          SA          IB          SB
+
+Variables with special functions
+
+  Cluster variable      HHID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                          10000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  wide-dataset.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns           331
+     Number of clusters        8479
+
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              A             A_01          A_02          A_03          A_04
+              ________      ________      ________      ________      ________
+ 1              1.756         4.411         4.257         4.136         3.775
+
+
+           Means
+              A_05          A_06          B_01          B_02          B_03
+              ________      ________      ________      ________      ________
+ 1              3.574         3.424         3.400         3.418         3.310
+
+
+           Means
+              B_04          B_05          B_06
+              ________      ________      ________
+ 1              3.276         3.115         3.017
+
+
+           Covariances
+              A             A_01          A_02          A_03          A_04
+              ________      ________      ________      ________      ________
+ A             41.210
+ A_01          -3.533         3.666
+ A_02          -4.225         2.050         3.976
+ A_03          -4.571         1.987         2.113         4.053
+ A_04          -5.467         1.974         2.300         2.336         4.437
+ A_05          -6.054         2.092         2.179         2.518         2.607
+ A_06          -6.694         2.053         2.447         2.356         2.883
+ B_01          -0.993         0.240         0.237         0.229         0.306
+ B_02          -1.032         0.175         0.226         0.184         0.210
+ B_03          -1.109         0.201         0.211         0.211         0.240
+ B_04          -1.288         0.152         0.184         0.175         0.244
+ B_05          -1.390         0.218         0.286         0.309         0.314
+ B_06          -1.523         0.251         0.282         0.269         0.326
+
+
+           Covariances
+              A_05          A_06          B_01          B_02          B_03
+              ________      ________      ________      ________      ________
+ A_05           4.670
+ A_06           2.908         4.902
+ B_01           0.325         0.363         0.619
+ B_02           0.271         0.290         0.383         0.559
+ B_03           0.303         0.299         0.368         0.247         0.632
+ B_04           0.259         0.295         0.328         0.379         0.038
+ B_05           0.372         0.405         0.339         0.349         0.391
+ B_06           0.383         0.435         0.314         0.342         0.310
+
+
+           Covariances
+              B_04          B_05          B_06
+              ________      ________      ________
+ B_04           0.626
+ B_05           0.222         0.717
+ B_06           0.401         0.573         0.796
+
+
+           Correlations
+              A             A_01          A_02          A_03          A_04
+              ________      ________      ________      ________      ________
+ A              1.000
+ A_01          -0.287         1.000
+ A_02          -0.330         0.537         1.000
+ A_03          -0.354         0.516         0.526         1.000
+ A_04          -0.404         0.489         0.548         0.551         1.000
+ A_05          -0.436         0.506         0.506         0.579         0.573
+ A_06          -0.471         0.484         0.554         0.529         0.618
+ B_01          -0.197         0.159         0.151         0.144         0.185
+ B_02          -0.215         0.122         0.152         0.123         0.133
+ B_03          -0.217         0.132         0.133         0.132         0.143
+ B_04          -0.254         0.100         0.117         0.110         0.146
+ B_05          -0.256         0.134         0.170         0.181         0.176
+ B_06          -0.266         0.147         0.159         0.150         0.174
+
+
+           Correlations
+              A_05          A_06          B_01          B_02          B_03
+              ________      ________      ________      ________      ________
+ A_05           1.000
+ A_06           0.608         1.000
+ B_01           0.191         0.208         1.000
+ B_02           0.167         0.175         0.652         1.000
+ B_03           0.176         0.170         0.589         0.415         1.000
+ B_04           0.152         0.168         0.527         0.641         0.061
+ B_05           0.203         0.216         0.508         0.552         0.580
+ B_06           0.199         0.220         0.447         0.512         0.437
+
+
+           Correlations
+              B_04          B_05          B_06
+              ________      ________      ________
+ B_04           1.000
+ B_05           0.331         1.000
+ B_06           0.568         0.758         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -158203.138
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     A                     1.756       1.196      -4.000   21.33%      -4.000     -2.000     -1.000
+           11556.000      41.210       0.687      33.000    0.01%       1.000      7.000
+     A_01                  4.168      -0.154       0.000    5.23%       3.000      4.000      4.000
+            7186.000       3.597       0.011      10.000    0.24%       5.000      6.000
+     A_02                  4.061      -0.112       0.000    6.40%       2.000      4.000      4.000
+            8624.000       3.904      -0.097      10.000    0.34%       5.000      6.000
+     A_03                  4.052      -0.162       0.000    6.91%       2.000      4.000      4.000
+            9254.000       3.962      -0.193      10.000    0.18%       5.000      6.000
+     A_04                  3.877      -0.112       0.000    8.69%       2.000      4.000      4.000
+            8803.000       4.153      -0.274      10.000    0.20%       4.000      6.000
+     A_05                  3.842      -0.138       0.000    9.45%       2.000      4.000      4.000
+            8604.000       4.218      -0.360      10.000    0.16%       4.000      6.000
+     A_06                  3.866      -0.107       0.000    9.01%       2.000      4.000      4.000
+            7904.000       4.206      -0.296      10.000    0.23%       4.000      6.000
+     B_01                  3.406      -1.274       0.000    0.22%       3.000      3.000      4.000
+            1339.000       0.603       1.322       4.000   55.49%       4.000      4.000
+     B_02                  3.365      -1.058       0.000    0.09%       3.000      3.000      4.000
+            4447.000       0.561       0.787       4.000   50.57%       4.000      4.000
+     B_03                  3.288      -0.990       0.000    0.32%       3.000      3.000      3.000
+            4444.000       0.628       0.709       4.000   46.67%       4.000      4.000
+     B_04                  3.310      -0.995       0.000    0.19%       3.000      3.000      3.000
+            4166.000       0.598       0.707       4.000   47.31%       4.000      4.000
+     B_05                  3.188      -0.867       0.000    0.32%       3.000      3.000      3.000
+            3762.000       0.683       0.402       4.000   40.91%       4.000      4.000
+     B_06                  3.129      -0.883       0.000    0.73%       2.000      3.000      3.000
+            3963.000       0.744       0.550       4.000   38.46%       3.000      4.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       28
+
+Loglikelihood
+
+          H0 Value                     -160010.205
+          H0 Scaling Correction Factor      1.4676
+            for MLR
+          H1 Value                     -158203.138
+          H1 Scaling Correction Factor      1.1782
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                  320076.410
+          Bayesian (BIC)                320282.349
+          Sample-Size Adjusted BIC      320193.368
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                           3372.687*
+          Degrees of Freedom                    76
+          P-Value                           0.0000
+          Scaling Correction Factor         1.0716
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.061
+
+CFI/TLI
+
+          CFI                                0.843
+          TLI                                0.839
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          21113.120
+          Degrees of Freedom                    78
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.138
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ IA       |
+    A_01               1.000      0.000    999.000    999.000
+    A_02               1.000      0.000    999.000    999.000
+    A_03               1.000      0.000    999.000    999.000
+    A_04               1.000      0.000    999.000    999.000
+    A_05               1.000      0.000    999.000    999.000
+    A_06               1.000      0.000    999.000    999.000
+
+ SA       |
+    A_01               0.000      0.000    999.000    999.000
+    A_02               2.000      0.000    999.000    999.000
+    A_03               4.000      0.000    999.000    999.000
+    A_04               6.000      0.000    999.000    999.000
+    A_05               8.000      0.000    999.000    999.000
+    A_06              10.000      0.000    999.000    999.000
+
+ IB       |
+    B_01               1.000      0.000    999.000    999.000
+    B_02               1.000      0.000    999.000    999.000
+    B_03               1.000      0.000    999.000    999.000
+    B_04               1.000      0.000    999.000    999.000
+    B_05               1.000      0.000    999.000    999.000
+    B_06               1.000      0.000    999.000    999.000
+
+ SB       |
+    B_01               0.000      0.000    999.000    999.000
+    B_02               2.000      0.000    999.000    999.000
+    B_03               4.000      0.000    999.000    999.000
+    B_04               6.000      0.000    999.000    999.000
+    B_05               8.000      0.000    999.000    999.000
+    B_06              10.000      0.000    999.000    999.000
+
+ IA       WITH
+    SA                -0.005      0.005     -0.966      0.334
+    IB                 0.195      0.019     10.203      0.000
+    SB                -0.002      0.003     -0.756      0.450
+
+ SA       WITH
+    IB                 0.005      0.002      2.012      0.044
+    SB                 0.001      0.000      2.919      0.004
+
+ IB       WITH
+    SB                -0.010      0.003     -3.818      0.000
+
+ Means
+    A                  1.756      0.068     25.959      0.000
+    IA                 4.423      0.019    235.753      0.000
+    SA                -0.093      0.002    -40.851      0.000
+    IB                 3.475      0.010    341.440      0.000
+    SB                -0.040      0.001    -27.752      0.000
+
+ Intercepts
+    A_01               0.000      0.000    999.000    999.000
+    A_02               0.000      0.000    999.000    999.000
+    A_03               0.000      0.000    999.000    999.000
+    A_04               0.000      0.000    999.000    999.000
+    A_05               0.000      0.000    999.000    999.000
+    A_06               0.000      0.000    999.000    999.000
+    B_01               0.000      0.000    999.000    999.000
+    B_02               0.000      0.000    999.000    999.000
+    B_03               0.000      0.000    999.000    999.000
+    B_04               0.000      0.000    999.000    999.000
+    B_05               0.000      0.000    999.000    999.000
+    B_06               0.000      0.000    999.000    999.000
+
+ Variances
+    A                 41.210      0.668     61.678      0.000
+    IA                 2.053      0.051     40.067      0.000
+    SA                 0.009      0.001     10.342      0.000
+    IB                 0.423      0.021     20.479      0.000
+    SB                 0.002      0.000      4.749      0.000
+
+ Residual Variances
+    A_01               1.689      0.048     35.394      0.000
+    A_02               1.848      0.042     44.351      0.000
+    A_03               1.904      0.039     48.239      0.000
+    A_04               1.909      0.041     46.453      0.000
+    A_05               1.920      0.045     43.051      0.000
+    A_06               1.731      0.050     34.778      0.000
+    B_01               0.232      0.030      7.714      0.000
+    B_02               0.166      0.014     12.267      0.000
+    B_03               0.254      0.014     17.541      0.000
+    B_04               0.240      0.011     21.080      0.000
+    B_05               0.287      0.018     16.064      0.000
+    B_06               0.344      0.025     14.020      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.241E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ IA       |
+    A_01             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    A_02             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    A_03             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    A_04             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    A_05             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    A_06             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SA       |
+    A_01             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    A_02             2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    A_03             4.000       4.000       4.000       4.000       4.000       4.000       4.000
+    A_04             6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    A_05             8.000       8.000       8.000       8.000       8.000       8.000       8.000
+    A_06            10.000      10.000      10.000      10.000      10.000      10.000      10.000
+
+ IB       |
+    B_01             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B_02             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B_03             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B_04             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B_05             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B_06             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SB       |
+    B_01             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    B_02             2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    B_03             4.000       4.000       4.000       4.000       4.000       4.000       4.000
+    B_04             6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    B_05             8.000       8.000       8.000       8.000       8.000       8.000       8.000
+    B_06            10.000      10.000      10.000      10.000      10.000      10.000      10.000
+
+ IA       WITH
+    SA              -0.019      -0.016      -0.014      -0.005       0.004       0.005       0.009
+    IB               0.146       0.158       0.164       0.195       0.227       0.233       0.245
+    SB              -0.010      -0.008      -0.007      -0.002       0.003       0.003       0.005
+
+ SA       WITH
+    IB              -0.001       0.000       0.001       0.005       0.009       0.009       0.011
+    SB               0.000       0.000       0.000       0.001       0.001       0.002       0.002
+
+ IB       WITH
+    SB              -0.017      -0.015      -0.015      -0.010      -0.006      -0.005      -0.003
+
+ Means
+    A                1.582       1.623       1.645       1.756       1.867       1.889       1.930
+    IA               4.375       4.386       4.392       4.423       4.454       4.460       4.471
+    SA              -0.099      -0.098      -0.097      -0.093      -0.090      -0.089      -0.087
+    IB               3.448       3.455       3.458       3.475       3.491       3.494       3.501
+    SB              -0.044      -0.043      -0.043      -0.040      -0.038      -0.037      -0.036
+
+ Intercepts
+    A_01             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    A_02             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    A_03             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    A_04             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    A_05             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    A_06             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    B_01             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    B_02             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    B_03             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    B_04             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    B_05             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    B_06             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    A               39.489      39.900      40.111      41.210      42.309      42.519      42.931
+    IA               1.921       1.952       1.968       2.053       2.137       2.153       2.185
+    SA               0.007       0.008       0.008       0.009       0.011       0.011       0.012
+    IB               0.370       0.383       0.389       0.423       0.457       0.463       0.476
+    SB               0.001       0.001       0.001       0.002       0.003       0.003       0.003
+
+ Residual Variances
+    A_01             1.566       1.595       1.610       1.689       1.767       1.782       1.811
+    A_02             1.740       1.766       1.779       1.848       1.916       1.929       1.955
+    A_03             1.803       1.827       1.839       1.904       1.969       1.982       2.006
+    A_04             1.804       1.829       1.842       1.909       1.977       1.990       2.015
+    A_05             1.805       1.832       1.846       1.920       1.993       2.007       2.035
+    A_06             1.602       1.633       1.649       1.731       1.812       1.828       1.859
+    B_01             0.154       0.173       0.182       0.232       0.281       0.290       0.309
+    B_02             0.131       0.140       0.144       0.166       0.189       0.193       0.201
+    B_03             0.216       0.225       0.230       0.254       0.277       0.282       0.291
+    B_04             0.211       0.218       0.221       0.240       0.259       0.262       0.269
+    B_05             0.241       0.252       0.258       0.287       0.317       0.322       0.333
+    B_06             0.281       0.296       0.304       0.344       0.384       0.392       0.407
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              IA            SA            IB            SB
+              ________      ________      ________      ________
+ 1              4.415        -0.093         3.491        -0.040
+
+
+           Covariances
+              IA            SA            IB            SB
+              ________      ________      ________      ________
+ IA             1.445
+ SA             0.024         0.002
+ IB             0.161         0.006         0.258
+ SB             0.001         0.000         0.000         0.000
+
+
+           Correlations
+              IA            SA            IB            SB
+              ________      ________      ________      ________
+ IA             1.000
+ SA             0.453         1.000
+ IB             0.264         0.280         1.000
+ SB             0.040         0.338         0.001         1.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values, estimated factor scores)
+  Scatterplots (sample values, estimated factor scores)
+  Latent variable distribution plots
+
+     Beginning Time:  10:27:29
+        Ending Time:  10:40:48
+       Elapsed Time:  00:13:19
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

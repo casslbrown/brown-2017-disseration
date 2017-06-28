@@ -9,6 +9,7 @@ library(magrittr) # enables piping : %>%
 library(dplyr)
 library(TabularManifest)
 library(MplusAutomation)
+library(semPlot)
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 source("./scripts/common-functions.R") # used in multiple reports
@@ -30,7 +31,6 @@ immed_word_recall_fit <- extractModelSummaries("./data-unshared/derived/Immediat
 #HTMLSummaryTable(immed_word_recall_fit, filename="./data-unshared/derived/Immediate word recall/ImmediateWordRecallSummary", keepCols = c("Title","ChiSqM_Value", "ChiSqM_DF", "CFI", "TLI","RMSEA_Estimate","SRMR"))
 ImmediateWordRecallSummary <- SummaryTable(immed_word_recall_fit, type = "markdown", keepCols = c("Title","ChiSqM_Value", "ChiSqM_DF", "CFI", "TLI","RMSEA_Estimate","SRMR"))
 print(ImmediateWordRecallSummary) 
-
 
 # ---- immediate-word-recall-lgm ------------------------
 # Create a table of relevant parameters
@@ -288,7 +288,41 @@ print(socialsupport_atl_unstandardized)
 
 # ---- depression-model-summaries ------------------------
 # Extract the fit indices of relevant models
-depression_fit <- extractModelSummaries("./data-unshared/derived/depression")
+depression_fit <- extractModelSummaries("./data-unshared/derived/Depression")
 
 # Show a summary table
-socialstrainSummary <- SummaryTable(social_strain_fit, keepCols = c("Title","ChiSqM_Value", "ChiSqM_DF", "CFI", "TLI","RMSEA_Estimate","SRMR"))
+depressionSummary <- SummaryTable(depression_fit, keepCols = c("Title","ChiSqM_Value", "ChiSqM_DF", "CFI", "TLI","RMSEA_Estimate","SRMR"))
+
+# ---- depression-lgm ------------------------
+# Create a table of relevant parameters
+depression_parameters <- extractModelParameters("./data-unshared/derived/Depression/LGCM unconditional depression.out")
+
+p <- as.data.frame(social_support_parameters)
+
+p$Parameter <- paste0(p$unstandardized.paramHeader, p$unstandardized.param)
+
+ps <- filter(p, grepl("Means", p[,"Parameter"]) | grepl("VariancesI", p[,"Parameter"])| grepl("VariancesS", p[,"Parameter"]))
+
+ps <- ps %>% plyr::rename(c(
+  "unstandardized.est" = "Est",
+  "unstandardized.se"  = "SE",
+  "unstandardized.pval" = "p_value"
+))
+
+ps$Parameter[ps$Parameter=="MeansI"] <- "Intercept"
+ps$Parameter[ps$Parameter=="MeansS"] <- "Slope"
+ps$Parameter[ps$Parameter=="VariancesI"] <- "Intercept Variance"
+ps$Parameter[ps$Parameter=="VariancesS"] <- "Slope Variance"
+
+ps %>%
+  dplyr::select(Parameter, Est, SE, p_value)
+
+# ---- depression-atl-------
+depression_ALTparameters <- extractModelParameters("./data-unshared/derived/Depression/ATL unconditional depression.out")
+
+depression_atl_unstandardized <- as.data.frame(depression_ALTparameters$unstandardized)
+print(depression_atl_unstandardized)
+
+# ---- ALT-delayed-word-recall-depression -----
+ALT_dwr_dep <- extractModelSummaries("./data-unshared/derived/No dementia bivariate ALT models/ATL bivariate model delayed word recall depression.out")
+ALT_dwr_dep <- extractModelSummaries("./data-unshared/derived/No dementia bivariate ALT models/ATL bivariate model delayed word recall depression.out")

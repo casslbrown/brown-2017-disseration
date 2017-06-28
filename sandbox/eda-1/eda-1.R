@@ -287,7 +287,7 @@ d <- ds %>%
   select(
     id, year,  lb_wave, age_at_visit, date_at_visit, mentalstatus_tot
   ) %>% 
-  filter(id %in% sample(unique(id),100)) 
+  filter(id %in% sample(unique(id),200)) 
 
 # assemble various single graphs in a integrated information display
 d %>% complex_line(
@@ -512,6 +512,29 @@ d %>% complex_line(
   line_alpha = .5 
 )
 
+# ---- social-contact --------------------------
+# examine the assignment of word lists over time
+ds %>% summarize_over_time("year", "social_contact_total")
+ds %>% summarize_over_time("lb_wave", "social_contact_total")
+set.seed(42)
+# ids_1000 <- sample(unique(ds$id), 
+
+d <- ds %>% 
+  mutate(
+    age_at_visit  = intage_r,
+    date_at_visit = interview_date
+  ) %>% 
+  select(
+    id, year,  lb_wave, age_at_visit, date_at_visit, social_contact_total
+  ) %>% 
+  filter(id %in% sample(unique(id),100)) 
+
+# assemble various single graphs in a integrated information display
+d %>% complex_line(
+  variable_name  = "social_contact_total", 
+  line_size = 1, 
+  line_alpha = .5 
+)
 # ---- activity --------------------------
 # examine the assignment of activity over time
 ds %>% summarize_over_time("year", "activity_sum")

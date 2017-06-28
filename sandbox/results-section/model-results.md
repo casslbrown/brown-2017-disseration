@@ -21,11 +21,15 @@ Date: `r Sys.Date()`
 ## Immediate Word Recall Model Fit Indices
 
 ```
-                                Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
-1              ATL, nested LCM model      3246.864        17 0.803 0.826          0.112 0.151
-2       Initial univariate ATL model        83.787        11 0.996 0.994          0.021 0.015
-3                 LCM, unconditional       153.056        16 0.989 0.990          0.024 0.014
-4 Unconditional autoregressive model      4602.230        10 0.720 0.580          0.174 0.231
+                                         Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
+1                       ATL, nested LCM model      3246.864        17 0.803 0.826          0.112 0.151
+2                Initial univariate ATL model        83.787        11 0.996 0.994          0.021 0.015
+3                Initial univariate ATL model     16416.903        15 0.000 0.000          0.269 0.410
+4                LCM, quadratic unconditional       152.050        15 0.989 0.989          0.025 0.014
+5 LCM, quadratic unconditional, word list tvc      3154.169        42 0.840 0.805          0.070 0.182
+6                          LCM, unconditional       153.056        16 0.989 0.990          0.024 0.014
+7                LCM, unconditional, list tvc      2851.835        46 0.834 0.816          0.063 0.195
+8          Unconditional autoregressive model      4602.230        10 0.720 0.580          0.174 0.231
 ```
 
 ## Immediate Word Recall LCM Parameters
@@ -82,13 +86,13 @@ Date: `r Sys.Date()`
 ## Delayed Word Recall Model Fit Indices
 
 ```
-                                Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
-1                  LCM Unconditional       194.639        16 0.987 0.988          0.027 0.015
-2 linear growth model for loneliness      2938.911        46 0.852 0.836          0.065 0.180
-3            Unconditional ATL model       141.203        11 0.993 0.990          0.028 0.019
+                                                  Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
+1                                    LCM Unconditional       194.639        16 0.987 0.988          0.027 0.015
+2 linear growth model for loneliness, word list as tvc      2938.911        46 0.852 0.836          0.065 0.180
+3                              Unconditional ATL model       141.203        11 0.993 0.990          0.028 0.019
 ```
 
-# Delayed Word Recall LCM Parameters
+## Delayed Word Recall LCM Parameters
 
 ```
            Parameter    Est    SE p_value
@@ -142,13 +146,31 @@ Date: `r Sys.Date()`
 ## Mental Status Model Fit Indices
 
 ```
-                Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
-1 LCM, Unconditional        94.231        11 0.992 0.989          0.022 0.019
-2 LCM, Unconditional       367.455        16 0.965 0.968          0.038 0.025
-3 LCM, Unconditional       317.710        12 0.970 0.962          0.041 0.016
+                                                                Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate
+1  ALT, bivariate, mental status quadratic, loneliness Unconditional       162.703        38 0.992 0.987          0.015
+2  ALT, bivariate, mental status quadratic, loneliness Unconditional        72.186        32 0.998 0.995          0.009
+3  ALT, bivariate, mental status quadratic, loneliness Unconditional            NA        NA    NA    NA             NA
+4  ALT, bivariate, mental status quadratic, loneliness Unconditional        71.735        32 0.998 0.995          0.009
+5  ALT, bivariate, mental status quadratic, loneliness Unconditional        82.863        32 0.997 0.994          0.010
+6                                       ALT, quadratic Unconditional        50.405        10 0.996 0.994          0.016
+7                                       ALT, quadratic Unconditional        30.410         7 0.998 0.995          0.015
+8                                                 ALT, Unconditional        94.231        11 0.992 0.989          0.022
+9                                       LCM, quadratic unconditional       317.710        12 0.970 0.962          0.041
+10                                                LCM, Unconditional       367.455        16 0.965 0.968          0.038
+    SRMR
+1  0.082
+2  0.065
+3     NA
+4  0.079
+5  0.067
+6  0.014
+7  0.010
+8  0.019
+9  0.016
+10 0.025
 ```
 
-# Mental Status LCM Parameters
+## Mental Status LCM Parameters
 
 ```
            Parameter    Est    SE p_value
@@ -202,12 +224,13 @@ Date: `r Sys.Date()`
 ## Loneliness Model Fit Indices
 
 ```
-               Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
-1 ALT Unconditional        10.734        11 1.000 1.000          0.000 0.111
-2 LCM Unconditional        37.326        16 0.993 0.994          0.011 0.182
+                          Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
+1            ALT Unconditional        10.734        11 1.000 1.000          0.000 0.111
+2 LCM quadratic, unconditional        28.864        12 0.995 0.993          0.011 0.181
+3            LCM Unconditional        37.326        16 0.993 0.994          0.011 0.182
 ```
 
-# Loneliness LCM Parameters
+## Loneliness LCM Parameters
 
 ```
            Parameter   Est    SE p_value
@@ -261,12 +284,15 @@ Date: `r Sys.Date()`
 ## Social Contact Model Fit Indices
 
 ```
-               Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
-1 ALT Unconditional        15.120        11 0.999 0.999          0.006 0.080
-2 LCM Unconditional        55.564        16 0.990 0.991          0.014 0.076
+                           Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
+1             ALT Unconditional        15.120        11 0.999 0.999          0.006 0.080
+2 ALT, quadratic, Unconditional         6.723         7 1.000 1.000          0.000 0.068
+3 ALT, quadratic, Unconditional        28.692        12 0.996 0.995          0.011 0.090
+4  LCM quadratic, unconditional        28.692        12 0.996 0.995          0.011 0.090
+5             LCM Unconditional        55.564        16 0.990 0.991          0.014 0.076
 ```
 
-# Social Contact LCM Parameters
+## Social Contact LCM Parameters
 
 ```
                     Parameter    Est    SE p_value
@@ -331,7 +357,7 @@ Date: `r Sys.Date()`
 2 LCM Unconditional        40.811        10 0.989 0.989          0.016 0.425
 ```
 
-# Social Strain LCM Parameters
+## Social Strain LCM Parameters
 
 ```
                    Parameter    Est    SE p_value
@@ -381,13 +407,14 @@ Date: `r Sys.Date()`
 29 Residual.Variances STRA2014  0.941 0.103   9.128   0.000
 ```
 
-## Social Support
+# Social Support
 ## Social Support Model Fit Indices
 
 ```
                 Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
 1  ALT Unconditional        33.206        11 0.994 0.992          0.013 0.142
-2 LGCM Unconditional        78.666        16 0.983 0.984          0.018 0.159
+2 LGCM Unconditional        67.774        12 0.985 0.981          0.020 0.153
+3 LGCM Unconditional        78.666        16 0.983 0.984          0.018 0.159
 ```
 
 ## Social Support LGCM Parameters
@@ -406,7 +433,7 @@ Date: `r Sys.Date()`
 10 Residual.VariancesSUP2014  0.880 0.076   0.000
 ```
 
-# Social Support LGCM Parameters
+## Social Support LGCM Parameters
 
 ```
           paramHeader   param    est    se  est_se    pval
@@ -445,3 +472,126 @@ Date: `r Sys.Date()`
 33 Residual.Variances SUP2012  0.896 0.061  14.745   0.000
 34 Residual.Variances SUP2014  0.897 0.070  12.859   0.000
 ```
+
+# Depression
+## Depression Model Fit Indices
+
+```
+                Title ChiSqM_Value ChiSqM_DF   CFI   TLI RMSEA_Estimate  SRMR
+1  ALT Unconditional        19.138        11 0.999 0.999          0.007 0.006
+2 LGCM Unconditional        47.093        16 0.997 0.997          0.011 0.009
+```
+
+## Depression LGCM Parameters
+
+```
+                   Parameter    Est    SE p_value
+1                  Intercept  9.566 0.020   0.000
+2                      Slope -0.009 0.003   0.001
+3         Intercept Variance  1.732 0.079   0.000
+4             Slope Variance  0.008 0.002   0.000
+5  Residual.VariancesSUP2004  0.913 0.094   0.000
+6  Residual.VariancesSUP2006  0.892 0.053   0.000
+7  Residual.VariancesSUP2008  1.031 0.048   0.000
+8  Residual.VariancesSUP2010  0.998 0.041   0.000
+9  Residual.VariancesSUP2012  0.906 0.060   0.000
+10 Residual.VariancesSUP2014  0.880 0.076   0.000
+```
+
+## Depression Unconditional ATL Model
+
+```
+          paramHeader   param    est    se  est_se    pval
+1                 I.| DEP2004  1.000 0.000 999.000 999.000
+2                 I.| DEP2006  1.000 0.000 999.000 999.000
+3                 I.| DEP2008  1.000 0.000 999.000 999.000
+4                 I.| DEP2010  1.000 0.000 999.000 999.000
+5                 I.| DEP2012  1.000 0.000 999.000 999.000
+6                 I.| DEP2014  1.000 0.000 999.000 999.000
+7                 S.| DEP2004  0.000 0.000 999.000 999.000
+8                 S.| DEP2006  2.000 0.000 999.000 999.000
+9                 S.| DEP2008  4.000 0.000 999.000 999.000
+10                S.| DEP2010  6.000 0.000 999.000 999.000
+11                S.| DEP2012  8.000 0.000 999.000 999.000
+12                S.| DEP2014 10.000 0.000 999.000 999.000
+13         DEP2006.ON DEP2004  0.051 0.012   4.399   0.000
+14         DEP2008.ON DEP2006  0.029 0.012   2.483   0.013
+15         DEP2010.ON DEP2008  0.037 0.014   2.727   0.006
+16         DEP2012.ON DEP2010  0.062 0.018   3.395   0.001
+17         DEP2014.ON DEP2012  0.062 0.023   2.743   0.006
+18             S.WITH       I -0.050 0.007  -6.931   0.000
+19              Means       I  1.377 0.017  80.026   0.000
+20              Means       S  0.006 0.004   1.493   0.136
+21         Intercepts DEP2004  0.000 0.000 999.000 999.000
+22         Intercepts DEP2006  0.000 0.000 999.000 999.000
+23         Intercepts DEP2008  0.000 0.000 999.000 999.000
+24         Intercepts DEP2010  0.000 0.000 999.000 999.000
+25         Intercepts DEP2012  0.000 0.000 999.000 999.000
+26         Intercepts DEP2014  0.000 0.000 999.000 999.000
+27          Variances       I  2.098 0.069  30.489   0.000
+28          Variances       S  0.010 0.001   8.373   0.000
+29 Residual.Variances DEP2004  1.477 0.055  26.610   0.000
+30 Residual.Variances DEP2006  1.525 0.045  34.060   0.000
+31 Residual.Variances DEP2008  1.654 0.045  37.142   0.000
+32 Residual.Variances DEP2010  1.431 0.044  32.186   0.000
+33 Residual.Variances DEP2012  1.496 0.051  29.439   0.000
+34 Residual.Variances DEP2014  1.430 0.059  24.263   0.000
+```
+
+# Bivariate ALT Models
+
+## Bivariate ALT Immediate Word Recall and Social Contact
+### Model Estimated
+
+```r
+knitr::include_graphics("ATL bivariate model immediate word recall social contact.pdf")
+```
+
+<embed src="ATL bivariate model immediate word recall social contact.pdf" width="5000px" type="application/pdf" />
+
+<img src="ATL bivariate model immediate word recall social contact.pdf" alt="some text"  width="10000" height="5200">
+
+Significant associations only
+<img src="ATL bivariate model immediate word recall social contact sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Immediate Word Recall and Loneliness
+<img src="ATL bivariate model immediate word recall loneliness sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Immediate Word Recall and Depressive Symptoms
+<img src="ATL bivariate model immediate word recall depression sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Immediate Word Recall and Social Support
+<img src="ATL bivariate model immediate word recall social support sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Immediate Word Recall and Social Network
+<img src="ATL bivariate model immediate word recall social network sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Delayed Word Recall and Loneliness
+<img src="ATL bivariate model delayed word recall loneliness sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Delayed Word Recall and Social Contact
+<img src="ATL bivariate model delayed word recall social contact sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Delayed Word Recall and Social Network
+<img src="ATL bivariate model delayed word recall social network sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Delayed Word Recall and Social Support
+<img src="ATL bivariate model delayed word recall social support sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Delayed Word Recall and Depression
+<img src="ATL bivariate model delayed word recall depression.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Mental Status and Loneliness
+<img src="ALT bivariate quadratic mental status and loneliness sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Mental Status and Social Contact
+<img src="ALT bivariate quadratic mental status and social contact sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Mental Status and social network
+<img src="ALT bivariate quadratic mental status and social network sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Mental Status and Social Support
+<img src="ALT bivariate quadratic mental status and social support sig.pdf" alt="some text"  width="6200" height="5200">
+
+## Bivariate ALT Mental Status and Depressive Symptoms
+<img src="ALT bivariate quadratic mental status and depression sig.pdf" alt="some text"  width="6200" height="5200">
