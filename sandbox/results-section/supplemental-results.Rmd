@@ -1,0 +1,99 @@
+---
+title: "Supplemental results"
+output:
+  html_document:
+    theme: simplex
+    toc: true
+    toc_depth: 3
+    keep_md: true
+    toc_float: true
+  word_document:
+    toc: yes
+date: 'Date: `r Sys.Date()`'
+---
+<!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
+<!--  The 1st mandatory chunck  -->
+<!--  Set the working directory to the repository's base directory -->
+```{r, echo=F, message=F} 
+#Don't combine this call with any other chunk 
+# cat("Working directory: ", getwd()) # check where you are
+  library(knitr)
+# Rmd is in "./reports/reportA/reportA.Rmd", but now the root is "./"
+  knitr::opts_knit$set(root.dir='../../') 
+```
+
+
+<!--  The 2nd mandatory chunck  -->
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r set_options, echo=F}
+# set options shared by all chunks
+opts_chunk$set(
+  results='show', 
+  message = TRUE,
+  comment = NA, 
+  tidy = FALSE,
+  fig.height = 5, 
+  fig.width = 7, 
+  out.width = "750px", #550px
+  fig.path = 'figure_rmd/',     
+  dev = "png",
+  dpi = 800
+  # fig.path = 'figure_pdf/',     
+  # dev = "pdf"#,
+  # dev.args=list(pdf = list(colormodel = 'cmyk'))
+)
+echoChunks <- FALSE
+options(width=120 ) #So the output is 50% wider than the default.
+# connect to the file with the underlying R script  
+read_chunk("./sandbox/results-section/model-results.R") 
+```
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+```{r load-packages, echo=echoChunks, message=FALSE}
+```
+
+
+<!-- Load the sources.  Suppress the output when loading sources. --> 
+```{r load-sources, echo=echoChunks, message=FALSE}
+```
+
+# Immediate Word Recall
+## Immediate Word Recall Model Fit Indices
+```{r immediate-word-recall-model-summaries, echo=echoChunks, message=FALSE}
+```
+
+## Immediate Word Recall LCM Parameters
+```{r immediate-word-recall-lgm, echo=echoChunks, message=FALSE}
+```
+
+## Immediate Word Recall Unconditional ATL Model
+```{r immediate-word-recall-atl, echo=echoChunks, message=FALSE}
+```
+
+
+# Delayed Word Recall
+## Delayed Word Recall Model Fit Indices
+```{r delayed-word-recall-model-summaries, echo=echoChunks, message=FALSE}
+```
+
+## Delayed Word Recall LCM Parameters
+```{r delayed-word-recall-lgm, echo=echoChunks, message=FALSE}
+```
+
+## Delayed Word Recall Unconditional ATL Model
+```{r delayed-word-recall-atl, echo=echoChunks, message=FALSE}
+```
+
+# Mental Status
+## Mental Status Model Fit Indices
+```{r mental-status-model-summaries, echo=echoChunks, message=FALSE}
+```
+
+## Mental Status LCM Parameters
+```{r mental-status-lgm, echo=echoChunks, message=FALSE}
+```
+
+## Mental Status Unconditional ATL Model
+```{r mental-status-atl, echo=echoChunks, message=FALSE}
+```
+

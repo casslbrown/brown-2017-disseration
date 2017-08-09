@@ -1,0 +1,324 @@
+\documentclass[english,man]{apa6}
+
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+
+% Table formatting
+\usepackage{longtable, booktabs}
+\usepackage{lscape}
+% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
+\usepackage{multirow}		% Table styling
+\usepackage{tabularx}		% Control Column width
+\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
+\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+
+% Create new environments so endfloat can handle them
+% \newenvironment{ltable}
+%   {\begin{landscape}\begin{center}\begin{threeparttable}}
+%   {\end{threeparttable}\end{center}\end{landscape}}
+
+\newenvironment{lltable}
+  {\begin{landscape}\begin{center}\begin{ThreePartTable}}
+  {\end{ThreePartTable}\end{center}\end{landscape}}
+
+  \usepackage{ifthen} % Only add declarations when endfloat package is loaded
+  \ifthenelse{\equal{\string man}{\string man}}{%
+   \DeclareDelayedFloatFlavor{ThreePartTable}{table} % Make endfloat play with longtable
+   % \DeclareDelayedFloatFlavor{ltable}{table} % Make endfloat play with lscape
+   \DeclareDelayedFloatFlavor{lltable}{table} % Make endfloat play with lscape & longtable
+  }{}%
+
+
+
+% The following enables adjusting longtable caption width to table width
+% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand\getlongtablewidth{%
+ \begingroup
+  \ifcsname LT@\roman{LT@tables}\endcsname
+  \global\longtablewidth=0pt
+  \renewcommand\LT@entry[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}%
+  \@nameuse{LT@\roman{LT@tables}}%
+  \fi
+\endgroup}
+
+
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            pdfauthor={},
+            pdftitle={The title},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=black,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+\setlength{\parindent}{0pt}
+%\setlength{\parskip}{0pt plus 0pt minus 0pt}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+
+\ifxetex
+  \usepackage{polyglossia}
+  \setmainlanguage{}
+\else
+  \usepackage[english]{babel}
+\fi
+
+% Manuscript styling
+\captionsetup{font=singlespacing,justification=justified}
+\usepackage{csquotes}
+\usepackage{upgreek}
+
+ % Line numbering
+  \usepackage{lineno}
+  \linenumbers
+
+
+\usepackage{tikz} % Variable definition to generate author note
+
+% fix for \tightlist problem in pandoc 1.14
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Essential manuscript parts
+  \title{The title}
+
+  \shorttitle{Title}
+
+
+  \author{Cassandra Brown\textsuperscript{1}~\& Second Author\textsuperscript{1,2}}
+
+  \def\affdep{{"", ""}}%
+  \def\affcity{{"", ""}}%
+
+  \affiliation{
+    \vspace{0.5cm}
+          \textsuperscript{1} University of Victoria\\
+          \textsuperscript{2}   }
+
+  \authornote{
+    \newcounter{author}
+    Complete departmental affiliations for each author (note the
+    indentation, if you start a new paragraph). Enter author note here.
+
+                      Correspondence concerning this article should be addressed to Cassandra Brown, Postal address. E-mail: \href{mailto:clb@uvic.ca}{\nolinkurl{clb@uvic.ca}}
+                          }
+
+
+  \abstract{Enter abstract here (note the indentation, if you start a new
+paragraph).}
+  \keywords{keywords \\
+
+    \indent Word count: X
+  }
+
+
+
+
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\begin{document}
+
+\maketitle
+
+\setcounter{secnumdepth}{0}
+
+
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{getwd}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "/Users/cassandrabrown/Github/brown-2017-disseration"
+\end{verbatim}
+
+\section{Methods}\label{methods}
+
+We report how we determined our sample size, all data exclusions (if
+any), all manipulations, and all measures in the study.
+
+\subsection{Participants}\label{participants}
+
+\subsection{Material}\label{material}
+
+\subsection{Procedure}\label{procedure}
+
+\subsection{Data analysis}\label{data-analysis}
+
+\section{Results}\label{results}
+
+\begin{table}[tbp]
+\begin{center}
+\begin{threeparttable}
+\caption{\label{tab:descriptive-statistics}Descriptive statistics by year}
+\begin{tabular}{lllllll}
+\toprule
+ & \multicolumn{1}{c}{2004} & \multicolumn{1}{c}{2006} & \multicolumn{1}{c}{2008} & \multicolumn{1}{c}{2010} & \multicolumn{1}{c}{2012} & \multicolumn{1}{c}{2014}\\
+\midrule
+ & M (SD) & M (SD) & M (SD) & M (SD) & M (SD) & M (SD)\\
+ & n = 5531 & n = 5720 & n = 5810 & n = 5698 & n = 5165 & n = 4454\\
+Women (\%) & 59.68 & 51.21 & 50 & 50 & 50 & 50\\
+Age & 72.13 (5.82) & 74.07 (5.83) & 76.01 (5.85) & 78.31 (5.77) & 79.62 (5.47) & 81.15 (5.26)\\
+Yrs Education & 12.38 (3.1) & 12.38 (3.1) & 12.38 (3.1) & 12.38 (3.1) & 12.38 (3.1) & 12.38 (3.1)\\
+Health Conditions & 1.96 (1.19) & 2.13 (1.22) & 2.28 (1.23) & 2.47 (1.25) & 2.53 (1.26) & 2.58 (1.26)\\
+Mental status & 8.53 (0.79) & 8.51 (0.81) & 8.44 (0.88) & 8.07 (1.1) & 8.09 (1.16) & 7.97 (1.32)\\
+Word recall immediate & 5.45 (1.5) & 5.31 (1.53) & 5.18 (1.54) & 4.86 (1.64) & 4.74 (1.63) & 4.63 (1.65)\\
+Word recall delayed & 4.4 (1.84) & 4.23 (1.89) & 4.12 (1.88) & 3.75 (1.95) & 3.61 (1.97) & 3.49 (1.96)\\
+Psychosocial Variables & n = 1061 & n = 2787 & n = 2737 & n = 2646 & n = 2235 & n = 2031\\
+Loneliness & 1.35 (0.47) & 1.43 (0.51) & 1.44 (0.51) & 1.43 (0.51) & 1.46 (0.5) & 1.43 (0.51)\\
+Social contact & 30.56 (8.37) & 29.6 (8.14) & 29.61 (8.6) & 29.41 (8.49) & 28.99 (8.78) & 28.65 (8.75)\\
+Social support & 9.81 (1.53) & 9.58 (1.52) & 9.56 (1.6) & 9.58 (1.56) & 9.61 (1.59) & 9.58 (1.61)\\
+Depression & 1.16 (1.72) & 1.23 (1.75) & 1.23 (1.73) & 1.3 (1.78) & 1.34 (1.82) & 1.38 (1.86)\\
+Social network & 3.44 (0.76) & 3.41 (0.72) & 3.31 (0.77) & 3.25 (0.79) & 3.12 (0.84) & 3.04 (0.86)\\
+\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{center}
+\end{table}
+
+\section{Discussion}\label{discussion}
+
+\newpage
+
+\section{References}\label{references}
+
+\setlength{\parindent}{-0.5in} \setlength{\leftskip}{0.5in}
+
+\newpage
+
+\label{tab:immediate-word-recall-model-summaries}\emph{Model Fit Indices for
+Immediate Word Recall}
+
+\begin{longtable}[]{@{}lrrlrrrrrr@{}}
+\toprule
+Model & \(\chi^2\) & df & CM & \(\Delta\chi^2\) & df\(\Delta\) & CFI &
+TLI & RMSEA & SRMR\tabularnewline
+\midrule
+\endhead
+Autoregressive, univariate & 2803.192 & 10 & - & NA & NA & 0.631 & 0.446
+& 0.217 & 0.231\tabularnewline
+LGM & 112.905 & 16 & - & NA & NA & 0.987 & 0.988 & 0.032 &
+0.014\tabularnewline
+LGM, quadratic & 102.364 & 15 & - & NA & NA & 0.988 & 0.988 & 0.031 &
+0.014\tabularnewline
+ALT, full model & 64.897 & 11 & 4 & NaN & 0 & 0.993 & 0.990 & 0.029 &
+0.015\tabularnewline
+LGM, nested in ALT & 112.905 & 16 & 4 & 48.03457 & 5 & 0.987 & 0.988 &
+0.032 & 0.014\tabularnewline
+ALT, no slope variance & 115.864 & 13 & 4 & 49.04157 & 2 & 0.986 & 0.984
+& 0.036 & 0.021\tabularnewline
+ALT, no slope & 646.224 & 14 & 4 & 538.75120 & 3 & 0.916 & 0.910 & 0.087
+& 0.058\tabularnewline
+ALT, fixed regressions & 99.613 & 15 & 4 & 34.66512 & 4 & 0.989 & 0.989
+& 0.031 & 0.014\tabularnewline
+\bottomrule
+\end{longtable}
+
+\section{Supplemental Material}\label{supplemental-material}
+
+The results from the univariate models of each cognitive and social
+process are presented in the supplemental table. For word recall
+immediate, the model comparison results show that the autoregressive
+model has an inadequate fit to the data. The latent growth model (LGM)
+and the ALT full model have comparable fit indices to the data. However,
+the LGM nested within the ALT model shows significantly poorer fit
+according the ∆χ2 statistic. Additional restrictions, constraining the
+slope variance to 0 (model 5), eliminating the slope term (model 6), and
+constraining the autoregressive parameters to be the same over time
+(model 7) resulted in significantly poorer model fit. Immediate word
+recall performance decreased over time (\(\beta\) = , \emph{p} ).
+
+\begin{verbatim}
+## [1] "working?"
+\end{verbatim}
+
+\(\rho_{21}\)
+
+
+
+
+
+
+\end{document}

@@ -293,6 +293,28 @@ spouse_memory_disease_patterns_to_examine <- c(
 ,"NANANA100"
 ,"NANANA101"
 ,"NANANA10NA"
+,"1NA1000"
+,"1111NANA"
+,"111NANANA"
+,"11NANANANA"
+,"1NA1111"
+,"1NA111NA"
+,"1NA1NANANA"
+,"1NA1NANANA"
+,"1NANANANANA"
+,"NA11111"
+,"NA1111NA"
+,"NA111NANA"
+,"NA11NANANA"
+,"NA1NANANANA"
+,"NANA1111"
+,"NANA111NA"
+,"NANA11NANA"
+,"NANANA111"
+,"NANANA11NA"
+,"NANANA1NANA"
+,"NANANANANA1"
+,"NANANANA11"
 )
 
 d <- ds %>% 
@@ -309,9 +331,134 @@ d <- ds %>%
   ) %>% 
    filter(spouse_memory_disease_pattern %in% spouse_memory_disease_patterns_to_examine) 
 
+
+
 #Number of individuals with a suspect pattern of reported spouse memory disease
 length(unique(d$id))
 length(unique(d$shhidpnr))
+
+# this is a list of spouse memory disease patterns to be excluded.
+spouse_memory_disease_patterns_to_exclude <- c(
+  "000000" 
+  ,"NANANANANANA"
+  ,"001000"
+  ,"0000NANA"
+  ,"NANA1000"
+  ,"NANA1NANANA"
+  ,"00NANANANA"
+  ,"000100"
+  ,"00100NA"
+  ,"NA1NANA0NA"
+  ,"0010NANA"
+  ,"00010NA"     
+  ,"NA0000NA"
+  ,"01NANA00"
+  ,"NANA10NANA"
+  ,"NANA100NA"   
+  ,"001NA0NA"
+  ,"0NANANANANA"
+  ,"NANANANA1NA"
+  ,"010000"
+  ,"1NA100NA" 
+
+
+  ,"10NANANANA"
+  ,"0000NA0"
+  ,"NANANANA00"
+  ,"NANANANANA0"
+
+  ,"0NANANA10"   
+
+  ,"NA0100NA"
+  ,"01100NA"
+  ,"000NANANA"
+  ,"0110NANA"
+    
+  ,"00000NA"
+  ,"NA000NANA"
+ 
+  ,"NANA0NA0NA"
+
+  ,"011000"
+
+  ,"NANA00NANA"
+  ,"1NANA000"
+  
+  ,"NANA1010"
+  ,"001NA00"
+  ,"011001"
+  ,"NANANA00NA"
+  ,"011100"
+
+  ,"1NA1100"     
+  ,"1000NANA"
+  ,"NANANA0NANA"
+  ,"0NA100NA"
+
+  ,"01000NA"     
+   ,"NA00000"
+
+  ,"001010"
+  ,"0010NA0"
+
+
+  ,"010NANANA"   
+  ,"1NA10NANA"
+  ,"1NANANA00"
+  ,"00110NA"
+  ,"NA0NANANANA" 
+  ,"NANA0000"
+
+  ,"0001NA0"
+  ,"0NANA100"    
+  ,"011NA0NA"
+  ,"01NA000"
+  ,"NA01000"
+  ,"NA11000"     
+  ,"1NA0000"
+  ,"100000"
+  ,"1NA1NA00"
+  ,"111000"
+
+  ,"NANANA100"
+
+  ,"NANANA10NA"
+)
+
+spouse_memory_disease_patterns_to_include <- c(
+ "001NANANA" # include this one
+  ,"011110" # exclude this
+  ,"00101NA" # exclude
+  ,"101111" # exclude
+  ,"001001"
+  ,"111011"
+  ,"NANA10NA1"
+  ,"NA00011"
+  ,"1NA0111" 
+  ,"1NA1011"
+  ,"000101"
+  ,"001011"
+  ,"000010"
+  ,"001110"
+  ,"0NA0110"
+  ,"NA1101NA"
+  ,"010001"
+  ,"100111"
+  ,"NANA1011"
+  ,"000110"
+  ,"1NA1101"
+  ,"1NA001NA"
+  ,"NANANA110"
+  ,"NANANA101"
+)
+
+# Examine possible cases to keep
+d2 <- d %>% dplyr::filter(spouse_memory_disease_pattern %in% spouse_memory_disease_patterns_to_include)
+
+#Number of individuals once suspect patterns are excluded
+length(unique(d2$id))
+length(unique(d2$shhidpnr))
+
 
 # Exclude those with spouses who likely do not have dementia or AD
 ds <- ds %>% dplyr::filter(!spouse_memory_disease_pattern %in% spouse_memory_disease_patterns_to_examine)
@@ -319,6 +466,7 @@ ds <- ds %>% dplyr::filter(!spouse_memory_disease_pattern %in% spouse_memory_dis
 #Number of individuals once suspect patterns are excluded
 length(unique(ds$id))
 length(unique(ds$shhidpnr))
+table(ds$rmaritalst)
 
 #Excluding those whose spouses likely do not have dementia (i.e., suspect memory disease patterns) what
 # is the frequency of each pattern of diagnosis for the spouse?
@@ -373,6 +521,8 @@ ds %>% histogram_discrete("male")
 ds %>% count_over_time("year","male")
 ds %>% count_over_time("lb_wave","male")
 
+# ---- marital-status -----------
+ds %>% over_time("year", "rmaritalst")
 # ---- race ------------------------------
 # what is the race compositon of the sample
 ds %>% group_by(male) %>% summarize(n=n()) %>% neat("pandoc")

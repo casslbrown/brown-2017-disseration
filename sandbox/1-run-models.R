@@ -7,7 +7,7 @@ cat("\f") # clear console
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 
 # load functions that generate scripts
-source("./scripts/mplus/functions-to-generate-Mplus-scripts.R")
+source("./sandbox/functions-to-generate-Mplus-scripts.R")
 
 
 # ---- load-packages -----------------------------------------------------------
@@ -27,8 +27,11 @@ requireNamespace("stringr")
 
 # ---- declare-globals ---------------------------------------------------------
 options(width=160)
-path_generic_data  <- "./data-unshared/derived/wide-dataset.dat"
-path_generic_names <- "./data-unshared/derived/wide-variable-names.txt"
+#path_generic_data  <- "./data-unshared/derived/wide-dataset.dat"
+path_generic_data  <- "./data-unshared/derived/wide-dataset-b.dat"
+#path_generic_names <- "./data-unshared/derived/wide-variable-names.txt"
+path_generic_names <- "./data-unshared/derived/wide-variable-names-b.txt"
+
 
 varnames_cognitive <- c(
   "wrectoti"                  # Immediate word recall
@@ -37,26 +40,25 @@ varnames_cognitive <- c(
 )
 varnames_social <- c(
    "score_loneliness_3"        # Loneliness score for three item version
-  ,"socialnetwork_total"       # Social network score 0-4
+  #,"socialnetwork_total"       # Social network score 0-4
   ,"social_support_mean"       # Social support mean
-  #,"social_strain_mean"        # Social strain mean
   ,"social_contact_total"      # Social contact total score
-  #,"activity_sum"              # Activity sum
+
 )
 
 path_prototype_files <- list(
-  "LGM_bivariate.inp"
-  ,"autoregressive_bivariate.inp"
-  ,"ALT-full.inp"
-  ,"ALT-nestedLCM.inp"
-  ,"prototype-wide-ALT-fixed-slope-cog.inp"
-  ,"prototype-wide-ALT-no-slope-cog.inp"
-  ,"prototype-wide-ALT-fixed-slope-soc.inp"
-  ,"prototype-wide-ALT-no-slope-soc.inp"
-  ,"ALT-no-time-specific-correlations.inp"
-  ,"ALT-fixed-time-specific-correlations.inp"
-  ,"ALT-9-plus-fixed-autoregressions-cog.inp"
-  ,"ALT-9-plus-fixed-autoregressions-soc.inp"
+  "Model_1_LGM_bivariate.inp"
+  ,"Model_2_autoregressive_bivariate.inp"
+  ,"Model_3_ALT-full.inp"
+  ,"Model_4_ALT-nestedLCM.inp"
+  ,"Model_5_ALT-fixed-slope-cog.inp"
+  ,"Model_6_ALT-no-slope-cog.inp"
+  ,"Model_7_ALT-fixed-slope-soc.inp"
+  ,"Model_8_ALT-no-slope-soc.inp"
+  ,"Model_9_ALT-no-time-specific-correlations.inp"
+  ,"Model_10_ALT-fixed-time-specific-correlations.inp"
+  ,"Model_11_ALT-9-plus-fixed-autoregressions-cog.inp"
+  ,"Model_12_ALT-9-plus-fixed-autoregressions-soc.inp"
   ,"ALT-fixed-soc-on-cog-regressions.inp"
   ,"ALT-fixed-cog-on-soc-regressions.inp"
 )
@@ -122,6 +124,7 @@ ls_covariates <- list(
  "a"       = c("age")
  ,"ae"      = c("age","educ")
  ,"cae"     = c("cohort","age","educ")
+ ,"caeh"    = c("cohort", "age","educ","health")
 )
 
 ls_path_prototype <- list(
@@ -144,9 +147,49 @@ ls_path_prototype <- list(
 
 #################################################################
 ## @knitr dummy_1
-# Use the first example as the template for further pairs
 
-#wave_set_modeled <-  c(0,1,2,3,4,5,6,7,8,9,10)
+# Use the first example as the template for further pairs
+subset_condition_1 = "memoryproblems_baseline EQ 0" # additional subgroup constraints
+subset_condition_2 = "memory_disease_ever EQ 0" # exclude those who ever 
+subset_group_1 = "age_baseline > 64 AND"
+subset_group_2 = ""
+
+folder_data        = "./data-unshared/derived/" # where data resides
+#path_prototype     = "./manipulation/estimation/prototype-wide.inp" # Mplus stencil
+folder_output      = "./output/bivariate-models-nodem-65plus/" # where the output will go
+
+# # single model
+mplus_generator_bivariate(
+  model_number        = "m13"
+  ,model_type         = "nocov"
+  ,covariates         = ""
+  ,process_a          = "wrectoti" # item name of process (A), goes into file name
+  ,process_b          = "socialnetwork_total"# item name of process (B), goes into file name
+  ,subset_group_1     = subset_group_1
+  ,subset_condition_1 = subset_condition_2 # subset data to member of this group
+  ,data_file          = "wide-dataset-b.dat"
+  ,path_prototype     = paste0("./manipulation/estimation/bivariate-models/","Model_13_ALT-11-plus-fixed-cog-on-soc.inp")
+  ,folder_data        = folder_data
+  ,folder_output      = folder_output
+  ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
+)
+
+# single model
+mplus_generator_bivariate(
+  model_number        = "m20"
+  ,model_type         = "aechs"
+  ,covariates         = c("age","educ","coh","health","sex")
+  ,process_a          = "wrectotd" # item name of process (A), goes into file name
+  ,process_b          = "social_support_mean"# item name of process (B), goes into file name
+  ,subset_group_1     = subset_group_1
+  ,subset_condition_1 = subset_condition_2 # subset data to member of this group
+  ,data_file          = "wide-dataset-b.dat"
+  ,path_prototype     = paste0("./manipulation/estimation/covariate-models/","ALT-fixed-auto-soc-on-cog-covariates.inp")
+  ,folder_data        = folder_data
+  ,folder_output      = folder_output
+  ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
+)
+
 subset_condition_1 = "memoryproblems_baseline EQ 0" # additional subgroup constraints
 folder_data        = "./data-unshared/derived/" # where data resides
 #path_prototype     = "./manipulation/estimation/prototype-wide.inp" # Mplus stencil
@@ -154,40 +197,29 @@ folder_output      = "./output/bivariate-models/" # where the output will go
 # folder_data        = "./data/unshared/derived/map"
 # folder_output      = "./output/studies/map/phys-cog/pulmonary"
 
-# single model
-mplus_generator_bivariate(
-  model_number        = "m13"
-  ,model_type         = "nocov"
-  ,covariates         = " "
-  ,process_a          = "wrectoti" # item name of process (A), goes into file name
-  ,process_b          = "social_support_mean"# item name of process (B), goes into file name
-  ,subset_condition_1 = subset_condition_1 # subset data to member of this group
-  ,path_prototype     = paste0("./manipulation/estimation/","ALT-11-plus-fixed-cog-on-soc.inp")
-  ,folder_data        = folder_data
-  ,folder_output      = folder_output
-  ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
-)
 
 # loop over conditions
 #for(phys_measure in "fev"){
 #for(cog_measure in varnames_cognitive){
   #for(cog_measure in "wordlistim"){
   for(soc_measure in varnames_social){
-    for(i in 1:12)
+    for(i in 1:14)
         mplus_generator_bivariate(
           model_number        = model_number[i]
           ,model_type         = "nocov"
-          ,covariates         = " "
-          ,process_a          = "wrectoti" # item name of process (A), goes into file name
-          ,process_b          = "social_contact_total"# item name of process (B), goes into file name
-          ,subset_condition_1 = subset_condition_1 # subset data to member of this group
-          ,path_prototype     = paste0("./manipulation/estimation/",path_prototype_files[i])
+          ,covariates         = ""
+          ,process_a          = "mentalstatus_tot" # item name of process (A), goes into file name
+          ,process_b          = soc_measure # item name of process (B), goes into file name
+          ,subset_group_1     = subset_group_1
+          ,subset_condition_1 = subset_condition_2 # subset data to member of this group
+          ,data_file          = "wide-dataset-b.dat"
+          ,path_prototype     = paste0("./manipulation/estimation/bivariate-models/",path_prototype_files[i])
           ,folder_data        = folder_data
           ,folder_output      = folder_output
           ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
-       )
-  }
-}
+        )
+          }
+#}
 
 
 

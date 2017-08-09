@@ -1,0 +1,1923 @@
+Mplus VERSION 7.4 (Mac)
+MUTHEN & MUTHEN
+07/19/2017   8:33 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  Autoregressive model, bivariate
+  DATA:
+  File = wide-dataset-b.dat;
+  VARIABLE:
+  NAMES are
+   id hhid male birthyr_rand birthmo_rand race_rand hispanic_rand cohort
+      raedyrs raedegrm memoryproblems_baseline memory_disease_ever age_baseline
+      age_baseline_65 health_conditions_baseline healthcond_mean activity_mean_2004
+      activity_mean_2006 activity_mean_2008 activity_mean_2010 activity_mean_2012
+      activity_mean_2014 activity_sum_2004 activity_sum_2006 activity_sum_2008
+      activity_sum_2010 activity_sum_2012 activity_sum_2014 close_social_network_2004
+      close_social_network_2006 close_social_network_2008 close_social_network_2010
+      close_social_network_2012 close_social_network_2014 countb20r_2004
+      countb20r_2006 countb20r_2008 countb20r_2010 countb20r_2012 countb20r_2014
+      crp_adj_2004 crp_adj_2006 crp_adj_2008 crp_adj_2010 crp_adj_2012 crp_adj_2014
+      dep_total_2004 dep_total_2006 dep_total_2008 dep_total_2010 dep_total_2012
+      dep_total_2014 exercise_2004 exercise_2006 exercise_2008 exercise_2010
+      exercise_2012 exercise_2014 healthcond_2004 healthcond_2006 healthcond_2008
+      healthcond_2010 healthcond_2012 healthcond_2014 hhres_2004 hhres_2006
+      hhres_2008 hhres_2010 hhres_2012 hhres_2014 hrs_tscore_2004 hrs_tscore_2006
+      hrs_tscore_2008 hrs_tscore_2010 hrs_tscore_2012 hrs_tscore_2014 intage_r_2004
+      intage_r_2006 intage_r_2008 intage_r_2010 intage_r_2012 intage_r_2014
+      interview_date_2004 interview_date_2006 interview_date_2008 interview_date_2010
+      interview_date_2012 interview_date_2014 lb_65_wave_2004 lb_65_wave_2006
+      lb_65_wave_2008 lb_65_wave_2010 lb_65_wave_2012 lb_65_wave_2014 lb_wave_2004
+      lb_wave_2006 lb_wave_2008 lb_wave_2010 lb_wave_2012 lb_wave_2014 listassi_2004
+      listassi_2006 listassi_2008 listassi_2010 listassi_2012 listassi_2014
+      mentalstatus_tot_2004 mentalstatus_tot_2006 mentalstatus_tot_2008
+      mentalstatus_tot_2010 mentalstatus_tot_2012 mentalstatus_tot_2014 proxy_2004
+      proxy_2006 proxy_2008 proxy_2010 proxy_2012 proxy_2014 responded_2004
+      responded_2006 responded_2008 responded_2010 responded_2012 responded_2014
+      rmaritalst_2004 rmaritalst_2006 rmaritalst_2008 rmaritalst_2010 rmaritalst_2012
+      rmaritalst_2014 rpartst_2004 rpartst_2006 rpartst_2008 rpartst_2010
+      rpartst_2012 rpartst_2014 score_loneliness_11_2004 score_loneliness_11_2006
+      score_loneliness_11_2008 score_loneliness_11_2010 score_loneliness_11_2012
+      score_loneliness_11_2014 score_loneliness_3_2004 score_loneliness_3_2006
+      score_loneliness_3_2008 score_loneliness_3_2010 score_loneliness_3_2012
+      score_loneliness_3_2014 shhidpnr_2004 shhidpnr_2006 shhidpnr_2008 shhidpnr_2010
+      shhidpnr_2012 shhidpnr_2014 snchild_2004 snchild_2006 snchild_2008 snchild_2010
+      snchild_2012 snchild_2014 snfamily_2004 snfamily_2006 snfamily_2008
+      snfamily_2010 snfamily_2012 snfamily_2014 snfriends_2004 snfriends_2006
+      snfriends_2008 snfriends_2010 snfriends_2012 snfriends_2014 snspouse_2004
+      snspouse_2006 snspouse_2008 snspouse_2010 snspouse_2012 snspouse_2014
+      social_contact_total_2004 social_contact_total_2006 social_contact_total_2008
+      social_contact_total_2010 social_contact_total_2012 social_contact_total_2014
+      social_strain_mean_2004 social_strain_mean_2006 social_strain_mean_2008
+      social_strain_mean_2010 social_strain_mean_2012 social_strain_mean_2014
+      social_support_mean_2004 social_support_mean_2006 social_support_mean_2008
+      social_support_mean_2010 social_support_mean_2012 social_support_mean_2014
+      socialnetwork_total_2004 socialnetwork_total_2006 socialnetwork_total_2008
+      socialnetwork_total_2010 socialnetwork_total_2012 socialnetwork_total_2014
+      srmemory_2004 srmemory_2006 srmemory_2008 srmemory_2010 srmemory_2012
+      srmemory_2014 srmemoryp_2004 srmemoryp_2006 srmemoryp_2008 srmemoryp_2010
+      srmemoryp_2012 srmemoryp_2014 vocab_total_2004 vocab_total_2006 vocab_total_2008
+      vocab_total_2010 vocab_total_2012 vocab_total_2014 wrectotd_2004 wrectotd_2006
+      wrectotd_2008 wrectotd_2010 wrectotd_2012 wrectotd_2014 wrectoti_2004
+      wrectoti_2006 wrectoti_2008 wrectoti_2010 wrectoti_2012 wrectoti_2014
+  	;
+  Missing are all(9999);
+  USEVARIABLES are
+  	!define the variables used in the analysis
+  	!estimated time points
+  a_01
+  a_02
+  a_03
+  a_04
+  a_05
+  a_06
+  	!modelled time points of process (B)
+  b_01
+  b_02
+  b_03
+  b_04
+  b_05
+  b_06
+  	! covariates used in the model
+  	;
+  SUBPOPULATION are
+  	!select a subset of observations
+  age_baseline > 64 AND
+  memory_disease_ever EQ 0
+  ;
+  CLUSTER = hhid;
+  DEFINE:
+    ! centre baseline age
+  a = age_baseline - 69;
+  	! assign variables to the process (A)
+  a_01=wrectotd_2004;
+  a_02=wrectotd_2006;
+  a_03=wrectotd_2008;
+  a_04=wrectotd_2010;
+  a_05=wrectotd_2012;
+  a_06=wrectotd_2014;
+  	! assign variables to the process (B)
+  b_01=social_support_mean_2004;
+  b_02=social_support_mean_2006;
+  b_03=social_support_mean_2008;
+  b_04=social_support_mean_2010;
+  b_05=social_support_mean_2012;
+  b_06=social_support_mean_2014;
+  ANALYSIS:
+  TYPE = COMPLEX RANDOM;
+  COVERAGE=.00;
+  H1ITERATIONS = 10000;
+  MODEL:
+  	!correlations between the first measurement points
+  a_01 WITH b_01;
+  	!autoregressive part
+  a_01;
+  a_02 ON a_01;
+  a_03 ON a_02;
+  a_04 ON a_03;
+  a_05 ON a_04;
+  a_06 ON a_05;
+  b_01;
+  b_02 ON b_01;
+  b_03 ON b_02;
+  b_04 ON b_03;
+  b_05 ON b_04;
+  b_06 ON b_05;
+  	!Cross lagged part
+  a_02 ON b_01;
+  a_03 ON b_02;
+  a_04 ON b_03;
+  a_05 ON b_04;
+  a_06 ON b_05;
+  b_02 ON a_01;
+  b_03 ON a_02;
+  b_04 ON a_03;
+  b_05 ON a_04;
+  b_06 ON a_05;
+  ! Time specific correlations
+  b_02 WITH a_02;
+  b_03 WITH a_03;
+  b_04 WITH a_04;
+  b_05 WITH a_05;
+  b_06 WITH a_06;
+  !SAVEDATA:
+  !FILE is   %saved_analysis%_fscores.dat;
+  !SAVE = FSCORES;
+  !RESULTS are   %saved_analysis%_results.dat;
+  	
+  OUTPUT: SAMPSTAT MODINDICES (3.0); TECH1 TECH2 TECH3;;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Autoregressive model, bivariate
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        5952
+
+Number of dependent variables                                   10
+Number of independent variables                                  2
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   A_02        A_03        A_04        A_05        A_06        B_02
+   B_03        B_04        B_05        B_06
+
+Observed independent variables
+   A_01        B_01
+
+Variables with special functions
+
+  Cluster variable      HHID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                          10000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  wide-dataset-b.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns           275
+     Number of clusters        4882
+
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ 1              4.216         4.111         3.723         3.507         3.316
+
+
+           Means
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ 1              9.574         9.550         9.578         9.602         9.569
+
+
+           Means
+              A_01          B_01
+              ________      ________
+ 1              4.374         9.775
+
+
+           Covariances
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02           3.591
+ A_03           1.659         3.524
+ A_04           1.802         1.792         3.811
+ A_05           1.722         1.935         1.992         3.966
+ A_06           1.871         1.708         2.106         2.180         3.991
+ B_02           0.027         0.021        -0.004         0.020        -0.025
+ B_03           0.105        -0.072         0.140         0.003         0.018
+ B_04           0.024         0.069         0.051         0.042        -0.009
+ B_05           0.115         0.006         0.119         0.029         0.008
+ B_06           0.054         0.031         0.007         0.005        -0.113
+ A_01           1.739         1.665         1.599         1.710         1.604
+ B_01           0.163         0.057         0.120         0.059         0.041
+
+
+           Covariances
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02           2.325
+ B_03           0.580         2.543
+ B_04           1.397         0.680         2.455
+ B_05           0.543         1.548         0.739         2.557
+ B_06           1.369         0.290         1.481         0.350         2.635
+ A_01           0.001         0.044         0.054         0.059         0.033
+ B_01           1.575         1.437         1.424         1.062         1.383
+
+
+           Covariances
+              A_01          B_01
+              ________      ________
+ A_01           3.403
+ B_01           0.037         2.359
+
+
+           Correlations
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02           1.000
+ A_03           0.466         1.000
+ A_04           0.487         0.489         1.000
+ A_05           0.456         0.518         0.512         1.000
+ A_06           0.494         0.456         0.540         0.548         1.000
+ B_02           0.009         0.007        -0.001         0.007        -0.008
+ B_03           0.035        -0.024         0.045         0.001         0.006
+ B_04           0.008         0.024         0.017         0.014        -0.003
+ B_05           0.038         0.002         0.038         0.009         0.003
+ B_06           0.018         0.010         0.002         0.001        -0.035
+ A_01           0.498         0.481         0.444         0.466         0.435
+ B_01           0.056         0.020         0.040         0.019         0.014
+
+
+           Correlations
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02           1.000
+ B_03           0.238         1.000
+ B_04           0.585         0.272         1.000
+ B_05           0.223         0.607         0.295         1.000
+ B_06           0.553         0.112         0.582         0.135         1.000
+ A_01           0.000         0.015         0.019         0.020         0.011
+ B_01           0.673         0.587         0.592         0.433         0.555
+
+
+           Correlations
+              A_01          B_01
+              ________      ________
+ A_01           1.000
+ B_01           0.013         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -84657.534
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     A_02                  4.227      -0.154       0.000    4.88%       3.000      4.000      4.000
+            5671.000       3.575       0.108      10.000    0.37%       5.000      6.000
+     A_03                  4.123      -0.205       0.000    5.40%       3.000      4.000      4.000
+            5775.000       3.519      -0.027      10.000    0.14%       5.000      6.000
+     A_04                  3.750      -0.101       0.000    8.11%       2.000      3.000      4.000
+            5669.000       3.793      -0.258      10.000    0.11%       4.000      5.000
+     A_05                  3.607      -0.083       0.000    9.78%       2.000      3.000      4.000
+            5132.000       3.896      -0.361      10.000    0.12%       4.000      5.000
+     A_06                  3.492      -0.040       0.000   10.50%       2.000      3.000      4.000
+            4429.000       3.860      -0.393      10.000    0.07%       4.000      5.000
+     B_02                  9.578      -0.541       3.000    0.11%       8.333      9.250      9.667
+            2787.000       2.311       0.122      12.000    5.63%      10.000     11.000
+     B_03                  9.558      -0.590       3.000    0.07%       8.250      9.250      9.667
+            2737.000       2.553       0.220      12.000    6.94%      10.000     11.000
+     B_04                  9.580      -0.584       3.000    0.04%       8.250      9.333      9.750
+            2646.000       2.432       0.067      12.000    6.20%      10.250     11.000
+     B_05                  9.610      -0.664       3.000    0.04%       8.333      9.333      9.750
+            2235.000       2.541       0.256      12.000    6.67%      10.250     11.000
+     B_06                  9.579      -0.596       3.000    0.15%       8.250      9.333      9.667
+            2031.000       2.584       0.117      12.000    7.04%      10.250     11.000
+     A_01                  4.400      -0.160       0.000    3.69%       3.000      4.000      4.000
+            5478.000       3.390       0.175      10.000    0.31%       5.000      6.000
+     B_01                  9.811      -0.654       4.333    0.09%       8.500      9.667     10.000
+            1061.000       2.338       0.097      12.000    8.48%      10.333     11.250
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       50
+
+Loglikelihood
+
+          H0 Value                      -86450.830
+          H0 Scaling Correction Factor      1.1675
+            for MLR
+          H1 Value                      -84657.534
+          H1 Scaling Correction Factor      1.1016
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                  173001.660
+          Bayesian (BIC)                173336.234
+          Sample-Size Adjusted BIC      173177.349
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                           3518.512*
+          Degrees of Freedom                    40
+          P-Value                           0.0000
+          Scaling Correction Factor         1.0193
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.121
+
+CFI/TLI
+
+          CFI                                0.722
+          TLI                                0.541
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          12583.629
+          Degrees of Freedom                    66
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.183
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ A_02       ON
+    A_01               0.512      0.013     39.013      0.000
+    B_01               0.063      0.029      2.192      0.028
+
+ A_03       ON
+    A_02               0.465      0.012     37.461      0.000
+    B_02              -0.008      0.021     -0.375      0.708
+
+ A_04       ON
+    A_03               0.514      0.013     40.254      0.000
+    B_03               0.048      0.018      2.666      0.008
+
+ A_05       ON
+    A_04               0.520      0.013     38.539      0.000
+    B_04              -0.009      0.021     -0.455      0.649
+
+ A_06       ON
+    A_05               0.537      0.014     39.183      0.000
+    B_05              -0.011      0.020     -0.523      0.601
+
+ B_02       ON
+    B_01               0.697      0.026     27.270      0.000
+    A_01              -0.002      0.017     -0.140      0.889
+
+ B_03       ON
+    B_02               0.817      0.034     24.202      0.000
+    A_02               0.012      0.016      0.758      0.449
+
+ B_04       ON
+    B_03               0.744      0.033     22.828      0.000
+    A_03               0.021      0.018      1.217      0.224
+
+ B_05       ON
+    B_04               0.811      0.041     19.749      0.000
+    A_04               0.006      0.019      0.323      0.747
+
+ B_06       ON
+    B_05               0.749      0.049     15.206      0.000
+    A_05              -0.009      0.020     -0.443      0.658
+
+ A_01     WITH
+    B_01               0.044      0.075      0.592      0.554
+
+ B_02     WITH
+    A_02              -0.071      0.055     -1.300      0.193
+
+ B_03     WITH
+    A_03              -0.064      0.059     -1.083      0.279
+
+ B_04     WITH
+    A_04              -0.022      0.051     -0.437      0.662
+
+ B_05     WITH
+    A_05              -0.001      0.056     -0.024      0.981
+
+ B_06     WITH
+    A_06              -0.096      0.057     -1.701      0.089
+
+ Means
+    A_01               4.387      0.025    174.957      0.000
+    B_01               9.785      0.041    238.787      0.000
+
+ Intercepts
+    A_02               1.358      0.287      4.734      0.000
+    A_03               2.228      0.211     10.561      0.000
+    A_04               1.157      0.180      6.442      0.000
+    A_05               1.679      0.204      8.248      0.000
+    A_06               1.597      0.204      7.845      0.000
+    B_02               2.768      0.267     10.365      0.000
+    B_03               1.670      0.342      4.877      0.000
+    B_04               2.390      0.333      7.174      0.000
+    B_05               1.806      0.414      4.364      0.000
+    B_06               2.405      0.497      4.842      0.000
+
+ Variances
+    A_01               3.398      0.068     50.005      0.000
+    B_01               2.372      0.097     24.466      0.000
+
+ Residual Variances
+    A_02               2.692      0.059     45.499      0.000
+    A_03               2.753      0.056     48.768      0.000
+    A_04               2.888      0.058     50.041      0.000
+    A_05               2.907      0.060     48.535      0.000
+    A_06               2.763      0.064     43.497      0.000
+    B_02               1.193      0.076     15.782      0.000
+    B_03               0.958      0.119      8.046      0.000
+    B_04               1.084      0.108     10.009      0.000
+    B_05               0.911      0.140      6.503      0.000
+    B_06               1.199      0.163      7.374      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.186E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+MODEL MODIFICATION INDICES
+
+NOTE:  Modification indices for direct effects of observed dependent variables
+regressed on covariates may not be included.  To include these, request
+MODINDICES (ALL).
+
+Minimum M.I. value for printing the modification index     3.000
+
+                                   M.I.     E.P.C.
+
+
+ON Statements
+
+A_02     ON A_03                 549.203    -0.642
+A_02     ON A_04                  96.066     0.138
+A_02     ON A_05                 156.029     0.157
+A_02     ON A_06                 343.234     0.239
+A_02     ON B_04                   4.894    -0.075
+A_03     ON A_04                 601.310    -0.696
+A_03     ON A_05                  99.548     0.149
+A_03     ON A_06                  80.190     0.123
+A_03     ON A_01                 551.613     0.336
+A_04     ON A_02                 603.641     0.341
+A_04     ON A_05                 619.843    -0.718
+A_04     ON A_06                  70.463     0.141
+A_04     ON B_02                  14.681    -0.232
+A_04     ON B_06                   3.364    -0.085
+A_04     ON A_01                 328.451     0.238
+A_05     ON A_02                 305.305     0.232
+A_05     ON A_03                 621.251     0.371
+A_05     ON A_06                 517.105    -0.703
+A_05     ON B_03                   5.405    -0.093
+A_05     ON B_06                   6.838     0.285
+A_05     ON A_01                 371.821     0.261
+A_06     ON A_02                 356.969     0.258
+A_06     ON A_03                 172.931     0.185
+A_06     ON A_04                 516.743     0.347
+A_06     ON A_01                 189.175     0.195
+B_02     ON A_04                  10.414    -0.089
+B_02     ON A_05                   3.504    -0.034
+B_02     ON B_03                  47.916    -0.787
+B_02     ON B_04                  42.843    -0.351
+B_02     ON B_06                  47.990     0.196
+B_03     ON B_03                 999.000     0.000
+B_03     ON B_04                   6.813    -0.347
+B_03     ON B_05                  69.245    -0.576
+B_03     ON B_06                 148.397    -0.572
+B_03     ON B_01                  47.052     0.438
+B_04     ON B_02                   8.143     0.349
+B_04     ON B_04                 999.000     0.000
+B_04     ON B_05                 172.680    -1.232
+B_04     ON B_06                 155.352    -0.483
+B_04     ON B_01                  36.353     0.238
+B_05     ON B_02                 170.300     0.420
+B_05     ON B_03                 169.625     0.759
+B_05     ON B_05                 999.000     0.000
+B_05     ON B_01                 119.278     0.339
+B_06     ON B_02                 152.918     0.311
+B_06     ON B_03                 146.388     0.550
+B_06     ON B_06                 999.000     0.000
+B_06     ON B_01                 141.215     0.368
+A_01     ON A_03                 550.463     0.414
+A_01     ON A_04                 680.083     0.366
+A_01     ON A_05                 882.538     0.404
+A_01     ON A_06                 787.375     0.401
+B_01     ON A_03                   5.436    -0.106
+B_01     ON B_03                  47.324     1.081
+B_01     ON B_04                  46.908     0.462
+B_01     ON B_05                 116.657     0.538
+B_01     ON B_06                 174.486     0.491
+
+WITH Statements
+
+A_03     WITH A_02               550.643    -1.768
+A_04     WITH A_02               274.511     0.698
+A_04     WITH A_03               601.113    -2.010
+A_05     WITH A_02                80.886     0.372
+A_05     WITH A_03               301.242     0.782
+A_05     WITH A_04               619.843    -2.088
+A_06     WITH A_02               196.666     0.600
+A_06     WITH A_03                21.604     0.203
+A_06     WITH A_04               289.488     0.831
+A_06     WITH A_05               516.870    -1.940
+B_02     WITH A_04                11.900    -0.303
+B_03     WITH A_02                 3.330    -0.155
+B_03     WITH A_05                 5.459    -0.179
+B_03     WITH B_02                48.039    -0.756
+B_04     WITH A_06                 3.801    -0.117
+B_04     WITH B_02                36.579    -0.512
+B_04     WITH B_03                 7.100    -0.384
+B_05     WITH B_02                75.716     0.561
+B_05     WITH B_03               107.959    -0.940
+B_05     WITH B_04               171.029    -1.117
+B_06     WITH B_02                96.899     0.513
+B_06     WITH B_03               160.434    -1.127
+B_06     WITH B_04               148.592    -0.811
+A_01     WITH A_03               551.530     1.142
+A_01     WITH A_04               328.245     0.807
+A_01     WITH A_05               371.688     0.887
+A_01     WITH A_06               188.838     0.660
+B_01     WITH A_03                 4.845    -0.275
+B_01     WITH B_03                45.029     1.011
+B_01     WITH B_04                36.535     0.566
+B_01     WITH B_05               118.453     0.801
+B_01     WITH B_06               141.480     0.873
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              A_01          B_01
+              ________      ________
+ 1                  0             0
+
+
+           LAMBDA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02               0             0             0             0             0
+ A_03               0             0             0             0             0
+ A_04               0             0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ A_01               0             0             0             0             0
+ B_01               0             0             0             0             0
+
+
+           LAMBDA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ A_02               0             0             0             0             0
+ A_03               0             0             0             0             0
+ A_04               0             0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ A_01               0             0             0             0             0
+ B_01               0             0             0             0             0
+
+
+           LAMBDA
+              A_01          B_01
+              ________      ________
+ A_02               0             0
+ A_03               0             0
+ A_04               0             0
+ A_05               0             0
+ A_06               0             0
+ B_02               0             0
+ B_03               0             0
+ B_04               0             0
+ B_05               0             0
+ B_06               0             0
+ A_01               0             0
+ B_01               0             0
+
+
+           THETA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02               0
+ A_03               0             0
+ A_04               0             0             0
+ A_05               0             0             0             0
+ A_06               0             0             0             0             0
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ A_01               0             0             0             0             0
+ B_01               0             0             0             0             0
+
+
+           THETA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02               0
+ B_03               0             0
+ B_04               0             0             0
+ B_05               0             0             0             0
+ B_06               0             0             0             0             0
+ A_01               0             0             0             0             0
+ B_01               0             0             0             0             0
+
+
+           THETA
+              A_01          B_01
+              ________      ________
+ A_01               0
+ B_01               0             0
+
+
+           ALPHA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ 1                  1             2             3             4             5
+
+
+           ALPHA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ 1                  6             7             8             9            10
+
+
+           ALPHA
+              A_01          B_01
+              ________      ________
+ 1                 11            12
+
+
+           BETA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02               0             0             0             0             0
+ A_03              15             0             0             0             0
+ A_04               0            17             0             0             0
+ A_05               0             0            19             0             0
+ A_06               0             0             0            21             0
+ B_02               0             0             0             0             0
+ B_03              25             0             0             0             0
+ B_04               0            27             0             0             0
+ B_05               0             0            29             0             0
+ B_06               0             0             0            31             0
+ A_01               0             0             0             0             0
+ B_01               0             0             0             0             0
+
+
+           BETA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ A_02               0             0             0             0             0
+ A_03              16             0             0             0             0
+ A_04               0            18             0             0             0
+ A_05               0             0            20             0             0
+ A_06               0             0             0            22             0
+ B_02               0             0             0             0             0
+ B_03              26             0             0             0             0
+ B_04               0            28             0             0             0
+ B_05               0             0            30             0             0
+ B_06               0             0             0            32             0
+ A_01               0             0             0             0             0
+ B_01               0             0             0             0             0
+
+
+           BETA
+              A_01          B_01
+              ________      ________
+ A_02              13            14
+ A_03               0             0
+ A_04               0             0
+ A_05               0             0
+ A_06               0             0
+ B_02              23            24
+ B_03               0             0
+ B_04               0             0
+ B_05               0             0
+ B_06               0             0
+ A_01               0             0
+ B_01               0             0
+
+
+           PSI
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02              33
+ A_03               0            34
+ A_04               0             0            35
+ A_05               0             0             0            36
+ A_06               0             0             0             0            37
+ B_02              38             0             0             0             0
+ B_03               0            40             0             0             0
+ B_04               0             0            42             0             0
+ B_05               0             0             0            44             0
+ B_06               0             0             0             0            46
+ A_01               0             0             0             0             0
+ B_01               0             0             0             0             0
+
+
+           PSI
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02              39
+ B_03               0            41
+ B_04               0             0            43
+ B_05               0             0             0            45
+ B_06               0             0             0             0            47
+ A_01               0             0             0             0             0
+ B_01               0             0             0             0             0
+
+
+           PSI
+              A_01          B_01
+              ________      ________
+ A_01              48
+ B_01              49            50
+
+
+     STARTING VALUES
+
+
+           NU
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              A_01          B_01
+              ________      ________
+ 1              0.000         0.000
+
+
+           LAMBDA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02           1.000         0.000         0.000         0.000         0.000
+ A_03           0.000         1.000         0.000         0.000         0.000
+ A_04           0.000         0.000         1.000         0.000         0.000
+ A_05           0.000         0.000         0.000         1.000         0.000
+ A_06           0.000         0.000         0.000         0.000         1.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ A_02           0.000         0.000         0.000         0.000         0.000
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_02           1.000         0.000         0.000         0.000         0.000
+ B_03           0.000         1.000         0.000         0.000         0.000
+ B_04           0.000         0.000         1.000         0.000         0.000
+ B_05           0.000         0.000         0.000         1.000         0.000
+ B_06           0.000         0.000         0.000         0.000         1.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              A_01          B_01
+              ________      ________
+ A_02           0.000         0.000
+ A_03           0.000         0.000
+ A_04           0.000         0.000
+ A_05           0.000         0.000
+ A_06           0.000         0.000
+ B_02           0.000         0.000
+ B_03           0.000         0.000
+ B_04           0.000         0.000
+ B_05           0.000         0.000
+ B_06           0.000         0.000
+ A_01           1.000         0.000
+ B_01           0.000         1.000
+
+
+           THETA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02           0.000
+ A_03           0.000         0.000
+ A_04           0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02           0.000
+ B_03           0.000         0.000
+ B_04           0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              A_01          B_01
+              ________      ________
+ A_01           0.000
+ B_01           0.000         0.000
+
+
+           ALPHA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ 1              4.227         4.123         3.750         3.607         3.492
+
+
+           ALPHA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ 1              9.578         9.558         9.580         9.610         9.579
+
+
+           ALPHA
+              A_01          B_01
+              ________      ________
+ 1              4.400         9.811
+
+
+           BETA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02           0.000         0.000         0.000         0.000         0.000
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ A_02           0.000         0.000         0.000         0.000         0.000
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              A_01          B_01
+              ________      ________
+ A_02           0.000         0.000
+ A_03           0.000         0.000
+ A_04           0.000         0.000
+ A_05           0.000         0.000
+ A_06           0.000         0.000
+ B_02           0.000         0.000
+ B_03           0.000         0.000
+ B_04           0.000         0.000
+ B_05           0.000         0.000
+ B_06           0.000         0.000
+ A_01           0.000         0.000
+ B_01           0.000         0.000
+
+
+           PSI
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02           1.787
+ A_03           0.000         1.760
+ A_04           0.000         0.000         1.896
+ A_05           0.000         0.000         0.000         1.948
+ A_06           0.000         0.000         0.000         0.000         1.930
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02           1.155
+ B_03           0.000         1.277
+ B_04           0.000         0.000         1.216
+ B_05           0.000         0.000         0.000         1.271
+ B_06           0.000         0.000         0.000         0.000         1.292
+ A_01           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              A_01          B_01
+              ________      ________
+ A_01           1.695
+ B_01           0.000         1.169
+
+
+TECHNICAL 2 OUTPUT
+
+
+     DERIVATIVES
+
+
+           Derivatives With Respect to NU
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ 1          0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to NU
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ 1          0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to NU
+              A_01          B_01
+              ________      ________
+ 1          0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to LAMBDA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_03       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_04       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_05       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_02       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_03       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_04       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_05       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to LAMBDA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ A_02       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_03       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_04       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_05       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_02       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_03       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_04       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_05       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to LAMBDA
+              A_01          B_01
+              ________      ________
+ A_02       0.000E+00     0.000E+00
+ A_03       0.000E+00     0.000E+00
+ A_04       0.000E+00     0.000E+00
+ A_05       0.000E+00     0.000E+00
+ A_06       0.000E+00     0.000E+00
+ B_02       0.000E+00     0.000E+00
+ B_03       0.000E+00     0.000E+00
+ B_04       0.000E+00     0.000E+00
+ B_05       0.000E+00     0.000E+00
+ B_06       0.000E+00     0.000E+00
+ A_01       0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to THETA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02       0.000E+00
+ A_03       0.000E+00     0.000E+00
+ A_04       0.000E+00     0.000E+00     0.000E+00
+ A_05       0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_02       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_03       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_04       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_05       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to THETA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02       0.000E+00
+ B_03       0.000E+00     0.000E+00
+ B_04       0.000E+00     0.000E+00     0.000E+00
+ B_05       0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to THETA
+              A_01          B_01
+              ________      ________
+ A_01       0.000E+00
+ B_01       0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to ALPHA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ 1         -0.148E-06     0.263E-06    -0.210E-06    -0.172E-07    -0.356E-06
+
+
+           Derivatives With Respect to ALPHA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ 1         -0.489E-05     0.119E-04    -0.119E-04     0.161E-04    -0.111E-04
+
+
+           Derivatives With Respect to ALPHA
+              A_01          B_01
+              ________      ________
+ 1         -0.589E-08     0.333E-06
+
+
+           Derivatives With Respect to BETA
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_03       0.108E-05     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_04       0.000E+00    -0.879E-06     0.000E+00     0.000E+00     0.000E+00
+ A_05       0.000E+00     0.000E+00    -0.611E-07     0.000E+00     0.000E+00
+ A_06       0.000E+00     0.000E+00     0.000E+00    -0.122E-05     0.000E+00
+ B_02       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_03       0.490E-04     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_04       0.000E+00    -0.491E-04     0.000E+00     0.000E+00     0.000E+00
+ B_05       0.000E+00     0.000E+00     0.590E-04     0.000E+00     0.000E+00
+ B_06       0.000E+00     0.000E+00     0.000E+00    -0.381E-04     0.000E+00
+ A_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to BETA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ A_02       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_03       0.199E-05     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ A_04       0.000E+00    -0.162E-05     0.000E+00     0.000E+00     0.000E+00
+ A_05       0.000E+00     0.000E+00    -0.566E-07     0.000E+00     0.000E+00
+ A_06       0.000E+00     0.000E+00     0.000E+00    -0.170E-05     0.000E+00
+ B_02       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_03       0.951E-04     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_04       0.000E+00    -0.838E-04     0.000E+00     0.000E+00     0.000E+00
+ B_05       0.000E+00     0.000E+00     0.986E-04     0.000E+00     0.000E+00
+ B_06       0.000E+00     0.000E+00     0.000E+00    -0.586E-04     0.000E+00
+ A_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to BETA
+              A_01          B_01
+              ________      ________
+ A_02      -0.667E-06    -0.142E-05
+ A_03       0.000E+00     0.000E+00
+ A_04       0.000E+00     0.000E+00
+ A_05       0.000E+00     0.000E+00
+ A_06       0.000E+00     0.000E+00
+ B_02      -0.219E-04    -0.445E-04
+ B_03       0.000E+00     0.000E+00
+ B_04       0.000E+00     0.000E+00
+ B_05       0.000E+00     0.000E+00
+ B_06       0.000E+00     0.000E+00
+ A_01       0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to PSI
+              A_02          A_03          A_04          A_05          A_06
+              ________      ________      ________      ________      ________
+ A_02       0.404E-08
+ A_03       0.000E+00     0.182E-07
+ A_04       0.000E+00     0.000E+00    -0.423E-08
+ A_05       0.000E+00     0.000E+00     0.000E+00    -0.188E-09
+ A_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00    -0.242E-07
+ B_02       0.109E-06     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_03       0.000E+00     0.938E-06     0.000E+00     0.000E+00     0.000E+00
+ B_04       0.000E+00     0.000E+00    -0.539E-06     0.000E+00     0.000E+00
+ B_05       0.000E+00     0.000E+00     0.000E+00    -0.154E-06     0.000E+00
+ B_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00    -0.152E-05
+ A_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to PSI
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02       0.836E-06
+ B_03       0.000E+00     0.659E-05
+ B_04       0.000E+00     0.000E+00    -0.108E-04
+ B_05       0.000E+00     0.000E+00     0.000E+00     0.347E-04
+ B_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00    -0.240E-04
+ A_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+ B_01       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
+
+
+           Derivatives With Respect to PSI
+              A_01          B_01
+              ________      ________
+ A_01      -0.540E-09
+ B_01       0.302E-07    -0.677E-07
+
+
+TECHNICAL 3 OUTPUT
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                     1             2             3             4             5
+              ________      ________      ________      ________      ________
+        1   0.822846D-01
+        2  -0.424706D-02  0.444914D-01
+        3   0.462354D-02 -0.156224D-03  0.322439D-01
+        4   0.268931D-02  0.995538D-02 -0.113433D-02  0.414376D-01
+        5   0.240181D-02  0.206638D-02  0.618069D-02 -0.257141D-02  0.414170D-01
+        6  -0.594181D-03  0.462661D-02 -0.322981D-03  0.149607D-02 -0.471441D-03
+        7   0.382108D-02 -0.218175D-02 -0.858335D-03  0.102390D-02 -0.131486D-02
+        8  -0.342525D-02  0.455996D-02  0.193021D-02  0.473268D-02  0.313554D-02
+        9   0.387389D-02 -0.182995D-03 -0.767300D-03  0.177085D-03  0.146100D-02
+       10  -0.173919D-02  0.118084D-02  0.179667D-02 -0.883476D-03  0.401906D-02
+       11  -0.102203D-03  0.371435D-03  0.765611D-04  0.270335D-03  0.616383D-04
+       12   0.766636D-03  0.285717D-03  0.209110D-03 -0.139698D-03 -0.123953D-04
+       13  -0.670477D-03 -0.117698D-03 -0.162153D-03 -0.796790D-04 -0.532305D-04
+       14  -0.803526D-02  0.478732D-03 -0.390038D-03 -0.229682D-03 -0.222819D-03
+       15   0.303485D-04 -0.668670D-03 -0.560440D-04 -0.158921D-03 -0.620573D-04
+       16   0.409825D-03 -0.429158D-02  0.387796D-04 -0.954567D-03 -0.176507D-03
+       17  -0.290318D-04 -0.136433D-03 -0.672634D-03 -0.158765D-03 -0.168759D-04
+       18  -0.438694D-03  0.754364D-04 -0.303897D-02  0.181818D-03 -0.637131D-03
+       19  -0.100167D-03 -0.166798D-03 -0.112742D-03 -0.585214D-03 -0.842777D-04
+       20  -0.225238D-03 -0.967492D-03  0.158655D-03 -0.401775D-02  0.281963D-03
+       21  -0.400920D-04 -0.281961D-04 -0.696197D-04 -0.529234D-04 -0.703859D-03
+       22  -0.228445D-03 -0.197953D-03 -0.613415D-03  0.269014D-03 -0.399481D-02
+       23  -0.233244D-03 -0.117003D-02 -0.140551D-03 -0.400627D-03  0.343185D-04
+       24   0.111802D-03  0.831653D-04  0.832967D-04  0.579698D-04  0.315138D-04
+       25  -0.290817D-03  0.402081D-03 -0.106368D-02 -0.138374D-04 -0.432356D-03
+       26  -0.248338D-03 -0.349551D-05  0.591908D-03 -0.122545D-03  0.347931D-03
+       27   0.177021D-03 -0.131422D-02  0.120790D-03 -0.161913D-02 -0.101694D-03
+       28   0.266353D-03  0.102138D-03 -0.289443D-03  0.264600D-03 -0.298636D-03
+       29  -0.155034D-03  0.251305D-03 -0.681291D-03  0.281350D-03 -0.158975D-02
+       30  -0.305046D-03 -0.858023D-04  0.379361D-03 -0.186318D-03  0.538476D-03
+       31  -0.110170D-03 -0.610834D-03  0.138312D-03 -0.900518D-03  0.581252D-04
+       32   0.226707D-03  0.959478D-04 -0.268438D-03  0.447845D-03 -0.480071D-03
+       33   0.225883D-02  0.101621D-02 -0.248962D-03  0.111518D-03  0.262642D-03
+       34   0.723803D-04  0.576493D-03  0.576686D-03  0.131601D-03  0.133798D-03
+       35  -0.194472D-03  0.508774D-03  0.241783D-03  0.809161D-03 -0.163516D-03
+       36  -0.226904D-04  0.142738D-03  0.284396D-03  0.302179D-03  0.107684D-02
+       37   0.149440D-03  0.115339D-03 -0.572426D-04  0.276760D-03  0.967567D-03
+       38   0.968907D-02  0.148481D-02  0.896592D-03  0.210274D-03  0.146555D-03
+       39  -0.115040D-02 -0.113285D-03 -0.325556D-04 -0.402186D-05 -0.221234D-03
+       40  -0.574278D-03  0.720489D-02  0.196334D-02  0.258245D-02  0.548761D-03
+       41   0.771573D-03 -0.141544D-03 -0.195190D-02 -0.405680D-03 -0.122912D-02
+       42   0.534570D-03  0.604744D-03  0.306543D-02  0.173483D-02  0.197859D-02
+       43  -0.105246D-02 -0.609452D-03  0.959287D-03 -0.609258D-03  0.121816D-02
+       44  -0.549880D-04  0.208109D-02  0.232642D-03  0.478743D-02  0.259271D-02
+       45   0.110588D-02  0.509201D-03 -0.127866D-02  0.348900D-03 -0.111171D-02
+       46   0.292737D-03  0.413502D-03  0.105271D-02  0.136304D-03  0.449370D-02
+       47  -0.144777D-02  0.399637D-04  0.118073D-02 -0.106712D-02  0.122285D-02
+       48   0.359760D-03 -0.718063D-03 -0.732962D-03 -0.554713D-03 -0.501894D-03
+       49   0.147458D-02 -0.263598D-02 -0.828681D-03 -0.144476D-02 -0.839097D-03
+       50   0.169002D-02 -0.118093D-03 -0.516048D-03 -0.258985D-03  0.244963D-04
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                     6             7             8             9            10
+              ________      ________      ________      ________      ________
+        6   0.712988D-01
+        7  -0.242132D-01  0.117269D+00
+        8   0.202235D-01 -0.851967D-01  0.110961D+00
+        9  -0.204068D-01  0.772446D-01 -0.101978D+00  0.171289D+00
+       10   0.258513D-01 -0.705780D-01  0.986298D-01 -0.158474D+00  0.246622D+00
+       11  -0.421525D-04 -0.187998D-03 -0.109635D-04 -0.964765D-04  0.184278D-03
+       12  -0.252932D-02  0.189663D-03 -0.110301D-03 -0.743722D-04  0.302587D-03
+       13  -0.989503D-04 -0.180328D-04 -0.522593D-04  0.633064D-04 -0.658624D-04
+       14   0.118297D-03 -0.372295D-03  0.370768D-03 -0.421535D-03  0.190812D-03
+       15  -0.421295D-04  0.594194D-04 -0.339810D-05  0.358567D-04  0.346268D-04
+       16  -0.455346D-03  0.182651D-03 -0.473172D-03  0.761451D-06 -0.145785D-03
+       17   0.265637D-04  0.120914D-04  0.532546D-04  0.168786D-04 -0.267473D-04
+       18   0.147908D-04  0.775952D-04 -0.215897D-03  0.656180D-04 -0.199197D-03
+       19   0.185796D-04 -0.236750D-04  0.375158D-04 -0.340240D-04  0.105838D-03
+       20  -0.164644D-03 -0.121067D-03 -0.496045D-03 -0.262204D-04  0.547402D-04
+       21   0.103638D-03  0.651618D-04  0.620886D-04 -0.778715D-04  0.184481D-03
+       22  -0.579618D-05  0.120989D-03 -0.361383D-03 -0.112164D-03 -0.517623D-03
+       23  -0.115069D-02  0.185825D-03 -0.753847D-04  0.322118D-04 -0.399022D-04
+       24  -0.644948D-02  0.220975D-02 -0.187209D-02  0.191880D-02 -0.245217D-02
+       25   0.507272D-03 -0.121458D-02  0.670599D-03 -0.475993D-03  0.303449D-03
+       26   0.215164D-02 -0.112442D-01  0.818869D-02 -0.746021D-02  0.684419D-02
+       27  -0.358112D-03  0.428484D-03 -0.136518D-02  0.591090D-03 -0.364875D-03
+       28  -0.186042D-02  0.834371D-02 -0.104866D-01  0.988553D-02 -0.976866D-02
+       29   0.141981D-03 -0.182575D-03  0.423804D-03 -0.130403D-02 -0.153502D-03
+       30   0.196739D-02 -0.770195D-02  0.100571D-01 -0.166134D-01  0.159990D-01
+       31  -0.147018D-03  0.423638D-04 -0.240268D-03  0.526048D-03 -0.208249D-02
+       32  -0.251281D-02  0.707428D-02 -0.987712D-02  0.157644D-01 -0.240617D-01
+       33   0.292551D-04 -0.127586D-03  0.108029D-03 -0.207896D-03  0.473316D-03
+       34   0.843697D-04  0.201709D-04  0.892153D-04 -0.235292D-03  0.213816D-03
+       35  -0.226828D-03 -0.104807D-03 -0.898596D-04 -0.662510D-04  0.746542D-03
+       36   0.351122D-04 -0.134870D-03 -0.150125D-03 -0.766429D-04 -0.188563D-03
+       37  -0.423287D-04 -0.634778D-03  0.375248D-03  0.247225D-04 -0.148986D-03
+       38  -0.391364D-03  0.196412D-02 -0.107003D-02  0.113447D-02 -0.984637D-03
+       39   0.103413D-01 -0.971703D-03  0.172553D-02 -0.134466D-02  0.130374D-02
+       40   0.992433D-03  0.247648D-03  0.133934D-02  0.114220D-03 -0.265932D-03
+       41  -0.401290D-02  0.301084D-01 -0.208759D-01  0.186358D-01 -0.159240D-01
+       42  -0.648190D-04  0.266971D-03 -0.223363D-03  0.158606D-02  0.253676D-02
+       43   0.412488D-02 -0.242775D-01  0.251135D-01 -0.222238D-01  0.268581D-01
+       44   0.747870D-03  0.100796D-03  0.126141D-02 -0.150628D-02  0.326318D-02
+       45  -0.540899D-02  0.272777D-01 -0.317952D-01  0.452780D-01 -0.468799D-01
+       46  -0.572534D-04  0.688470D-04  0.359502D-04  0.103608D-02 -0.135054D-03
+       47   0.573418D-02 -0.222664D-01  0.314226D-01 -0.467615D-01  0.667239D-01
+       48  -0.684689D-04  0.274159D-03  0.211830D-03 -0.369355D-03  0.294682D-03
+       49   0.303367D-02 -0.233534D-03 -0.123897D-03 -0.413575D-03  0.455839D-03
+       50   0.923265D-02 -0.184068D-02  0.965386D-03 -0.221353D-02  0.118702D-02
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                    11            12            13            14            15
+              ________      ________      ________      ________      ________
+       11   0.628781D-03
+       12   0.461045D-05  0.167920D-02
+       13  -0.143713D-04  0.184391D-04  0.172016D-03
+       14   0.163794D-04 -0.944594D-04 -0.917495D-05  0.823287D-03
+       15  -0.219473D-04  0.592194D-05  0.253874D-04 -0.150805D-04  0.154115D-03
+       16  -0.133750D-04 -0.321642D-04 -0.534903D-06 -0.414688D-04  0.742768D-07
+       17  -0.376153D-05 -0.691211D-05  0.248594D-04 -0.894731D-05  0.321103D-04
+       18   0.711402D-05 -0.190747D-04  0.670736D-05  0.422898D-04 -0.869323D-05
+       19  -0.179185D-05  0.781621D-05  0.236908D-04 -0.180890D-05  0.294870D-04
+       20  -0.109181D-04  0.120202D-04 -0.193506D-05  0.241442D-04  0.518780D-05
+       21  -0.109642D-04 -0.378261D-06  0.168875D-04 -0.342128D-05  0.177186D-04
+       22   0.948412D-05  0.393192D-06  0.885772D-06  0.241133D-04 -0.468139D-06
+       23  -0.502300D-05  0.799727D-04  0.158275D-04  0.148985D-04 -0.200522D-05
+       24   0.655030D-05  0.136331D-03  0.173011D-05 -0.124122D-04  0.449519D-05
+       25   0.917015D-05 -0.409977D-05  0.329844D-05  0.300908D-04 -0.439453D-05
+       26   0.158500D-04 -0.172255D-04  0.562532D-06  0.233095D-04 -0.430607D-05
+       27  -0.610713D-05 -0.539831D-05  0.103122D-05 -0.192975D-04  0.398453D-05
+       28   0.319883D-05  0.224281D-04  0.478497D-05 -0.289621D-04 -0.274353D-05
+       29  -0.579956D-05 -0.435846D-05  0.606947D-05  0.147188D-04 -0.607124D-06
+       30   0.128090D-04  0.719819D-05 -0.932275D-05  0.345476D-04 -0.286074D-05
+       31  -0.134021D-04 -0.388998D-05  0.542992D-06  0.113926D-04  0.667057D-06
+       32  -0.138157D-04 -0.195778D-04  0.548826D-05 -0.242133D-04 -0.353916D-05
+       33  -0.215036D-05 -0.204545D-04 -0.137527D-03 -0.182012D-03 -0.202219D-03
+       34  -0.187117D-04  0.550669D-04 -0.306557D-04  0.107665D-05 -0.120542D-03
+       35   0.584018D-04  0.257417D-04  0.258229D-04  0.161560D-04 -0.904588D-04
+       36   0.566035D-04  0.974132D-05  0.213941D-04 -0.849721D-05 -0.652518D-05
+       37   0.364670D-04  0.286778D-04  0.177235D-04 -0.191386D-04 -0.850482D-05
+       38  -0.342976D-04  0.180185D-03  0.357086D-05 -0.987916D-03  0.869552D-05
+       39  -0.345182D-04  0.432331D-04  0.663902D-05  0.112844D-03  0.102761D-04
+       40  -0.320689D-05  0.123267D-03 -0.637351D-05  0.611880D-04  0.567706D-05
+       41  -0.886694D-04  0.283667D-04 -0.236618D-04 -0.653643D-04  0.100395D-04
+       42   0.835145D-05  0.364413D-04 -0.147337D-04 -0.490845D-04  0.362913D-05
+       43  -0.143311D-04 -0.135619D-03  0.809689D-05  0.991900D-04  0.210715D-04
+       44  -0.129557D-04  0.386837D-05 -0.685896D-05  0.737812D-05 -0.208368D-04
+       45  -0.123148D-03  0.222131D-04  0.935473D-06 -0.112032D-03  0.336109D-06
+       46  -0.123335D-04  0.296493D-04 -0.988878D-05 -0.254847D-04 -0.149150D-04
+       47   0.419123D-04 -0.993679D-04  0.688278D-06  0.138543D-03  0.797949D-05
+       48  -0.209062D-03  0.285446D-04 -0.114283D-04 -0.348923D-04  0.140446D-03
+       49   0.405234D-04 -0.467446D-03 -0.818930D-04 -0.107275D-03  0.189333D-04
+       50  -0.742092D-04 -0.161831D-02 -0.199602D-04 -0.161097D-03 -0.153484D-04
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                    16            17            18            19            20
+              ________      ________      ________      ________      ________
+       16   0.448116D-03
+       17  -0.189110D-08  0.162902D-03
+       18  -0.467089D-05 -0.105313D-05  0.319993D-03
+       19   0.402039D-05  0.373637D-04 -0.385340D-05  0.182110D-03
+       20   0.985641D-04  0.105359D-05 -0.176963D-04 -0.135941D-04  0.424409D-03
+       21  -0.646481D-05  0.169573D-04 -0.789261D-06  0.347170D-04 -0.899221D-05
+       22   0.206523D-04 -0.341058D-05  0.670892D-04 -0.627430D-05 -0.243853D-04
+       23   0.123573D-03  0.324711D-05  0.129053D-04  0.219715D-05  0.403762D-04
+       24  -0.118130D-04 -0.404452D-05 -0.611300D-05 -0.324390D-05 -0.431754D-05
+       25  -0.407127D-04 -0.394371D-05  0.113402D-03 -0.570768D-05  0.399468D-05
+       26   0.431735D-05  0.628674D-06 -0.616559D-04  0.513465D-05  0.127891D-04
+       27   0.135814D-03  0.481111D-05 -0.151192D-04  0.913587D-06  0.168477D-03
+       28  -0.951727D-05 -0.808037D-05  0.331272D-04 -0.489272D-05 -0.266749D-04
+       29  -0.268693D-04 -0.148083D-06  0.719309D-04 -0.587954D-05 -0.276604D-04
+       30   0.105835D-04 -0.163423D-05 -0.385602D-04  0.588191D-05  0.194052D-04
+       31   0.641556D-04 -0.443694D-05 -0.125055D-04 -0.822397D-05  0.983267D-04
+       32  -0.778818D-05  0.430915D-05  0.284886D-04 -0.727184D-05 -0.446194D-04
+       33  -0.144665D-04  0.449249D-04  0.526746D-05 -0.369954D-04 -0.157849D-05
+       34  -0.199541D-04 -0.201350D-03  0.285101D-04  0.160289D-04 -0.174808D-04
+       35  -0.158866D-04 -0.151163D-03  0.329467D-04 -0.212440D-03  0.552607D-05
+       36  -0.580637D-05 -0.996557D-04  0.654910D-05 -0.224731D-03  0.537442D-04
+       37  -0.589270D-05  0.335435D-04 -0.228104D-05 -0.145436D-03  0.256925D-04
+       38  -0.160500D-03  0.790811D-05 -0.931261D-04  0.905825D-06 -0.198321D-04
+       39   0.877453D-05  0.178457D-04 -0.406295D-05 -0.575200D-05  0.358621D-06
+       40  -0.754482D-03  0.675926D-05 -0.208195D-03 -0.819627D-05 -0.266194D-03
+       41   0.695139D-06 -0.968259D-05  0.206401D-03 -0.617434D-05  0.335520D-04
+       42  -0.640586D-04  0.173167D-05 -0.321861D-03  0.332718D-04 -0.194255D-03
+       43   0.544661D-04  0.164903D-04 -0.110343D-03  0.357849D-04  0.513886D-04
+       44  -0.209520D-03  0.930808D-05 -0.296476D-04  0.311100D-04 -0.514549D-03
+       45  -0.573187D-04  0.985873D-05  0.128197D-03 -0.222286D-04 -0.423708D-04
+       46  -0.377329D-04  0.182799D-05 -0.111641D-03  0.288732D-04 -0.260307D-04
+       47  -0.103628D-04 -0.748062D-05 -0.126090D-03  0.244342D-04  0.105219D-03
+       48   0.793898D-05  0.123777D-03  0.181195D-04  0.139543D-03 -0.328969D-06
+       49   0.261474D-03  0.674696D-06  0.899916D-04  0.141655D-05  0.150711D-03
+       50   0.189658D-04 -0.602631D-05  0.488916D-04  0.269724D-04  0.972724D-05
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                    21            22            23            24            25
+              ________      ________      ________      ________      ________
+       21   0.187810D-03
+       22   0.553307D-07  0.418494D-03
+       23  -0.123409D-05 -0.242629D-05  0.304812D-03
+       24  -0.920839D-05  0.138979D-05 -0.259593D-04  0.653599D-03
+       25  -0.386124D-05  0.461649D-04 -0.659340D-04 -0.208720D-04  0.252166D-03
+       26  -0.503102D-05 -0.347803D-04  0.943932D-05 -0.212781D-03  0.890756D-05
+       27  -0.288789D-05  0.131214D-04  0.627776D-04  0.722543D-05 -0.941329D-04
+       28  -0.471283D-05  0.329503D-04 -0.175439D-04  0.185902D-03 -0.245597D-04
+       29   0.274289D-05  0.164527D-03 -0.238511D-04 -0.406789D-05  0.722006D-04
+       30   0.663585D-05 -0.593371D-04  0.525100D-05 -0.191109D-03  0.184183D-04
+       31  -0.143016D-04  0.765462D-06  0.316713D-04  0.236166D-05 -0.411655D-04
+       32  -0.127150D-04  0.568764D-04 -0.728152D-05  0.245356D-03 -0.138223D-04
+       33   0.278148D-04 -0.376478D-04 -0.771449D-05  0.357455D-05 -0.222955D-04
+       34  -0.189164D-04 -0.790506D-05  0.144176D-04 -0.162033D-04  0.151519D-04
+       35   0.357060D-04  0.851702D-05 -0.100931D-06  0.242299D-04  0.193381D-04
+       36  -0.221888D-03 -0.253582D-04  0.651518D-05 -0.468333D-05  0.994756D-05
+       37  -0.267778D-03  0.647544D-05 -0.106744D-04  0.108934D-04 -0.607257D-05
+       38   0.123745D-04 -0.187577D-04 -0.569879D-05  0.299584D-04 -0.326040D-03
+       39   0.127673D-04  0.149403D-04  0.157838D-03 -0.115826D-02  0.193659D-04
+       40   0.124381D-04 -0.654563D-04 -0.305331D-03  0.391032D-04  0.152213D-03
+       41   0.436745D-05  0.126822D-03  0.863280D-05  0.405292D-03  0.296627D-04
+       42   0.331776D-05 -0.204877D-03 -0.558626D-05  0.988757D-05 -0.262579D-03
+       43   0.726788D-06 -0.130224D-03  0.352325D-04 -0.426487D-03  0.382132D-04
+       44  -0.104048D-04 -0.269724D-03 -0.100172D-03 -0.276305D-04  0.300802D-04
+       45  -0.205326D-04  0.125654D-03 -0.902864D-05  0.529530D-03 -0.555174D-04
+       46   0.216040D-05 -0.473329D-03  0.198610D-04  0.183473D-06 -0.117643D-03
+       47   0.315946D-04 -0.147039D-03  0.106177D-04 -0.566713D-03  0.475009D-05
+       48   0.116488D-03  0.601581D-05 -0.135886D-04  0.137394D-04  0.956690D-05
+       49  -0.782054D-05  0.925134D-04 -0.769089D-03  0.594869D-04 -0.785828D-05
+       50   0.133181D-04 -0.100197D-04 -0.195557D-03 -0.768843D-03  0.462357D-04
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                    26            27            28            29            30
+              ________      ________      ________      ________      ________
+       26   0.114076D-02
+       27   0.157112D-05  0.309491D-03
+       28  -0.831151D-03 -0.318110D-06  0.106163D-02
+       29  -0.143867D-04 -0.110857D-03  0.103221D-04  0.358210D-03
+       30   0.764793D-03 -0.119908D-04 -0.100742D-02 -0.195074D-04  0.168808D-02
+       31   0.129683D-04  0.919650D-04 -0.143618D-04 -0.122221D-03  0.865865D-06
+       32  -0.699749D-03  0.260670D-05  0.100007D-02  0.652080D-04 -0.162476D-02
+       33   0.270904D-04  0.169297D-04 -0.187691D-04  0.150985D-06  0.223829D-04
+       34  -0.118958D-04 -0.221808D-04  0.547235D-05 -0.379875D-05  0.223991D-04
+       35   0.261963D-07 -0.538873D-06  0.119115D-04  0.332061D-05  0.454959D-05
+       36   0.733576D-05  0.281561D-04  0.507065D-05  0.498540D-05  0.241270D-05
+       37   0.674861D-04 -0.114015D-04 -0.310066D-04  0.348899D-04 -0.159422D-04
+       38  -0.586523D-04  0.367574D-04  0.887451D-04 -0.636562D-04 -0.859749D-04
+       39   0.115451D-03 -0.233557D-04 -0.187753D-03  0.172135D-04  0.144758D-03
+       40  -0.107561D-03 -0.640491D-03  0.139037D-03  0.117498D-03 -0.581050D-04
+       41  -0.316495D-02 -0.279645D-04  0.218778D-02  0.700492D-04 -0.197010D-02
+       42   0.924430D-04  0.126500D-03 -0.505463D-04 -0.586699D-03  0.796588D-04
+       43   0.249006D-02  0.494663D-04 -0.264709D-02 -0.147172D-03  0.237852D-02
+       44  -0.239598D-04 -0.358068D-03  0.279956D-04  0.144515D-03  0.715656D-04
+       45  -0.277777D-02  0.697845D-05  0.327059D-02  0.120621D-03 -0.473147D-02
+       46   0.437579D-04  0.129428D-04 -0.677612D-05 -0.360652D-03  0.394176D-04
+       47   0.226719D-02 -0.142858D-04 -0.323452D-02 -0.200191D-03  0.489393D-02
+       48  -0.318932D-04  0.865524D-05 -0.272989D-04  0.169165D-04  0.308677D-04
+       49   0.390329D-04  0.983345D-04 -0.359999D-04  0.145606D-04  0.427944D-04
+       50   0.171534D-03  0.743931D-05 -0.100909D-03  0.311230D-04  0.211368D-03
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                    31            32            33            34            35
+              ________      ________      ________      ________      ________
+       31   0.419018D-03
+       32   0.422127D-04  0.242925D-02
+       33  -0.423677D-04 -0.305086D-04  0.350166D-02
+       34   0.281236D-05 -0.202767D-04  0.277304D-03  0.318714D-02
+       35  -0.175451D-04 -0.698080D-04  0.411278D-03  0.346664D-03  0.333057D-02
+       36   0.464694D-04  0.433854D-05  0.207345D-03  0.352884D-03  0.498551D-03
+       37   0.232611D-04  0.331606D-05  0.311442D-03  0.147796D-03  0.419126D-03
+       38   0.251561D-04  0.877223D-04  0.240081D-03 -0.765959D-05 -0.680614D-04
+       39  -0.153226D-04 -0.139121D-03 -0.150042D-04  0.509082D-04 -0.641274D-04
+       40  -0.206929D-03  0.101789D-03  0.607733D-05 -0.100251D-03 -0.254525D-04
+       41  -0.221963D-04  0.166269D-02 -0.176293D-03  0.896825D-04 -0.633704D-05
+       42   0.258980D-04 -0.267766D-03 -0.131548D-04  0.470352D-04  0.792298D-04
+       43  -0.425167D-04 -0.276226D-02  0.108153D-03 -0.303840D-04  0.697728D-04
+       44  -0.664898D-03 -0.705129D-04  0.968642D-04  0.937802D-04  0.345214D-05
+       45  -0.180776D-04  0.484239D-02 -0.389918D-04  0.795949D-04 -0.913155D-04
+       46   0.247784D-04 -0.720689D-05  0.362098D-04  0.603538D-04 -0.196043D-04
+       47  -0.818139D-05 -0.689395D-02  0.159935D-03  0.116272D-04  0.214550D-03
+       48  -0.523898D-05 -0.301132D-04  0.237649D-03  0.303227D-03  0.293976D-03
+       49   0.818226D-04 -0.808741D-04  0.939811D-05 -0.675488D-04 -0.240778D-04
+       50  -0.535203D-05 -0.128707D-03  0.138016D-03  0.227526D-04 -0.108700D-03
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                    36            37            38            39            40
+              ________      ________      ________      ________      ________
+       36   0.358626D-02
+       37   0.569139D-03  0.403578D-02
+       38  -0.941308D-05 -0.298704D-04  0.297037D-02
+       39  -0.405415D-04 -0.889533D-04 -0.514626D-04  0.571690D-02
+       40  -0.738243D-04 -0.211281D-05  0.284064D-03 -0.480218D-05  0.353996D-02
+       41   0.173662D-04 -0.157037D-03  0.120517D-03 -0.175105D-02  0.471758D-03
+       42  -0.535943D-04  0.327991D-04  0.302989D-03 -0.831440D-05  0.239149D-03
+       43   0.780844D-05  0.878518D-04 -0.247277D-03  0.136718D-02 -0.700639D-03
+       44  -0.782210D-05 -0.800603D-04  0.830054D-05  0.183824D-04  0.750774D-03
+       45   0.697792D-04  0.555028D-04  0.292916D-03 -0.100559D-02  0.481784D-03
+       46  -0.876093D-04 -0.209044D-03  0.133455D-03 -0.237412D-04  0.934269D-04
+       47  -0.481594D-04 -0.102592D-04 -0.160051D-03  0.106761D-02 -0.374008D-03
+       48   0.378674D-03  0.111048D-03  0.259814D-04 -0.552530D-04 -0.612594D-04
+       49  -0.543006D-04  0.116512D-03  0.770527D-04 -0.592867D-03 -0.519757D-03
+       50   0.147010D-03  0.299949D-04  0.100955D-04 -0.917459D-03 -0.142610D-03
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                    41            42            43            44            45
+              ________      ________      ________      ________      ________
+       41   0.141633D-01
+       42  -0.411942D-03  0.261552D-02
+       43  -0.962863D-02  0.669465D-03  0.117192D-01
+       44  -0.226738D-04  0.376216D-03  0.178094D-04  0.316622D-02
+       45   0.964398D-02 -0.591880D-03 -0.113626D-01  0.944090D-04  0.196255D-01
+       46  -0.194309D-03  0.554839D-03  0.989985D-04  0.533622D-03 -0.154873D-04
+       47  -0.719818D-02  0.948386D-03  0.110247D-01  0.471269D-04 -0.182179D-01
+       48   0.131864D-03 -0.295740D-04  0.365524D-04  0.737955D-04  0.460275D-04
+       49  -0.224966D-03 -0.718218D-04  0.167349D-03 -0.208046D-03 -0.283963D-03
+       50  -0.419259D-03 -0.114718D-03  0.368253D-03  0.118470D-03 -0.471614D-03
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                    46            47            48            49            50
+              ________      ________      ________      ________      ________
+       46   0.320927D-02
+       47  -0.502593D-04  0.264248D-01
+       48   0.278291D-04  0.115314D-04  0.461644D-02
+       49  -0.519288D-04  0.307442D-03  0.316298D-04  0.557638D-02
+       50   0.442361D-04  0.664786D-03  0.228250D-03  0.101535D-02  0.939580D-02
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                     1             2             3             4             5
+              ________      ________      ________      ________      ________
+        1       1.000
+        2      -0.070         1.000
+        3       0.090        -0.004         1.000
+        4       0.046         0.232        -0.031         1.000
+        5       0.041         0.048         0.169        -0.062         1.000
+        6      -0.008         0.082        -0.007         0.028        -0.009
+        7       0.039        -0.030        -0.014         0.015        -0.019
+        8      -0.036         0.065         0.032         0.070         0.046
+        9       0.033        -0.002        -0.010         0.002         0.017
+       10      -0.012         0.011         0.020        -0.009         0.040
+       11      -0.014         0.070         0.017         0.053         0.012
+       12       0.065         0.033         0.028        -0.017        -0.001
+       13      -0.178        -0.043        -0.069        -0.030        -0.020
+       14      -0.976         0.079        -0.076        -0.039        -0.038
+       15       0.009        -0.255        -0.025        -0.063        -0.025
+       16       0.067        -0.961         0.010        -0.222        -0.041
+       17      -0.008        -0.051        -0.293        -0.061        -0.006
+       18      -0.085         0.020        -0.946         0.050        -0.175
+       19      -0.026        -0.059        -0.047        -0.213        -0.031
+       20      -0.038        -0.223         0.043        -0.958         0.067
+       21      -0.010        -0.010        -0.028        -0.019        -0.252
+       22      -0.039        -0.046        -0.167         0.065        -0.960
+       23      -0.047        -0.318        -0.045        -0.113         0.010
+       24       0.015         0.015         0.018         0.011         0.006
+       25      -0.064         0.120        -0.373        -0.004        -0.134
+       26      -0.026         0.000         0.098        -0.018         0.051
+       27       0.035        -0.354         0.038        -0.452        -0.028
+       28       0.028         0.015        -0.049         0.040        -0.045
+       29      -0.029         0.063        -0.200         0.073        -0.413
+       30      -0.026        -0.010         0.051        -0.022         0.064
+       31      -0.019        -0.141         0.038        -0.216         0.014
+       32       0.016         0.009        -0.030         0.045        -0.048
+       33       0.133         0.081        -0.023         0.009         0.022
+       34       0.004         0.048         0.057         0.011         0.012
+       35      -0.012         0.042         0.023         0.069        -0.014
+       36      -0.001         0.011         0.026         0.025         0.088
+       37       0.008         0.009        -0.005         0.021         0.075
+       38       0.620         0.129         0.092         0.019         0.013
+       39      -0.053        -0.007        -0.002         0.000        -0.014
+       40      -0.034         0.574         0.184         0.213         0.045
+       41       0.023        -0.006        -0.091        -0.017        -0.051
+       42       0.036         0.056         0.334         0.167         0.190
+       43      -0.034        -0.027         0.049        -0.028         0.055
+       44      -0.003         0.175         0.023         0.418         0.226
+       45       0.028         0.017        -0.051         0.012        -0.039
+       46       0.018         0.035         0.103         0.012         0.390
+       47      -0.031         0.001         0.040        -0.032         0.037
+       48       0.018        -0.050        -0.060        -0.040        -0.036
+       49       0.069        -0.167        -0.062        -0.095        -0.055
+       50       0.061        -0.006        -0.030        -0.013         0.001
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                     6             7             8             9            10
+              ________      ________      ________      ________      ________
+        6       1.000
+        7      -0.265         1.000
+        8       0.227        -0.747         1.000
+        9      -0.185         0.545        -0.740         1.000
+       10       0.195        -0.415         0.596        -0.771         1.000
+       11      -0.006        -0.022        -0.001        -0.009         0.015
+       12      -0.231         0.014        -0.008        -0.004         0.015
+       13      -0.028        -0.004        -0.012         0.012        -0.010
+       14       0.015        -0.038         0.039        -0.035         0.013
+       15      -0.013         0.014        -0.001         0.007         0.006
+       16      -0.081         0.025        -0.067         0.000        -0.014
+       17       0.008         0.003         0.013         0.003        -0.004
+       18       0.003         0.013        -0.036         0.009        -0.022
+       19       0.005        -0.005         0.008        -0.006         0.016
+       20      -0.030        -0.017        -0.072        -0.003         0.005
+       21       0.028         0.014         0.014        -0.014         0.027
+       22      -0.001         0.017        -0.053        -0.013        -0.051
+       23      -0.247         0.031        -0.013         0.004        -0.005
+       24      -0.945         0.252        -0.220         0.181        -0.193
+       25       0.120        -0.223         0.127        -0.072         0.038
+       26       0.239        -0.972         0.728        -0.534         0.408
+       27      -0.076         0.071        -0.233         0.081        -0.042
+       28      -0.214         0.748        -0.966         0.733        -0.604
+       29       0.028        -0.028         0.067        -0.166        -0.016
+       30       0.179        -0.547         0.735        -0.977         0.784
+       31      -0.027         0.006        -0.035         0.062        -0.205
+       32      -0.191         0.419        -0.602         0.773        -0.983
+       33       0.002        -0.006         0.005        -0.008         0.016
+       34       0.006         0.001         0.005        -0.010         0.008
+       35      -0.015        -0.005        -0.005        -0.003         0.026
+       36       0.002        -0.007        -0.008        -0.003        -0.006
+       37      -0.002        -0.029         0.018         0.001        -0.005
+       38      -0.027         0.105        -0.059         0.050        -0.036
+       39       0.512        -0.038         0.069        -0.043         0.035
+       40       0.062         0.012         0.068         0.005        -0.009
+       41      -0.126         0.739        -0.527         0.378        -0.269
+       42      -0.005         0.015        -0.013         0.075         0.100
+       43       0.143        -0.655         0.696        -0.496         0.500
+       44       0.050         0.005         0.067        -0.065         0.117
+       45      -0.145         0.569        -0.681         0.781        -0.674
+       46      -0.004         0.004         0.002         0.044        -0.005
+       47       0.132        -0.400         0.580        -0.695         0.827
+       48      -0.004         0.012         0.009        -0.013         0.009
+       49       0.152        -0.009        -0.005        -0.013         0.012
+       50       0.357        -0.055         0.030        -0.055         0.025
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                    11            12            13            14            15
+              ________      ________      ________      ________      ________
+       11       1.000
+       12       0.004         1.000
+       13      -0.044         0.034         1.000
+       14       0.023        -0.080        -0.024         1.000
+       15      -0.071         0.012         0.156        -0.042         1.000
+       16      -0.025        -0.037        -0.002        -0.068         0.000
+       17      -0.012        -0.013         0.149        -0.024         0.203
+       18       0.016        -0.026         0.029         0.082        -0.039
+       19      -0.005         0.014         0.134        -0.005         0.176
+       20      -0.021         0.014        -0.007         0.041         0.020
+       21      -0.032        -0.001         0.094        -0.009         0.104
+       22       0.018         0.000         0.003         0.041        -0.002
+       23      -0.011         0.112         0.069         0.030        -0.009
+       24       0.010         0.130         0.005        -0.017         0.014
+       25       0.023        -0.006         0.016         0.066        -0.022
+       26       0.019        -0.012         0.001         0.024        -0.010
+       27      -0.014        -0.007         0.004        -0.038         0.018
+       28       0.004         0.017         0.011        -0.031        -0.007
+       29      -0.012        -0.006         0.024         0.027        -0.003
+       30       0.012         0.004        -0.017         0.029        -0.006
+       31      -0.026        -0.005         0.002         0.019         0.003
+       32      -0.011        -0.010         0.008        -0.017        -0.006
+       33      -0.001        -0.008        -0.177        -0.107        -0.275
+       34      -0.013         0.024        -0.041         0.001        -0.172
+       35       0.040         0.011         0.034         0.010        -0.126
+       36       0.038         0.004         0.027        -0.005        -0.009
+       37       0.023         0.011         0.021        -0.010        -0.011
+       38      -0.025         0.081         0.005        -0.632         0.013
+       39      -0.018         0.014         0.007         0.052         0.011
+       40      -0.002         0.051        -0.008         0.036         0.008
+       41      -0.030         0.006        -0.015        -0.019         0.007
+       42       0.007         0.017        -0.022        -0.033         0.006
+       43      -0.005        -0.031         0.006         0.032         0.016
+       44      -0.009         0.002        -0.009         0.005        -0.030
+       45      -0.035         0.004         0.001        -0.028         0.000
+       46      -0.009         0.013        -0.013        -0.016        -0.021
+       47       0.010        -0.015         0.000         0.030         0.004
+       48      -0.123         0.010        -0.013        -0.018         0.167
+       49       0.022        -0.153        -0.084        -0.050         0.020
+       50      -0.031        -0.407        -0.016        -0.058        -0.013
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                    16            17            18            19            20
+              ________      ________      ________      ________      ________
+       16       1.000
+       17       0.000         1.000
+       18      -0.012        -0.005         1.000
+       19       0.014         0.217        -0.016         1.000
+       20       0.226         0.004        -0.048        -0.049         1.000
+       21      -0.022         0.097        -0.003         0.188        -0.032
+       22       0.048        -0.013         0.183        -0.023        -0.058
+       23       0.334         0.015         0.041         0.009         0.112
+       24      -0.022        -0.012        -0.013        -0.009        -0.008
+       25      -0.121        -0.019         0.399        -0.027         0.012
+       26       0.006         0.001        -0.102         0.011         0.018
+       27       0.365         0.021        -0.048         0.004         0.465
+       28      -0.014        -0.019         0.057        -0.011        -0.040
+       29      -0.067        -0.001         0.212        -0.023        -0.071
+       30       0.012        -0.003        -0.052         0.011         0.023
+       31       0.148        -0.017        -0.034        -0.030         0.233
+       32      -0.007         0.007         0.032        -0.011        -0.044
+       33      -0.012         0.059         0.005        -0.046        -0.001
+       34      -0.017        -0.279         0.028         0.021        -0.015
+       35      -0.013        -0.205         0.032        -0.273         0.005
+       36      -0.005        -0.130         0.006        -0.278         0.044
+       37      -0.004         0.041        -0.002        -0.170         0.020
+       38      -0.139         0.011        -0.096         0.001        -0.018
+       39       0.005         0.018        -0.003        -0.006         0.000
+       40      -0.599         0.009        -0.196        -0.010        -0.217
+       41       0.000        -0.006         0.097        -0.004         0.014
+       42      -0.059         0.003        -0.352         0.048        -0.184
+       43       0.024         0.012        -0.057         0.024         0.023
+       44      -0.176         0.013        -0.029         0.041        -0.444
+       45      -0.019         0.006         0.051        -0.012        -0.015
+       46      -0.031         0.003        -0.110         0.038        -0.022
+       47      -0.003        -0.004        -0.043         0.011         0.031
+       48       0.006         0.143         0.015         0.152         0.000
+       49       0.165         0.001         0.067         0.001         0.098
+       50       0.009        -0.005         0.028         0.021         0.005
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                    21            22            23            24            25
+              ________      ________      ________      ________      ________
+       21       1.000
+       22       0.000         1.000
+       23      -0.005        -0.007         1.000
+       24      -0.026         0.003        -0.058         1.000
+       25      -0.018         0.142        -0.238        -0.051         1.000
+       26      -0.011        -0.050         0.016        -0.246         0.017
+       27      -0.012         0.036         0.204         0.016        -0.337
+       28      -0.011         0.049        -0.031         0.223        -0.047
+       29       0.011         0.425        -0.072        -0.008         0.240
+       30       0.012        -0.071         0.007        -0.182         0.028
+       31      -0.051         0.002         0.089         0.005        -0.127
+       32      -0.019         0.056        -0.008         0.195        -0.018
+       33       0.034        -0.031        -0.007         0.002        -0.024
+       34      -0.024        -0.007         0.015        -0.011         0.017
+       35       0.045         0.007         0.000         0.016         0.021
+       36      -0.270        -0.021         0.006        -0.003         0.010
+       37      -0.308         0.005        -0.010         0.007        -0.006
+       38       0.017        -0.017        -0.006         0.022        -0.377
+       39       0.012         0.010         0.120        -0.599         0.016
+       40       0.015        -0.054        -0.294         0.026         0.161
+       41       0.003         0.052         0.004         0.133         0.016
+       42       0.005        -0.196        -0.006         0.008        -0.323
+       43       0.000        -0.059         0.019        -0.154         0.022
+       44      -0.013        -0.234        -0.102        -0.019         0.034
+       45      -0.011         0.044        -0.004         0.148        -0.025
+       46       0.003        -0.408         0.020         0.000        -0.131
+       47       0.014        -0.044         0.004        -0.136         0.002
+       48       0.125         0.004        -0.011         0.008         0.009
+       49      -0.008         0.061        -0.590         0.031        -0.007
+       50       0.010        -0.005        -0.116        -0.310         0.030
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                    26            27            28            29            30
+              ________      ________      ________      ________      ________
+       26       1.000
+       27       0.003         1.000
+       28      -0.755        -0.001         1.000
+       29      -0.023        -0.333         0.017         1.000
+       30       0.551        -0.017        -0.753        -0.025         1.000
+       31       0.019         0.255        -0.022        -0.315         0.001
+       32      -0.420         0.003         0.623         0.070        -0.802
+       33       0.014         0.016        -0.010         0.000         0.009
+       34      -0.006        -0.022         0.003        -0.004         0.010
+       35       0.000        -0.001         0.006         0.003         0.002
+       36       0.004         0.027         0.003         0.004         0.001
+       37       0.031        -0.010        -0.015         0.029        -0.006
+       38      -0.032         0.038         0.050        -0.062        -0.038
+       39       0.045        -0.018        -0.076         0.012         0.047
+       40      -0.054        -0.612         0.072         0.104        -0.024
+       41      -0.787        -0.013         0.564         0.031        -0.403
+       42       0.054         0.141        -0.030        -0.606         0.038
+       43       0.681         0.026        -0.750        -0.072         0.535
+       44      -0.013        -0.362         0.015         0.136         0.031
+       45      -0.587         0.003         0.717         0.045        -0.822
+       46       0.023         0.013        -0.004        -0.336         0.017
+       47       0.413        -0.005        -0.611        -0.065         0.733
+       48      -0.014         0.007        -0.012         0.013         0.011
+       49       0.015         0.075        -0.015         0.010         0.014
+       50       0.052         0.004        -0.032         0.017         0.053
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                    31            32            33            34            35
+              ________      ________      ________      ________      ________
+       31       1.000
+       32       0.042         1.000
+       33      -0.035        -0.010         1.000
+       34       0.002        -0.007         0.083         1.000
+       35      -0.015        -0.025         0.120         0.106         1.000
+       36       0.038         0.001         0.059         0.104         0.144
+       37       0.018         0.001         0.083         0.041         0.114
+       38       0.023         0.033         0.074        -0.002        -0.022
+       39      -0.010        -0.037        -0.003         0.012        -0.015
+       40      -0.170         0.035         0.002        -0.030        -0.007
+       41      -0.009         0.283        -0.025         0.013        -0.001
+       42       0.025        -0.106        -0.004         0.016         0.027
+       43      -0.019        -0.518         0.017        -0.005         0.011
+       44      -0.577        -0.025         0.029         0.030         0.001
+       45      -0.006         0.701        -0.005         0.010        -0.011
+       46       0.021        -0.003         0.011         0.019        -0.006
+       47      -0.002        -0.860         0.017         0.001         0.023
+       48      -0.004        -0.009         0.059         0.079         0.075
+       49       0.054        -0.022         0.002        -0.016        -0.006
+       50      -0.003        -0.027         0.024         0.004        -0.019
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                    36            37            38            39            40
+              ________      ________      ________      ________      ________
+       36       1.000
+       37       0.150         1.000
+       38      -0.003        -0.009         1.000
+       39      -0.009        -0.019        -0.012         1.000
+       40      -0.021        -0.001         0.088        -0.001         1.000
+       41       0.002        -0.021         0.019        -0.195         0.067
+       42      -0.017         0.010         0.109        -0.002         0.079
+       43       0.001         0.013        -0.042         0.167        -0.109
+       44      -0.002        -0.022         0.003         0.004         0.224
+       45       0.008         0.006         0.038        -0.095         0.058
+       46      -0.026        -0.058         0.043        -0.006         0.028
+       47      -0.005        -0.001        -0.018         0.087        -0.039
+       48       0.093         0.026         0.007        -0.011        -0.015
+       49      -0.012         0.025         0.019        -0.105        -0.117
+       50       0.025         0.005         0.002        -0.125        -0.025
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                    41            42            43            44            45
+              ________      ________      ________      ________      ________
+       41       1.000
+       42      -0.068         1.000
+       43      -0.747         0.121         1.000
+       44      -0.003         0.131         0.003         1.000
+       45       0.578        -0.083        -0.749         0.012         1.000
+       46      -0.029         0.192         0.016         0.167        -0.002
+       47      -0.372         0.114         0.626         0.005        -0.800
+       48       0.016        -0.009         0.005         0.019         0.005
+       49      -0.025        -0.019         0.021        -0.050        -0.027
+       50      -0.036        -0.023         0.035         0.022        -0.035
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                    46            47            48            49            50
+              ________      ________      ________      ________      ________
+       46       1.000
+       47      -0.005         1.000
+       48       0.007         0.001         1.000
+       49      -0.012         0.025         0.006         1.000
+       50       0.008         0.042         0.035         0.140         1.000
+
+
+     Beginning Time:  08:33:16
+        Ending Time:  08:36:12
+       Elapsed Time:  00:02:56
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

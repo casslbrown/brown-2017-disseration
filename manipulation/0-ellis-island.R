@@ -30,13 +30,19 @@ requireNamespace("zoo")
 
 # ---- declare-globals --------------------------------------------------------
 # connect to the data transfer object from the HRS repository
-# path_input      <- "../HRS/data-unshared/derived/1-dto.rds" # product of 1-scale-assembly.R
+path_input      <- "../HRS/data-unshared/derived/1-dto.rds" # product of 1-scale-assembly.R
 path_input_list <- "../HRS/data-unshared/derived/1-dto-list.rds" # product of 1-scale-assembly.R
+path_input_biomarker <- "../HRS/data-unshared/derived/dto_b.rds" # product of 2-add-biomarkers-data.R
 path_output     <- "./data-unshared/derived/0-dto.rds"
+#path_output_bio <- "./data-unshared/derived/0-dto_b.rds"
+
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-scale-assembly.R a long data file
-# ds <- readRDS(path_input)
-ls <- readRDS(path_input_list)
+ds <- readRDS(path_input)
+#ls <- readRDS(path_input_list)
+
+# to add biomarker data load the product of 2-add-biomarker-data.R a long data file
+#ds_bio <- readRDS(path_input_biomarker)
 
 # ---- inspect-data -------------------------------------------------------------
 names(ls)
@@ -48,7 +54,15 @@ merge_multiple_files <- function(list, by_columns){
   Reduce(function( d_1, d_2 ) dplyr::full_join(d_1, d_2, by=by_columns), list)
 }
 
+# a ds without biomarker data
 ds <- merge_multiple_files(ls, by_columns = c("year","hhidpn"))
+
+# add biomarker data to the list
+ls[["biomarkers"]] <- ds_bio
+
+# then merge the list to create a long ds with biomarker data
+ds_b <- merge_multiple_files(ls, by_columns = c("year","hhidpn"))
+ 
 
 # ---- tweak-data --------------------------------------------------------------
 ds <- ds %>% dplyr::rename(id = hhidpn)
@@ -57,10 +71,14 @@ set.seed(41) # to set specific seed
 sample_size <- 3
 ids <- sample(unique(ds$id), sample_size)
 
-
+ds_b <- ds_b %>% dplyr::rename(id = hhidpn)
+set.seed(41) # to set specific seed
+# set.seed(NULL) # to disable specific seed
+sample_size <- 3
+ids <- sample(unique(ds_b$id), sample_size)
 # ---- save-to-disk ----------------------------------------
 saveRDS(ds, path_output)
-
+saveRDS(ds_b, path_output_bio)
 
 
 

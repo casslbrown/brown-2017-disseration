@@ -1,0 +1,122 @@
+TITLE:
+16 - ALT-cognitive quadratic, cog fixed
+
+DATA:
+File = %data_file%;
+
+VARIABLE:
+NAMES are
+ %names_are%
+	;
+
+Missing are all(9999);
+
+USEVARIABLES are
+	!define the variables used in the analysis
+
+	!estimated time points
+%process_a_timepoints% 
+	!modelled time points of process (B)
+%process_b_timepoints% 
+	! covariates used in the model
+%covariate_set%	;
+
+
+
+SUBPOPULATION are
+	!select a subset of observations
+%subset_group_1% 
+%subset_condition_1%
+;
+
+CLUSTER = hhid;
+
+DEFINE:
+  ! centre baseline age
+a = age_baseline - 69;
+
+	! assign variables to the process (A)
+%match_timepoints_process_a%
+	! assign variables to the process (B)
+%match_timepoints_process_b%
+
+
+
+ANALYSIS:
+TYPE = COMPLEX RANDOM;
+COVERAGE=.00;  
+H1ITERATIONS = 10000;
+
+
+MODEL:
+	!LGM part
+	! assign process (A) to time points 
+ia sa qa| %assigning_a_to_timepoints% ;
+	! assign process (B) to time points 
+ib sb| %assigning_b_to_timepoints% ;
+	!correlations between the first measurement points
+a_01 WITH b_01;
+
+	!autoregressive part
+a_01;
+a_02 ON a_01(1);
+a_03 ON a_02(1);
+a_04 ON a_03(1); 
+a_05 ON a_04(1);
+a_06 ON a_05(1);
+
+b_01;
+b_02 ON b_01;
+b_03 ON b_02;
+b_04 ON b_03;
+b_05 ON b_04;
+b_06 ON b_05;
+
+	!Cross lagged part
+a_02 ON b_01;
+a_03 ON b_02;
+a_04 ON b_03;
+a_05 ON b_04;
+a_06 ON b_05;
+
+b_02 ON a_01;
+b_03 ON a_02;
+b_04 ON a_03;
+b_05 ON a_04;
+b_06 ON a_05;
+
+! No time specific correlations
+
+
+!SAVEDATA:
+!FILE is   %saved_analysis%_fscores.dat;
+!SAVE = FSCORES;
+!RESULTS are   %saved_analysis%_results.dat;
+	
+OUTPUT: SAMPSTAT MODINDICES (3.0); TECH1 TECH2 TECH3;;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

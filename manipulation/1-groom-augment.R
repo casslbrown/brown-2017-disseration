@@ -32,6 +32,7 @@ requireNamespace("zoo")
 
 # ---- declare-globals --------------------------------------------------------
 path_input      <- "./data-unshared/derived/0-dto.rds" # product of 0-ellis-island
+#path_input      <- "./data-unshared/derived/0-dto_b.rds" # product of 0-ellis-island
 path_output     <- "./data-unshared/derived/1-dto.rds"
 
 
@@ -43,7 +44,7 @@ loneliness <- c(
 focal_variables <- c(loneliness)
 
 # ---- load-data ---------------------------------------------------------------
-# load the product of 1-scale-assembly.R a long data file
+# load the product of 0-ellis-island.R a long data file
 ds <- readRDS(path_input)
 
 set.seed(41) # to set specific seed
@@ -391,19 +392,25 @@ ds %>%
   dplyr::select_("id","memoryproblems_baseline", "dementia_baseline", "memry", "demen", "alzheimer_baseline", "alzhe") %>%
   print(n=nrow(.))
 
-# create a baseline age variable that gives a static age variable of the partcipant at the first wave that they were
+# create a baseline age variable that gives a static age variable of the participant at the first wave that they were
 # 65 years old or older (because younger participant are excluded from some analyses)
 
 ds <- ds %>%
   dplyr::group_by(id) %>%
   dplyr::mutate(
-    age_baseline  = ifelse(!is.na(dplyr::first(intage_r)) & dplyr::first(intage_r)>64, dplyr::first(intage_r), 
+    age_baseline_65  = ifelse(!is.na(dplyr::first(intage_r)) & dplyr::first(intage_r)>64, dplyr::first(intage_r), 
                                         ifelse(!is.na(dplyr::nth(intage_r, 2)) & dplyr::nth(intage_r,2)>64, dplyr::nth(intage_r, 2), 
                                                ifelse(!is.na(dplyr::nth(intage_r, 3)) & dplyr::nth(intage_r, 3)>64, dplyr::nth(intage_r, 3), 
                                                       ifelse(!is.na(dplyr::nth(intage_r, 4)) & dplyr::nth(intage_r, 4)>64, dplyr::nth(intage_r, 4),
                                                              ifelse(!is.na(dplyr::nth(intage_r, 5)) & dplyr::nth(intage_r, 5)>64, dplyr::nth(intage_r, 5),
                                                                     ifelse(!is.na(dplyr::nth(intage_r, 6)) & dplyr::nth(intage_r, 6)>64, dplyr::nth(intage_r, 6), NA))))))
-) %>%
+    ,age_baseline  = ifelse(!is.na(dplyr::first(intage_r)), dplyr::first(intage_r), 
+                              ifelse(!is.na(dplyr::nth(intage_r, 2)), dplyr::nth(intage_r, 2), 
+                                     ifelse(!is.na(dplyr::nth(intage_r, 3)), dplyr::nth(intage_r, 3), 
+                                            ifelse(!is.na(dplyr::nth(intage_r, 4)), dplyr::nth(intage_r, 4),
+                                                   ifelse(!is.na(dplyr::nth(intage_r, 5)), dplyr::nth(intage_r, 5),
+                                                          ifelse(!is.na(dplyr::nth(intage_r, 6)), dplyr::nth(intage_r, 6), NA))))))
+    ) %>%
   dplyr::ungroup()
 
 # sample to show age_baseline variable is correct.
@@ -412,7 +419,29 @@ ds %>%
   dplyr::select_("id","intage_r", "age_baseline") %>%
   print(n=nrow(.))
 
+# create chronic health conditions at baseline
+# 65 years old or older (because younger participant are excluded from some analyses)
+mean(ds$healthcond, na.rm = T)
+ds <- ds %>%
+  dplyr::group_by(id) %>%
+  dplyr::mutate(
+    health_conditions_baseline  = ifelse(!is.na(dplyr::first(healthcond)) & dplyr::first(intage_r)>64, dplyr::first(healthcond), 
+                           ifelse(!is.na(dplyr::nth(healthcond, 2)) & dplyr::nth(intage_r,2)>64, dplyr::nth(healthcond, 2), 
+                                  ifelse(!is.na(dplyr::nth(healthcond, 3)) & dplyr::nth(intage_r, 3)>64, dplyr::nth(healthcond, 3), 
+                                         ifelse(!is.na(dplyr::nth(healthcond, 4)) & dplyr::nth(intage_r, 4)>64, dplyr::nth(healthcond, 4),
+                                                ifelse(!is.na(dplyr::nth(healthcond, 5)) & dplyr::nth(intage_r, 5)>64, dplyr::nth(healthcond, 5),
+                                                       ifelse(!is.na(dplyr::nth(healthcond, 6)) & dplyr::nth(intage_r, 6)>64, dplyr::nth(healthcond, 6), NA))))))
+  ) %>%
+  dplyr::ungroup()
 
+ds <- ds %>% group_by(id) %>% 
+  mutate(healthcond_mean = mean(healthcond, na.rm=T))
+
+# sample to show health conditions variables are correct.
+ds %>%
+  dplyr::filter(id == 22860010|id==3010|id==10001010 | id==923486010) %>%
+  dplyr::select_("id","intage_r", "healthcond", "health_conditions_baseline","healthcond_mean") %>%
+  print(n=nrow(.))
 
 # ---- save-to-disk ----------------------------------------
 saveRDS(ds, path_output)

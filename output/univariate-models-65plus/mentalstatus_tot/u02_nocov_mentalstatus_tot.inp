@@ -1,0 +1,103 @@
+TITLE:
+LGM
+DATA:
+File = wide-dataset-b.dat ;
+VARIABLE:
+NAMES are
+ id hhid male birthyr_rand birthmo_rand race_rand hispanic_rand cohort
+    raedyrs raedegrm memoryproblems_baseline memory_disease_ever age_baseline
+    age_baseline_65 health_conditions_baseline healthcond_mean activity_mean_2004
+    activity_mean_2006 activity_mean_2008 activity_mean_2010 activity_mean_2012
+    activity_mean_2014 activity_sum_2004 activity_sum_2006 activity_sum_2008
+    activity_sum_2010 activity_sum_2012 activity_sum_2014 close_social_network_2004
+    close_social_network_2006 close_social_network_2008 close_social_network_2010
+    close_social_network_2012 close_social_network_2014 countb20r_2004
+    countb20r_2006 countb20r_2008 countb20r_2010 countb20r_2012 countb20r_2014
+    crp_adj_2004 crp_adj_2006 crp_adj_2008 crp_adj_2010 crp_adj_2012 crp_adj_2014
+    dep_total_2004 dep_total_2006 dep_total_2008 dep_total_2010 dep_total_2012
+    dep_total_2014 exercise_2004 exercise_2006 exercise_2008 exercise_2010
+    exercise_2012 exercise_2014 healthcond_2004 healthcond_2006 healthcond_2008
+    healthcond_2010 healthcond_2012 healthcond_2014 hhres_2004 hhres_2006
+    hhres_2008 hhres_2010 hhres_2012 hhres_2014 hrs_tscore_2004 hrs_tscore_2006
+    hrs_tscore_2008 hrs_tscore_2010 hrs_tscore_2012 hrs_tscore_2014 intage_r_2004
+    intage_r_2006 intage_r_2008 intage_r_2010 intage_r_2012 intage_r_2014
+    interview_date_2004 interview_date_2006 interview_date_2008 interview_date_2010
+    interview_date_2012 interview_date_2014 lb_65_wave_2004 lb_65_wave_2006
+    lb_65_wave_2008 lb_65_wave_2010 lb_65_wave_2012 lb_65_wave_2014 lb_wave_2004
+    lb_wave_2006 lb_wave_2008 lb_wave_2010 lb_wave_2012 lb_wave_2014 listassi_2004
+    listassi_2006 listassi_2008 listassi_2010 listassi_2012 listassi_2014
+    mentalstatus_tot_2004 mentalstatus_tot_2006 mentalstatus_tot_2008
+    mentalstatus_tot_2010 mentalstatus_tot_2012 mentalstatus_tot_2014 proxy_2004
+    proxy_2006 proxy_2008 proxy_2010 proxy_2012 proxy_2014 responded_2004
+    responded_2006 responded_2008 responded_2010 responded_2012 responded_2014
+    rmaritalst_2004 rmaritalst_2006 rmaritalst_2008 rmaritalst_2010 rmaritalst_2012
+    rmaritalst_2014 rpartst_2004 rpartst_2006 rpartst_2008 rpartst_2010
+    rpartst_2012 rpartst_2014 score_loneliness_11_2004 score_loneliness_11_2006
+    score_loneliness_11_2008 score_loneliness_11_2010 score_loneliness_11_2012
+    score_loneliness_11_2014 score_loneliness_3_2004 score_loneliness_3_2006
+    score_loneliness_3_2008 score_loneliness_3_2010 score_loneliness_3_2012
+    score_loneliness_3_2014 shhidpnr_2004 shhidpnr_2006 shhidpnr_2008 shhidpnr_2010
+    shhidpnr_2012 shhidpnr_2014 snchild_2004 snchild_2006 snchild_2008 snchild_2010
+    snchild_2012 snchild_2014 snfamily_2004 snfamily_2006 snfamily_2008
+    snfamily_2010 snfamily_2012 snfamily_2014 snfriends_2004 snfriends_2006
+    snfriends_2008 snfriends_2010 snfriends_2012 snfriends_2014 snspouse_2004
+    snspouse_2006 snspouse_2008 snspouse_2010 snspouse_2012 snspouse_2014
+    social_contact_total_2004 social_contact_total_2006 social_contact_total_2008
+    social_contact_total_2010 social_contact_total_2012 social_contact_total_2014
+    social_strain_mean_2004 social_strain_mean_2006 social_strain_mean_2008
+    social_strain_mean_2010 social_strain_mean_2012 social_strain_mean_2014
+    social_support_mean_2004 social_support_mean_2006 social_support_mean_2008
+    social_support_mean_2010 social_support_mean_2012 social_support_mean_2014
+    socialnetwork_total_2004 socialnetwork_total_2006 socialnetwork_total_2008
+    socialnetwork_total_2010 socialnetwork_total_2012 socialnetwork_total_2014
+    srmemory_2004 srmemory_2006 srmemory_2008 srmemory_2010 srmemory_2012
+    srmemory_2014 srmemoryp_2004 srmemoryp_2006 srmemoryp_2008 srmemoryp_2010
+    srmemoryp_2012 srmemoryp_2014 vocab_total_2004 vocab_total_2006 vocab_total_2008
+    vocab_total_2010 vocab_total_2012 vocab_total_2014 wrectotd_2004 wrectotd_2006
+    wrectotd_2008 wrectotd_2010 wrectotd_2012 wrectotd_2014 wrectoti_2004
+    wrectoti_2006 wrectoti_2008 wrectoti_2010 wrectoti_2012 wrectoti_2014
+	;
+Missing are all(9999);
+USEVARIABLES are
+	!define the variables used in the analysis
+	!estimated time points
+a_01
+a_02
+a_03
+a_04
+a_05
+a_06 
+	! covariates used in the model
+ 	;
+SUBPOPULATION are
+	!select a subset of observations
+age_baseline > 64 AND 
+memoryproblems_baseline EQ 0
+;
+CLUSTER = hhid;
+DEFINE:
+  ! centre baseline age
+a = age_baseline - 69;
+	! assign variables to the process (A)
+a_01=mentalstatus_tot_2004;
+a_02=mentalstatus_tot_2006;
+a_03=mentalstatus_tot_2008;
+a_04=mentalstatus_tot_2010;
+a_05=mentalstatus_tot_2012;
+a_06=mentalstatus_tot_2014;
+ANALYSIS:
+TYPE = COMPLEX RANDOM;
+COVERAGE=.00;  
+H1ITERATIONS = 10000;
+MODEL:
+	!LGM 
+	! assign process (A) to time points 
+ia sa | a_01@0
+a_02@2
+a_03@4
+a_04@6
+a_05@8
+a_06@10 ;
+	! assign process (B) to time points 
+	
+OUTPUT: SAMPSTAT MODINDICES (3.0); TECH1 TECH2 TECH3;;

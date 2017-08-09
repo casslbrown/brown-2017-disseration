@@ -32,11 +32,14 @@ requireNamespace("zoo")
 # ---- declare-globals --------------------------------------------------------
 path_input      <- "./data-unshared/derived/1-dto.rds" # product of 1-groom-augment.R
 path_output     <- "./data-unshared/derived/2-dto.rds"
+path_output_bio <- "./data-unshared/derived/0-dto_b.rds"
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 1-groom-augment
 ds <- readRDS(path_input)
 
+# to add biomarker data load the product of 2-add-biomarker-data.R a long data file
+ds_bio <- readRDS(path_input_biomarker)
 # ---- object-glossary ----------------------------------------------------
 # list variables to keep separated for long to wide conversion
 variables_static <- c(

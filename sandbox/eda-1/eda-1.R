@@ -24,7 +24,8 @@ requireNamespace("testit")# For asserting conditions meet expected patterns.
 # requireNamespace("car") # For it's `recode()` function.
 
 # ---- declare-globals ---------------------------------------------------------
-path_input  <- "./data-unshared/derived/1-dto.rds" # product of ./manipulation/1-groom-augment.R
+#path_input  <- "./data-unshared/derived/1-dto.rds" # product of ./manipulation/1-groom-augment.R
+path_input <- "./data-unshared/derived/2-dto_b.rds" # product of 2-prepare-biomarker-data.R
 # path_output <- ""
 
 # ---- object-glossary ----------------------------------------------------

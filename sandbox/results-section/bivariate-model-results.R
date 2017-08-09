@@ -90,6 +90,7 @@ cm_row <- wrectotd_loneliness_summary$CM
 
 compare_models_function(wrectotd_loneliness_summary, cm_row)
 # ALT-11 fixed social on cognitive regressions over time is the final model add covariates.
+# Covariates added
 
 # delayed word recall and social contact bivariate models
 wrectotd_social_contact_summaries <- extractModelSummaries("./output/bivariate-models/wrectotd-social_contact_total")
@@ -107,6 +108,7 @@ wrectotd_social_network_summaries[1:3,"CM"] <- "-"
 wrectotd_social_network_summaries[10:13,"CM"] <- 9
 cm_row <- wrectotd_social_network_summaries$CM
 compare_models_function(wrectotd_social_network_summaries, cm_row)
+#ALT-11 fixed social on cognitive regressions over time is the final model add covariates to this. 
 
 # delayed word recall and social support
 wrectotd_social_support <- extractModelSummaries("./output/bivariate-models/wrectotd-social_support_mean")
@@ -116,6 +118,9 @@ wrectotd_social_support[10:13,"CM"] <- 9
 wrectotd_social_support[12:13,"CM"] <- 11
 cm_row <- wrectotd_social_support$CM
 compare_models_function(wrectotd_social_support, cm_row)
+# The ALT-11 model, with no time specific correlations and fixed autoregressions for social support is the final model
+# based on Chi Square difference but none of the models have particularly good fit based on other indices. 
+# Once the covariates were added the model fit improves.
 
 # immediate word recall and loneliness
 wrectoti_loneliness <- extractModelSummaries("./output/bivariate-models/wrectoti-score_loneliness_3")
@@ -126,12 +131,22 @@ wrectoti_loneliness[14,"CM"] <- 13
 cm_row <- wrectoti_loneliness$CM
 compare_models_function(wrectoti_loneliness, cm_row)
 
+# The more constrained ALT was the final model in this case with cross-lagged regressions constrained over time. 
+
 # immediate word recall and social contact
 wrectoti_social_contact <- extractModelSummaries("./output/bivariate-models/wrectoti-social_contact_total")
 wrectoti_social_contact["CM"] <- 3
+wrectoti_social_contact[11:13,"CM"] <- 9
+wrectoti_social_contact[13:13,"CM"] <- 12
 cm_row <- wrectoti_social_contact$CM
 compare_models_function(wrectoti_social_contact, cm_row)
 
+
+
 # immediate word recall and social support
 wrectoti_social_support <- extractModelSummaries("./output/bivariate-models/wrectoti-social_support_mean")
-wrectoti_social_support["CM"]
+wrectoti_social_support["CM"] <- 3
+wrectoti_social_support[1:3,"CM"] <- "-"
+wrectoti_social_support[10:12, "CM"] <- 9
+cm_row <- wrectoti_social_support$CM
+compare_models_function(wrectoti_social_support, cm_row)
