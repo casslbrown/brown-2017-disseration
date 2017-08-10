@@ -131,6 +131,11 @@ bivariateALT_parameter_extraction_function <- function(d){
   par_list[["soc_intercept"]] <- d[which(d[,"parameter"]=='Means IB'),"est"]
   par_list[["soc_intercept_pval"]]  <- d[which(d[,"parameter"]=='Means IB'),"pval"]
   
+  par_list[["A_01_WITH_B_01"]] <- d[which(d[,"parameter"]=='A_01.WITH B_01'),"est"]
+  par_list[["A_01_WITH_B_01_pval"]] <- d[which(d[,"parameter"]=='A_01.WITH  B_01'),"pval"]
+  par_list[["SB_WITH_SA"]] <- d[which(d[,"parameter"]=='SB.WITH SA'),"est"]
+  par_list[["SB_WITH_SA"]] <- d[which(d[,"parameter"]=='SB.WITH SA'),"pval"]
+  
   par_list[["cog_rho21"]] <- d[which(d[,"parameter"]=='A_02.ON A_01'),"est"]
   par_list[["cog_rho21_pval"]] <- d[which(d[,"parameter"]=='A_02.ON A_01'),"pval"]
   par_list[["cog_rho32"]] <- d[which(d[,"parameter"]=='A_03.ON A_02'),"est"]
@@ -833,7 +838,6 @@ wrectoti_loneliness_summary[12, "CM"] <- "9"
 wrectoti_loneliness_summary[13, "CM"] <- "9"
 wrectoti_loneliness_summary[14, "CM"] <- "13"
 wrectoti_loneliness_summary[15, "CM"] <- "13"
-wrectoti_loneliness_summary[16, "CM"] <- "13"
 cm_row <- wrectoti_loneliness_summary$CM
 
 wrectoti_loneliness_table <- compare_models_function(wrectoti_loneliness_summary, cm_row)
