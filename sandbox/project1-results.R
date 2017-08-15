@@ -290,6 +290,7 @@ bALT_plot_function <- function(t1cog, t1soc, parameter_list){
 
 # This function produces a list of predicted values needed to produce a line plot of the predicted trajectory 
 # given a mean initial value for univariate unconditional ALT models
+# uses the parameters in the format created by parameter_extraction_function()
 uALT_plot_function <- function(t1value, parameter_list){
   # This part enters the mplus produced parameter values into the equations of the ALT model.
   y1 <- mean(t1value, na.rm = T) # 2004, this value is within rounding error of the mplus output value
@@ -303,7 +304,6 @@ uALT_plot_function <- function(t1value, parameter_list){
   return(values)
 }
 
-
 lgm_quadratic_function <- function(d){
   #d <- wrecti_ATL
   linear_slope <- d[which(d[,"parameter"]=='Means SA'),"est"]
@@ -312,6 +312,7 @@ lgm_quadratic_function <- function(d){
   
   return(par_list)
 }
+
 # ----- load-data -----------
 path_input     <- "./data-unshared/derived/2-dto_b.rds"
 path_input_wide <- "./data-unshared/derived/2-dto_wide_b.rds"
@@ -464,7 +465,7 @@ desc <- as.data.frame(cbind(var_names, year_2004, year_2006, year_2008, year_201
 
 colnames(desc) <- c("", "2004", "2006", "2008", "2010", "2012", "2014")
 rownames(desc) <- c()
-apa_table(desc, 
+apa_table(desc, landscape = TRUE, 
           caption = "Descriptive statistics by year")
 
 # htmlTable(desc 
@@ -476,6 +477,98 @@ apa_table(desc,
 #           ,ctable = TRUE
 #           ,caption = "Table 1. Descriptive statistics by year"
 # )
+
+
+#---- immediate-word-recall-model-summaries --------------------------------------------------------------
+# Extract the fit indices of relevant models
+wrecti_fit_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/wrectoti")
+
+wrecti_fit_series4["CM"] <- 4
+wrecti_fit_series4[1:3, "CM"] <- "-"
+
+cm_row <- wrecti_fit_series4$CM
+wrecti_fit_series4_table <- compare_models_function(wrecti_fit_series4, cm_row)
+
+
+# print(xtable(wrecti_fit_series4_table, caption = "Model Fit Comparison for Immediate Word Recall",landscape = TRUE),
+#       caption.placement="top", type = "latex")
+
+
+colnames(wrecti_fit_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
+# wrecti<- xtable(wrecti_fit_series4_table, caption = "Fit indices")
+# print(wrecti, sanitize.colnames.function = function(x) {x})
+
+apa_table.word(wrecti_fit_series4_table, caption = "Model Fit Indices for Immediate Word Recall")
+
+
+
+#----immediate-word-recall-results-------
+wrecti_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/wrectoti/u04_nocov_wrectoti.out")
+
+wrecti_ATL <- as.data.frame(wrecti_ATLparameters[[1]])
+
+# columns to paste together
+cols <- c( 'paramHeader' , 'param') 
+
+# create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrecti_ATL$parameter <- paste(wrecti_ATL$paramHeader,wrecti_ATL$param)
+
+wrecti_ATL <- wrecti_ATL %>% dplyr::select(parameter, est, se, pval)
+write.csv(wrecti_ATL, file = "./output/univariate-models/wrecti_model_parameters.csv")
+read.csv(file = "./output/univariate-models/wrecti_model_parameters.csv")
+
+
+# wrectiATL_slope <- wrecti_ATL[which(wrecti_ATL[,"parameter"]=='A_02.ON A_01'),2]
+# which(d[,"parameter"]=='Means SA'), wrecti_ATLwrecti_ATL["est"]
+
+ALT_slope <- wrecti_ATL[which(wrecti_ATL[,"parameter"]=='Means SA'),"est"]
+
+
+#----immediate-word-recall-plot------
+
+# Create a plot of the model predicted mean scores to determine the shape of the ALT trajectory being modeled. 
+# Do this by entering the parameter values into the equations of the ALT model.
+
+y1 <- mean(ds_wide$wrectoti_2004, na.rm = T) # 2004, this value is within rounding error of the mplus output value
+y2 <- slope_list[["ALT_intercept"]]+2*slope_list[["ALT_slope"]]+slope_list[["ALT_rho21"]]*y1 #2006
+y3 <- slope_list[["ALT_intercept"]]+4*slope_list[["ALT_slope"]]+slope_list[["ALT_rho32"]]*y2 #2008
+y4 <- slope_list[["ALT_intercept"]]+6*slope_list[["ALT_slope"]]+slope_list[["ALT_rho43"]]*y3 #2010
+y5 <- slope_list[["ALT_intercept"]]+8*slope_list[["ALT_slope"]]+slope_list[["ALT_rho54"]]*y4 #2012
+y6 <- slope_list[["ALT_intercept"]]+10*slope_list[["ALT_slope"]]+slope_list[["ALT_rho65"]]*y5 #2014
+
+# Create the data for the chart.
+means <- c(y1,y2,y3,y4,y5,y6)
+
+# Plot the line chart.
+wrecti_plot <- plot(means,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                    main = "Immediate Word Recall")
+
+#----lgm-quadratic-immediate-word-recall-plot
+wrecti_LGM_quadratic_parameters <- extractModelParameters("./output/univariate-models-nodem-65plus/wrectoti/u03_nocov_wrectoti.out")
+
+wrecti_LGM_quadratic <- as.data.frame(wrecti_LGM_quadratic_parameters[[1]])
+# create a new column `parameter` with the two name columns paramHeader and param collapsed together
+
+wrecti_LGM_quadratic$parameter <- paste(wrecti_LGM_quadratic$paramHeader,wrecti_LGM_quadratic$param)
+
+wrecti_LGM_quadratic <- wrecti_LGM_quadratic %>% dplyr::select(parameter, est, se, pval)
+d<-wrecti_LGM_quadratic
+linear_slope <- d[which(d[,"parameter"]=='Means SA'),"est"]
+quadratic_slope <- d[which(d[,"parameter"]=='Means QA'),"est"]
+intercept <- d[which(d[,"parameter"]=='Means IA'),"est"]
+
+z1 <- intercept+linear_slope*0+quadratic_slope*0^2
+z2 <- intercept+linear_slope*2+quadratic_slope*2^2
+z3 <- intercept+linear_slope*4+quadratic_slope*4^2
+z4 <- intercept+linear_slope*6+quadratic_slope*6^2
+z5 <- intercept+linear_slope*8+quadratic_slope*8^2
+z6 <- intercept+linear_slope*10+quadratic_slope*10^2
+
+# Create the data for the chart.
+means_q <- c(z1,z2,z3,z4,z5,z6)
+
+wrecti_lgm_quadratic_plot <- plot(means_q,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                                  main = "Immediate Word Recall LGM Quadratic")
 
 # Bivariate model results
 
@@ -489,6 +582,7 @@ wrectotd_loneliness_summary[13, "CM"] <- "17"
 wrectotd_loneliness_summary[14, "CM"] <- "12"
 wrectotd_loneliness_summary[15, "CM"] <- "17"
 wrectotd_loneliness_summary[16, "CM"] <- "17"
+
 cm_row <- wrectotd_loneliness_summary$CM
 
 wrectotd_loneliness_table <- compare_models_function(wrectotd_loneliness_summary, cm_row)
@@ -513,17 +607,6 @@ wrectd_lonely_ATL$parameter <- paste(wrectd_lonely_ATL$paramHeader,wrectd_lonely
 # this allows the parameters to be accessible to the R markdown file for writing results. 
 wrectd_lonely_ATL <- wrectd_lonely_ATL %>% dplyr::select(parameter, est, se, pval)
 write.csv(wrectd_lonely_ATL, file = "./output/bivariate-models-nodem-65plus/wrectd_loneliness_model_parameters.csv")
-
-wrectd_lone_value_list <- bivariateALT_parameter_extraction_function(wrectd_lonely_ATL)
-
-wrectd_lonely_plot_vals <- bALT_plot_function(mean(ds_wide$wrectotd_2004, na.rm = T), mean(ds_wide$score_loneliness_3_2004, na.rm = T), wrectd_lone_value_list)
-
-
-wrectd_lone_plot <- plot(wrectd_lonely_plot_vals$y_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                    main = "Delayed Word Recall")
-
-lone_wrectd_plot <- plot(wrectd_lonely_plot_vals$x_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                         main = "Loneliness")
 
 # also create a csv with bivariate wrectd and loneliness full ALT model parameters for comparison
 wrectd_lonely_fullALTparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/wrectotd-score_loneliness_3/m03_nocov_wrectotd_score_loneliness_3.out")
@@ -687,7 +770,6 @@ wrectoti_social_network_summary[12, "CM"] <- "9"
 wrectoti_social_network_summary[13, "CM"] <- "11"
 wrectoti_social_network_summary[14, "CM"] <- "11"
 
-
 cm_row <- wrectoti_social_network_summary$CM
 
 wrectoti_social_network_table <- compare_models_function(wrectoti_social_network_summary, cm_row)
@@ -742,7 +824,7 @@ wrectoti_social_support_summary[12, "CM"] <- "9"
 wrectoti_social_support_summary[13, "CM"] <- "9"
 wrectoti_social_support_summary[14, "CM"] <- "13"
 wrectoti_social_support_summary[15, "CM"] <- "13"
-wrectoti_social_support_summary[16, "CM"] <- "13"
+
 cm_row <- wrectoti_social_support_summary$CM
 
 wrectoti_social_support_table <- compare_models_function(wrectoti_social_support_summary, cm_row)
@@ -898,7 +980,7 @@ apa_table.word(mental_socialnetwork_table, caption = "Model Fit Indices for Imme
 
 #---- mental-status-social-network-results--------------------------
 # model 11 the ALT model with no time specific correlations and fixed autoregressions for immediate word recall is the most supported model 
-mentalstatus_sn_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/mentalstatus_tot-socialnetwork_total/m14_nocov_mentalstatus_tot_socialnetwork_total.out")
+mentalstatus_sn_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/mentalstatus_tot-socialnetwork_total/m16_nocov_mentalstatus_tot_socialnetwork_total.out")
 
 mentalstatus_sn_ATLparameters <- as.data.frame(mentalstatus_sn_ATLparameters[[1]]) 
 
@@ -975,9 +1057,9 @@ write.csv(mentalstatus_ss_fullATL, file = "./output/bivariate-models-nodem-65plu
 #---- mental-status-social-contact --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
 mental_social_support_contact<- extractModelSummaries("./output/bivariate-models-nodem-65plus/mentalstatus_tot-social_contact_total")
-mental_social_support_contact["CM"] <- 3
+mental_social_support_contact["CM"] <- 9
 mental_social_support_contact[1:3, "CM"] <- "-"
-mental_social_support_contact[10:11, "CM"] <- "9"
+mental_social_support_contact[5:7, "CM"] <- "-"
 mental_social_support_contact[12, "CM"] <- "9"
 mental_social_support_contact[13, "CM"] <- "9"
 mental_social_support_contact[14, "CM"] <- "12"
@@ -1041,7 +1123,7 @@ apa_table.word(mental_loneliness_table, caption = "Model Fit Indices for Immedia
 
 #---- mental-status-loneliness---------------
 # model 11 the ALT model with no time specific correlations and fixed autoregressions for immediate word recall is the most supported model 
-mentalstatus_lone_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/mentalstatus_tot-score_loneliness_3/m14_nocov_mentalstatus_tot_score_loneliness_3.out")
+mentalstatus_lone_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/mentalstatus_tot-score_loneliness_3/m15_nocov_mentalstatus_tot_score_loneliness_3.out")
 
 mentalstatus_lone_ATLparameters <- as.data.frame(mentalstatus_lone_ATLparameters[[1]]) 
 
@@ -1065,97 +1147,6 @@ mentalstatus_lone_fullATLparameters$parameter <- paste(mentalstatus_lone_fullATL
 # this allows the parameters to be accessible to the R markdown file for writing results. 
 mentalstatus_lone_fullATLparameters <- mentalstatus_lone_fullATLparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(mentalstatus_lone_fullATLparameters, file = "./output/bivariate-models-nodem-65plus/mentalstatus_loneliness_fullmodel_parameters.csv")
-
-#---- immediate-word-recall-model-summaries --------------------------------------------------------------
-# Extract the fit indices of relevant models
-wrecti_fit_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/wrectoti")
-
-wrecti_fit_series4["CM"] <- 4
-wrecti_fit_series4[1:3, "CM"] <- "-"
-
-cm_row <- wrecti_fit_series4$CM
-wrecti_fit_series4_table <- compare_models_function(wrecti_fit_series4, cm_row)
-
-
-# print(xtable(wrecti_fit_series4_table, caption = "Model Fit Comparison for Immediate Word Recall",landscape = TRUE),
-#       caption.placement="top", type = "latex")
-
-
-colnames(wrecti_fit_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
-# wrecti<- xtable(wrecti_fit_series4_table, caption = "Fit indices")
-# print(wrecti, sanitize.colnames.function = function(x) {x})
-
-apa_table.word(wrecti_fit_series4_table, caption = "Model Fit Indices for Immediate Word Recall")
-
-wrecti_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/wrectoti/u04_nocov_wrectoti.out")
-
-wrecti_ATL <- as.data.frame(wrecti_ATLparameters[[1]])
-
-# columns to paste together
-cols <- c( 'paramHeader' , 'param') 
-
-# create a new column `parameter` with the two name columns paramHeader and param collapsed together
-wrecti_ATL$parameter <- paste(wrecti_ATL$paramHeader,wrecti_ATL$param)
-
-wrecti_ATL <- wrecti_ATL %>% dplyr::select(parameter, est, se, pval)
-
-#----immediate-word-recall-results-------
-
-write.csv(wrecti_ATL, file = "./output/univariate-models/wrecti_model_parameters.csv")
-read.csv(file = "./output/univariate-models/wrecti_model_parameters.csv")
-
-
-# wrectiATL_slope <- wrecti_ATL[which(wrecti_ATL[,"parameter"]=='A_02.ON A_01'),2]
-# which(d[,"parameter"]=='Means SA'), wrecti_ATLwrecti_ATL["est"]
-
-ALT_slope <- wrecti_ATL[which(wrecti_ATL[,"parameter"]=='Means SA'),"est"]
-
-
-#----immediate-word-recall-plot------
-
-# Create a plot of the model predicted mean scores to determine the shape of the ALT trajectory being modeled. 
-# Do this by entering the parameter values into the equations of the ALT model.
- 
-y1 <- mean(ds_wide$wrectoti_2004, na.rm = T) # 2004, this value is within rounding error of the mplus output value
-y2 <- slope_list[["ALT_intercept"]]+2*slope_list[["ALT_slope"]]+slope_list[["ALT_rho21"]]*y1 #2006
-y3 <- slope_list[["ALT_intercept"]]+4*slope_list[["ALT_slope"]]+slope_list[["ALT_rho32"]]*y2 #2008
-y4 <- slope_list[["ALT_intercept"]]+6*slope_list[["ALT_slope"]]+slope_list[["ALT_rho43"]]*y3 #2010
-y5 <- slope_list[["ALT_intercept"]]+8*slope_list[["ALT_slope"]]+slope_list[["ALT_rho54"]]*y4 #2012
-y6 <- slope_list[["ALT_intercept"]]+10*slope_list[["ALT_slope"]]+slope_list[["ALT_rho65"]]*y5 #2014
-
-# Create the data for the chart.
-means <- c(y1,y2,y3,y4,y5,y6)
-
-# Plot the line chart.
-wrecti_plot <- plot(means,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-     main = "Immediate Word Recall")
-
-#----lgm-quadratic-immediate-word-recall-plot
-wrecti_LGM_quadratic_parameters <- extractModelParameters("./output/univariate-models-nodem-65plus/wrectoti/u03_nocov_wrectoti.out")
-
-wrecti_LGM_quadratic <- as.data.frame(wrecti_LGM_quadratic_parameters[[1]])
-# create a new column `parameter` with the two name columns paramHeader and param collapsed together
-
-wrecti_LGM_quadratic$parameter <- paste(wrecti_LGM_quadratic$paramHeader,wrecti_LGM_quadratic$param)
-
-wrecti_LGM_quadratic <- wrecti_LGM_quadratic %>% dplyr::select(parameter, est, se, pval)
-d<-wrecti_LGM_quadratic
-linear_slope <- d[which(d[,"parameter"]=='Means SA'),"est"]
-quadratic_slope <- d[which(d[,"parameter"]=='Means QA'),"est"]
-intercept <- d[which(d[,"parameter"]=='Means IA'),"est"]
-
-z1 <- intercept+linear_slope*0+quadratic_slope*0^2
-z2 <- intercept+linear_slope*2+quadratic_slope*2^2
-z3 <- intercept+linear_slope*4+quadratic_slope*4^2
-z4 <- intercept+linear_slope*6+quadratic_slope*6^2
-z5 <- intercept+linear_slope*8+quadratic_slope*8^2
-z6 <- intercept+linear_slope*10+quadratic_slope*10^2
-
-# Create the data for the chart.
-means_q <- c(z1,z2,z3,z4,z5,z6)
-
-wrecti_lgm_quadratic_plot <- plot(means_q,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                                  main = "Immediate Word Recall LGM Quadratic")
 
 #---- delayed-word-recall-model-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
@@ -1188,46 +1179,14 @@ write.csv(wrectd_ATL, file = "./output/univariate-models-nodem-65plus/wrectd_mod
 
 #----delayed-word-recall-plot------
 
-slope_list <- parameter_extraction_function(wrectd_ATL)
-y1 <- mean(ds_wide$wrectotd_2004, na.rm = T) # 2004, this value is within rounding error of the mplus output value
-y2 <- slope_list[["ALT_intercept"]]+2*slope_list[["ALT_slope"]]+slope_list[["ALT_rho21"]]*y1 #2006
-y3 <- slope_list[["ALT_intercept"]]+4*slope_list[["ALT_slope"]]+slope_list[["ALT_rho32"]]*y2 #2008
-y4 <- slope_list[["ALT_intercept"]]+6*slope_list[["ALT_slope"]]+slope_list[["ALT_rho43"]]*y3 #2010
-y5 <- slope_list[["ALT_intercept"]]+8*slope_list[["ALT_slope"]]+slope_list[["ALT_rho54"]]*y4 #2012
-y6 <- slope_list[["ALT_intercept"]]+10*slope_list[["ALT_slope"]]+slope_list[["ALT_rho65"]]*y5 #2014
+wrectdALTp <- parameter_extraction_function(wrectd_ATL)
 
-# Create the data for the chart.
-means <- c(y1,y2,y3,y4,y5,y6)
+plotwrectd <- uALT_plot_function(ds_wide$wrectotd_2004, wrectdALTp)
 
 # Plot the bar chart.
-wrectd_plot <- plot(means,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+wrectd_plot <- plot(plotwrectd,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
                     main = "Delayed Word Recall")
 
-wrectd_LGM_quadratic_parameters <- extractModelParameters("./output/univariate-models-nodem-65plus/wrectotd/u03_nocov_wrectotd.out")
-
-wrectd_LGM_quadratic <- as.data.frame(wrectd_LGM_quadratic_parameters[[1]])
-# create a new column `parameter` with the two name columns paramHeader and param collapsed together
-
-wrectd_LGM_quadratic$parameter <- paste(wrectd_LGM_quadratic$paramHeader,wrectd_LGM_quadratic$param)
-
-wrectd_LGM_quadratic <- wrectd_LGM_quadratic %>% dplyr::select(parameter, est, se, pval)
-d<-wrectd_LGM_quadratic
-linear_slope <- d[which(d[,"parameter"]=='Means SA'),"est"]
-quadratic_slope <- d[which(d[,"parameter"]=='Means QA'),"est"]
-intercept <- d[which(d[,"parameter"]=='Means IA'),"est"]
-
-z1 <- intercept+linear_slope*0+quadratic_slope*0^2
-z2 <- intercept+linear_slope*2+quadratic_slope*2^2
-z3 <- intercept+linear_slope*4+quadratic_slope*4^2
-z4 <- intercept+linear_slope*6+quadratic_slope*6^2
-z5 <- intercept+linear_slope*8+quadratic_slope*8^2
-z6 <- intercept+linear_slope*10+quadratic_slope*10^2
-
-# Create the data for the chart.
-means_q <- c(z1,z2,z3,z4,z5,z6)
-
-wrectd_lgm_quadratic_plot <- plot(means_q,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                                     main = "Delayed Word Recall LGM Quadratic")
 
 
 #---- mental-status-model-summaries --------------------------------------------------------------
@@ -1237,13 +1196,15 @@ mental_status_fit_series4 <- extractModelSummaries("./output/univariate-models-n
 mental_status_fit_series4["CM"] <- 4
 mental_status_fit_series4[1:3, "CM"] <- "-"
 
+cm_row <- mental_status_fit_series4$CM
+
 mental_status_fit_series4_table <- compare_models_function(mental_status_fit_series4, cm_row)
 
 colnames(mental_status_fit_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
 
 apa_table.word(mental_status_fit_series4_table, caption = "Model Fit Indices for Mental Status")
 
-#----mental-status-delayed-----
+#----mental-status-----
 ms_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/mentalstatus_tot/u04_nocov_mentalstatus_tot.out")
 
 ms_ATL <- as.data.frame(ms_ATLparameters[[1]])
@@ -1256,49 +1217,19 @@ ms_ATL$parameter <- paste(ms_ATL$paramHeader,ms_ATL$param)
 
 # select relevant parameters and then save file.
 ms_ATL <- ms_ATL %>% dplyr::select(parameter, est, se, pval)
+
 write.csv(ms_ATL, file = "./output/univariate-models-nodem-65plus/mental_status_model_parameters.csv")
 
-#----mental-status-plot---------------
-slope_list <- parameter_extraction_function(ms_ATL)
-y1 <- mean(ds_wide$mentalstatus_tot_2004, na.rm = T) # 2004, this value is within rounding error of the mplus output value
-y2 <- slope_list[["ALT_intercept"]]+2*slope_list[["ALT_slope"]]+slope_list[["ALT_rho21"]]*y1 #2006
-y3 <- slope_list[["ALT_intercept"]]+4*slope_list[["ALT_slope"]]+slope_list[["ALT_rho32"]]*y2 #2008
-y4 <- slope_list[["ALT_intercept"]]+6*slope_list[["ALT_slope"]]+slope_list[["ALT_rho43"]]*y3 #2010
-y5 <- slope_list[["ALT_intercept"]]+8*slope_list[["ALT_slope"]]+slope_list[["ALT_rho54"]]*y4 #2012
-y6 <- slope_list[["ALT_intercept"]]+10*slope_list[["ALT_slope"]]+slope_list[["ALT_rho65"]]*y5 #2014
+#---- mental-status-plot ---------------
+# mental status
+ms_ALTparameters <- parameter_extraction_function(ms_ATL)
 
-# Create the data for the chart.
-means <- c(y1,y2,y3,y4,y5,y6)
+ms_plot_vals <- uALT_plot_function(8.517, ms_ALTparameters)
 
 # Plot the bar chart.
-mental_status_plot <- plot(means,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+ms_plot <- plot(ms_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
                     main = "Mental Status")
 
-ms_LGM_quadratic_parameters <- extractModelParameters("./output/univariate-models-nodem-65plus/mentalstatus_tot/u03_nocov_mentalstatus_tot.out")
-
-ms_LGM_quadratic <- as.data.frame(ms_LGM_quadratic_parameters[[1]])
-# create a new column `parameter` with the two name columns paramHeader and param collapsed together
-
-ms_LGM_quadratic$parameter <- paste(ms_LGM_quadratic$paramHeader,ms_LGM_quadratic$param)
-
-ms_LGM_quadratic <- ms_LGM_quadratic %>% dplyr::select(parameter, est, se, pval)
-d<-ms_LGM_quadratic
-linear_slope <- d[which(d[,"parameter"]=='Means SA'),"est"]
-quadratic_slope <- d[which(d[,"parameter"]=='Means QA'),"est"]
-intercept <- d[which(d[,"parameter"]=='Means IA'),"est"]
-
-z1 <- intercept+linear_slope*0+quadratic_slope*0^2
-z2 <- intercept+linear_slope*2+quadratic_slope*2^2
-z3 <- intercept+linear_slope*4+quadratic_slope*4^2
-z4 <- intercept+linear_slope*6+quadratic_slope*6^2
-z5 <- intercept+linear_slope*8+quadratic_slope*8^2
-z6 <- intercept+linear_slope*10+quadratic_slope*10^2
-
-# Create the data for the chart.
-means_q <- c(z1,z2,z3,z4,z5,z6)
-
-mental_status_quadratic_plot <- plot(means_q,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                           main = "Mental Status LGM Quadratic")
 
 #---- loneliness-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
@@ -1307,6 +1238,7 @@ loneliness_series4 <- extractModelSummaries("./output/univariate-models-nodem-65
 loneliness_series4["CM"] <- 4
 loneliness_series4[1:3, "CM"] <- "-"
 
+cm_row <- loneliness_series4$CM
 loneliness_series4_table <- compare_models_function(loneliness_series4, cm_row)
 
 colnames(loneliness_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
@@ -1327,6 +1259,17 @@ loneliness_ATL$parameter <- paste(loneliness_ATL$paramHeader,loneliness_ATL$para
 # select relevant parameters and then save file.
 loneliness_ATL <- loneliness_ATL %>% dplyr::select(parameter, est, se, pval)
 write.csv(loneliness_ATL, file = "./output/univariate-models-nodem-65plus/loneliness_model_parameters.csv")
+
+# ---- loneliness-plot ------
+
+lone_ALTparameters <- parameter_extraction_function(loneliness_ATL)
+
+# first value should be the 2004 mean, copy right from mplus output
+loneliness_plot_vals <- uALT_plot_function(1.379, lone_ALTparameters)
+
+# Plot the bar chart.
+loneliness_plot <- plot(loneliness_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                    main = "Loneliness")
 
 #---- social-contact-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
@@ -1355,6 +1298,16 @@ social_contact_ATL$parameter <- paste(social_contact_ATL$paramHeader,social_cont
 # select relevant parameters and then save file.
 social_contact_ATL <- social_contact_ATL %>% dplyr::select(parameter, est, se, pval)
 write.csv(social_contact_ATL, file = "./output/univariate-models-nodem-65plus/social_contact_model_parameters.csv")
+
+# ---- social-contact-plot ------
+sc_ALTparameters <- parameter_extraction_function(social_contact_ATL)
+
+# first value should be the 2004 mean, copy right from mplus output
+sc_plot_vals <- uALT_plot_function(30.315, sc_ALTparameters)
+
+# Plot the bar chart.
+social_contact_plot <- plot(sc_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                        main = "Social Contact")
 
 #---- social-support-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
@@ -1385,6 +1338,16 @@ social_support_ATL$parameter <- paste(social_support_ATL$paramHeader,social_supp
 social_support_ATL <- social_support_ATL %>% dplyr::select(parameter, est, se, pval)
 write.csv(social_support_ATL, file = "./output/univariate-models-nodem-65plus/social_support_model_parameters.csv")
 
+# ---- social-support-plot ------
+ss_ALTparameters <- parameter_extraction_function(social_support_ATL)
+
+# first value should be the 2004 mean, copy right from mplus output
+ss_plot_vals <- uALT_plot_function(9.781, ss_ALTparameters)
+
+# Plot the bar chart.
+social_support_plot <- plot(ss_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                            main = "Social Support")
+
 #---- social-network-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
 social_network_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/socialnetwork_total")
@@ -1413,3 +1376,25 @@ social_network_ATL$parameter <- paste(social_network_ATL$paramHeader,social_netw
 social_network_ATL <- social_network_ATL %>% dplyr::select(parameter, est, se, pval)
 write.csv(social_support_ATL, file = "./output/univariate-models-nodem-65plus/social_network_model_parameters.csv")
 
+# ---- social-network-plot ------
+sn_ALTparameters <- parameter_extraction_function(social_network_ATL)
+
+# first value should be the 2004 mean, copy right from mplus output
+sn_plot_vals <- uALT_plot_function(3.388, sn_ALTparameters)
+
+# Plot the bar chart.
+social_network_plot <- plot(sn_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                            main = "Social Network")
+
+
+# ---- delayed-word-recall-loneliness-plot ---------
+wrectd_lone_value_list <- bivariateALT_parameter_extraction_function(wrectd_lonely_ATL)
+
+wrectd_lonely_plot_vals <- bALT_plot_function(mean(ds_wide$wrectotd_2004, na.rm = T), mean(ds_wide$score_loneliness_3_2004, na.rm = T), wrectd_lone_value_list)
+
+
+wrectd_lone_plot <- plot(wrectd_lonely_plot_vals$y_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                         main = "Delayed Word Recall")
+
+lone_wrectd_plot <- plot(wrectd_lonely_plot_vals$x_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                         main = "Loneliness")
