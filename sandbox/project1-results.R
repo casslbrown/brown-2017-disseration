@@ -132,9 +132,9 @@ bivariateALT_parameter_extraction_function <- function(d){
   par_list[["soc_intercept_pval"]]  <- d[which(d[,"parameter"]=='Means IB'),"pval"]
   
   par_list[["A_01_WITH_B_01"]] <- d[which(d[,"parameter"]=='A_01.WITH B_01'),"est"]
-  par_list[["A_01_WITH_B_01_pval"]] <- d[which(d[,"parameter"]=='A_01.WITH  B_01'),"pval"]
+  par_list[["A_01_WITH_B_01_pval"]] <- d[which(d[,"parameter"]=='A_01.WITH B_01'),"pval"]
   par_list[["SB_WITH_SA"]] <- d[which(d[,"parameter"]=='SB.WITH SA'),"est"]
-  par_list[["SB_WITH_SA"]] <- d[which(d[,"parameter"]=='SB.WITH SA'),"pval"]
+  par_list[["SB_WITH_SA_pval"]] <- d[which(d[,"parameter"]=='SB.WITH SA'),"pval"]
   
   par_list[["cog_rho21"]] <- d[which(d[,"parameter"]=='A_02.ON A_01'),"est"]
   par_list[["cog_rho21_pval"]] <- d[which(d[,"parameter"]=='A_02.ON A_01'),"pval"]
@@ -523,25 +523,6 @@ read.csv(file = "./output/univariate-models/wrecti_model_parameters.csv")
 
 ALT_slope <- wrecti_ATL[which(wrecti_ATL[,"parameter"]=='Means SA'),"est"]
 
-
-#----immediate-word-recall-plot------
-
-# Create a plot of the model predicted mean scores to determine the shape of the ALT trajectory being modeled. 
-# Do this by entering the parameter values into the equations of the ALT model.
-
-y1 <- mean(ds_wide$wrectoti_2004, na.rm = T) # 2004, this value is within rounding error of the mplus output value
-y2 <- slope_list[["ALT_intercept"]]+2*slope_list[["ALT_slope"]]+slope_list[["ALT_rho21"]]*y1 #2006
-y3 <- slope_list[["ALT_intercept"]]+4*slope_list[["ALT_slope"]]+slope_list[["ALT_rho32"]]*y2 #2008
-y4 <- slope_list[["ALT_intercept"]]+6*slope_list[["ALT_slope"]]+slope_list[["ALT_rho43"]]*y3 #2010
-y5 <- slope_list[["ALT_intercept"]]+8*slope_list[["ALT_slope"]]+slope_list[["ALT_rho54"]]*y4 #2012
-y6 <- slope_list[["ALT_intercept"]]+10*slope_list[["ALT_slope"]]+slope_list[["ALT_rho65"]]*y5 #2014
-
-# Create the data for the chart.
-means <- c(y1,y2,y3,y4,y5,y6)
-
-# Plot the line chart.
-wrecti_plot <- plot(means,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                    main = "Immediate Word Recall")
 
 #----lgm-quadratic-immediate-word-recall-plot
 wrecti_LGM_quadratic_parameters <- extractModelParameters("./output/univariate-models-nodem-65plus/wrectoti/u03_nocov_wrectoti.out")
