@@ -891,6 +891,10 @@ wrecti_social_contact_fullALT <- wrecti_social_contact_fullALT_parameters %>% dp
 write.csv(wrecti_social_contact_fullALT, file = "./output/bivariate-models-nodem-65plus/wrecti_social_contact_fullmodel_parameters.csv")
 bivariateALT_parameter_extraction_function(wrecti_social_contact_fullALT)
 
+# Model 20 is the covariate model
+wrecti_social_contact_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/wrectoti-social_contact_total/m20_aechs_wrectoti_social_contact_total.out")
+
+wrecti_social_contact_covALT_parameters <- as.data.frame(wrecti_social_contact_covALT_parameters[[1]]) 
 #---- immediate-word-recall-loneliness-summary --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
 wrectoti_loneliness_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/wrectoti-score_loneliness_3")
