@@ -179,12 +179,12 @@ mplus_generator_bivariate(
   model_number        = "m20"
   ,model_type         = "aechs"
   ,covariates         = c("age","educ","coh","health","sex")
-  ,process_a          = "wrectotd" # item name of process (A), goes into file name
-  ,process_b          = "social_support_mean"# item name of process (B), goes into file name
+  ,process_a          = "wrectoti" # item name of process (A), goes into file name
+  ,process_b          = "socialnetwork_total"# item name of process (B), goes into file name
   ,subset_group_1     = subset_group_1
   ,subset_condition_1 = subset_condition_2 # subset data to member of this group
   ,data_file          = "wide-dataset-b.dat"
-  ,path_prototype     = paste0("./manipulation/estimation/covariate-models/","ALT-fixed-auto-soc-on-cog-covariates.inp")
+  ,path_prototype     = paste0("./manipulation/estimation/covariate-models/","ALT-fixed-auto-covariates.inp")
   ,folder_data        = folder_data
   ,folder_output      = folder_output
   ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files

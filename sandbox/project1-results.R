@@ -939,6 +939,10 @@ wrecti_loneliness_fullALT <- wrecti_loneliness_fullALT_parameters %>% dplyr::sel
 write.csv(wrecti_loneliness_fullALT, file = "./output/bivariate-models-nodem-65plus/wrecti_loneliness_fullmodel_parameters.csv")
 bivariateALT_parameter_extraction_function(wrecti_loneliness_fullALT)
 
+# covariate model
+wrecti_loneliness_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/wrectoti-score_loneliness_3/m20_aechs_wrectoti_score_loneliness_3.out")
+
+
 #---- mental-status-social-network-summary --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
 mental_socialnetwork_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/mentalstatus_tot-socialnetwork_total")
@@ -1051,9 +1055,9 @@ cm_row <- mental_social_support_contact$CM
 mental_social_contact_table <- compare_models_function(mental_social_support_contact, cm_row)
 # Note that model 15 appears to be the most parsimonious best fitting model. 
 
-colnames(wrectoti_social_contact_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
+colnames(mental_social_contact_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
 
-apa_table.word(wrectoti_social_contact_table, caption = "Model Fit Indices for Immediate Word Recall and Social Contact")
+apa_table.word(mental_social_contact_table, caption = "Model Fit Indices for Immediate Word Recall and Social Contact")
 
 #---- mental-status-social-contact-results---------------
 # model 11 the ALT model with no time specific correlations and fixed autoregressions for immediate word recall is the most supported model 
@@ -1258,7 +1262,7 @@ social_contact_series4 <- extractModelSummaries("./output/univariate-models-node
 
 social_contact_series4["CM"] <- 4
 social_contact_series4[1:3, "CM"] <- "-"
-
+cm_row <- social_contact_series4$CM
 social_contact_series4_table <- compare_models_function(social_contact_series4, cm_row)
 
 colnames(social_contact_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
@@ -1355,7 +1359,7 @@ social_network_ATL$parameter <- paste(social_network_ATL$paramHeader,social_netw
 
 # select relevant parameters and then save file.
 social_network_ATL <- social_network_ATL %>% dplyr::select(parameter, est, se, pval)
-write.csv(social_support_ATL, file = "./output/univariate-models-nodem-65plus/social_network_model_parameters.csv")
+write.csv(social_network_ATL, file = "./output/univariate-models-nodem-65plus/social_network_model_parameters.csv")
 
 # ---- social-network-plot ------
 sn_ALTparameters <- parameter_extraction_function(social_network_ATL)
