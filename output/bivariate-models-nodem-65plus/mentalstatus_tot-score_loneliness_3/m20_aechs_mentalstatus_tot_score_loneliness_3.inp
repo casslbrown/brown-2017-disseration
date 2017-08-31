@@ -1,5 +1,5 @@
 TITLE:
-ALT-12-covariates
+ALT-autoregressive contraints, covariates
 DATA:
 File = wide-dataset-b.dat;
 VARIABLE:
@@ -94,12 +94,12 @@ health = healthcond_mean - 2;
 coh = cohort;
 sex = male-1; 
 	! assign variables to the process (A)
-a_01=wrectotd_2004;
-a_02=wrectotd_2006;
-a_03=wrectotd_2008;
-a_04=wrectotd_2010;
-a_05=wrectotd_2012;
-a_06=wrectotd_2014;
+a_01=mentalstatus_tot_2004;
+a_02=mentalstatus_tot_2006;
+a_03=mentalstatus_tot_2008;
+a_04=mentalstatus_tot_2010;
+a_05=mentalstatus_tot_2012;
+a_06=mentalstatus_tot_2014;
 	! assign variables to the process (B)
 b_01=score_loneliness_3_2004;
 b_02=score_loneliness_3_2006;
@@ -137,22 +137,22 @@ a_04 ON a_03(1);
 a_05 ON a_04(1);
 a_06 ON a_05(1);
 b_01;
-b_02 ON b_01(2);
-b_03 ON b_02(2);
-b_04 ON b_03(2);
-b_05 ON b_04(2);
-b_06 ON b_05(2);
+b_02 ON b_01;
+b_03 ON b_02;
+b_04 ON b_03;
+b_05 ON b_04;
+b_06 ON b_05;
 	!Cross lagged part
 a_02 ON b_01;
 a_03 ON b_02;
 a_04 ON b_03;
 a_05 ON b_04;
 a_06 ON b_05;
-b_02 ON a_01(3);
-b_03 ON a_02(3);
-b_04 ON a_03(3);
-b_05 ON a_04(3);
-b_06 ON a_05(3);
+b_02 ON a_01;
+b_03 ON a_02;
+b_04 ON a_03;
+b_05 ON a_04;
+b_06 ON a_05;
 ! No time specific correlations
 ! Additional parts for the conditional model
 ! Intercepts, slopes and first-point correlations need to be specified.

@@ -1,5 +1,5 @@
 TITLE:
-ALT-12-covariates
+ALT-autoregressive contraints, covariates
 DATA:
 File = wide-dataset-b.dat;
 VARIABLE:
@@ -94,19 +94,19 @@ health = healthcond_mean - 2;
 coh = cohort;
 sex = male-1; 
 	! assign variables to the process (A)
-a_01=wrectotd_2004;
-a_02=wrectotd_2006;
-a_03=wrectotd_2008;
-a_04=wrectotd_2010;
-a_05=wrectotd_2012;
-a_06=wrectotd_2014;
+a_01=mentalstatus_tot_2004;
+a_02=mentalstatus_tot_2006;
+a_03=mentalstatus_tot_2008;
+a_04=mentalstatus_tot_2010;
+a_05=mentalstatus_tot_2012;
+a_06=mentalstatus_tot_2014;
 	! assign variables to the process (B)
-b_01=score_loneliness_3_2004;
-b_02=score_loneliness_3_2006;
-b_03=score_loneliness_3_2008;
-b_04=score_loneliness_3_2010;
-b_05=score_loneliness_3_2012;
-b_06=score_loneliness_3_2014;
+b_01=socialnetwork_total_2004;
+b_02=socialnetwork_total_2006;
+b_03=socialnetwork_total_2008;
+b_04=socialnetwork_total_2010;
+b_05=socialnetwork_total_2012;
+b_06=socialnetwork_total_2014;
 ANALYSIS:
 TYPE = COMPLEX RANDOM;
 COVERAGE=.00;  
@@ -127,27 +127,28 @@ b_03@4
 b_04@6
 b_05@8
 b_06@10 ;
+sb@0;
 	!correlations between the first measurement points
 a_01 WITH b_01;
 	!autoregressive part
 a_01;
-a_02 ON a_01(1);
-a_03 ON a_02(1);
-a_04 ON a_03(1); 
-a_05 ON a_04(1);
-a_06 ON a_05(1);
+a_02 ON a_01;
+a_03 ON a_02;
+a_04 ON a_03; 
+a_05 ON a_04;
+a_06 ON a_05;
 b_01;
-b_02 ON b_01(2);
-b_03 ON b_02(2);
-b_04 ON b_03(2);
-b_05 ON b_04(2);
-b_06 ON b_05(2);
+b_02 ON b_01(1);
+b_03 ON b_02(1);
+b_04 ON b_03(1);
+b_05 ON b_04(1);
+b_06 ON b_05(1);
 	!Cross lagged part
-a_02 ON b_01;
-a_03 ON b_02;
-a_04 ON b_03;
-a_05 ON b_04;
-a_06 ON b_05;
+a_02 ON b_01(2);
+a_03 ON b_02(2);
+a_04 ON b_03(2);
+a_05 ON b_04(2);
+a_06 ON b_05(2);
 b_02 ON a_01(3);
 b_03 ON a_02(3);
 b_04 ON a_03(3);
