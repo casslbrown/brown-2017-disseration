@@ -7,11 +7,17 @@ cat("\f") # clear console
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr) # enables piping : %>% 
 library(dplyr)
-library(TabularManifest)
+#library(TabularManifest)
 library(MplusAutomation)
 library(papaja)
 library(htmlTable)
 library(xtable)
+library(DiagrammeRsvg)
+library(svglite)
+library(rsvg)
+library(png)
+library(DiagrammeR)
+#devtools::install_github("davidgohel/gdtools")
 options(xtable.floating = FALSE)
 options(xtable.timestamp = "")
 
@@ -21,7 +27,7 @@ options(xtable.timestamp = "")
 # source("./scripts/graphing/graph-presets.R") # fonts, colors, themes
 # source("./scripts/graphing/graph-elemental.R") # graphs to be used in dipslays
 # source("./scripts/graphing/graph-complex.R") # info displays
-
+source("./scripts/graphing/alt-path-diagram.R") # path diagrams for alt models
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2") # graphing
 # requireNamespace("readr") # data input
@@ -1389,3 +1395,25 @@ wrectd_lone_plot <- plot(wrectd_lonely_plot_vals$y_values,type = "o", col = "BLA
 
 lone_wrectd_plot <- plot(wrectd_lonely_plot_vals$x_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
                          main = "Loneliness")
+
+# ---- immediate-word-recall-social-network-plot ---------
+# immediate word recall and social network
+wrecti_sn_ATL <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_network_model_parameters.csv")
+diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_sn_ATL)
+cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nNetwork 1", "Social&#92;nNetwork 2","Social&#92;nNetwork 3","Social&#92;nNetwork 4","Social&#92;nNetwork 5","Social&#92;nNetwork 6")
+wrecti_sn_path_diagram <- path_diagram_function()
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_sn_path_diagram)),'./reports/wrecti_sn_path_diagram.png'))
+
+# ---- immediate-word-recall-and-social-support-plot ----
+cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nSupport 1", "Social&#92;nSupport 2","Social&#92;nSupport 3","Social&#92;nSupport 4","Social&#92;nSupport 5","Social&#92;nSupport 6")
+wrecti_socsup <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_support_model_parameters.csv")
+diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_socsup)
+wrecti_ss_path_diagram <- path_diagram_function()
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_ss_path_diagram)),'./reports/wrecti_ss_path_diagram.png'))
+
+
+

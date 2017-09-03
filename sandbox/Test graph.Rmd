@@ -1,0 +1,79 @@
+---
+title: "Untitled"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r }
+library(magrittr) # enables piping : %>% 
+library(dplyr)
+#library(TabularManifest)
+library(MplusAutomation)
+library(papaja)
+library(htmlTable)
+library(xtable)
+library(DiagrammeRsvg)
+library(svglite)
+library(rsvg)
+library(png)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r stndQAFlow}
+
+stnds.qa.d<-"digraph {
+	
+	  # Nodes
+	  node [shape = diamond]
+	  cvF [label = 'CV Fail > 0']
+	  cvF0 [label = 'Standard 0\n Fail']
+    cvF01 [label ='Supplement\n Standard 0\nwith LRBs']
+	  cvF15 [label = 'CV <= 15%']
+	  calc [shape = rectangle, label = 'Calculate Standard Curve']
+	  cvF1 [label = 'CV Failures > 1']
+    outlier [label = 'Test Standard\nReplicates\nas outlier']
+	  
+	  # Edges
+	  edge [color = black,
+	        arrowhead = vee]
+	  rankdir = TD
+	  cvF->calc [label = 'No']
+	  cvF->cvF0 [label = 'Yes']
+	  cvF0->cvF1 [label = 'No'] 
+	  cvF0->cvF01 [label = 'Yes']
+    cvF01->cvF1 [label = 'CV <= 10%']
+    cvF1->cvF15 [label = 'No']
+    cvF1->outlier [label = 'Yes']
+    cvF15->calc [label = 'Yes']
+    cvF15->outlier [label = 'No']
+    outlier->calc[label = 'Discard\nOutliers']
+
+	{rank=same; cvF; calc}
+	{rank=same; cvF0; cvF1}
+	{rank=same; cvF1; cvF15}
+	  
+	}"
+stnds.qa.d2 <- grViz(stnds.qa.d)
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(stnds.qa.d2)),'stnds.qa.png'))
+cat('![Standards QA flowchart](stnds.qa.png){#fig:stnds.qa.flow}\n\n')
+```
+
+![Standards QA flowchart](stnds.qa.png){#fig:stnds.qa.flow}
