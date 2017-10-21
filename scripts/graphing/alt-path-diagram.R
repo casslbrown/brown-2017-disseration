@@ -50,7 +50,7 @@ digraph SEM {
             
             node [shape = rectangle]
             
-            cog1 [pos = '-6,1!', label = '@@6-1']
+            cog1 [pos = '-6,2!', label = '@@6-1']
             cog2 [pos = '-4,1!', label = '@@6-2']
             cog3 [pos = '-2,1!', label = '@@6-3']
             cog4 [pos = '0,1!', label = '@@6-4']
@@ -62,40 +62,48 @@ digraph SEM {
             health [pos = '-10,-2!' label = 'Health&#92;nConditions']
             
 
-            intercepta [pos = '-3,-1!', label = '@@1', shape = circle]
-            slopea [pos = '-2,-2!', label = '@@2', shape = circle]
+            intercepta [pos = '-5,-3!', label = '@@1', shape = circle]
+            slopea [pos = '-2,-5!', label = '@@2', shape = circle]
             
-            soc1 [pos = '-6,4!', label = '@@7-1']
+            soc1 [pos = '-6,3!', label = '@@7-1']
             soc2 [pos = '-4,4!', label = '@@7-2']
             soc3 [pos = '-2,4!', label = '@@7-3']
             soc4 [pos = '0,4!', label = '@@7-4']
             soc5 [pos = '2,4!', label = '@@7-5']
             soc6 [pos = '4,4!', label = '@@7-6']
 
-            interceptb [pos = '-3,6!', label = '@@3', shape = circle]
-            slopeb [pos = '-2,7!', label = '@@4', shape = circle]
+            interceptb [pos = '-5,8!', label = '@@3', shape = circle]
+            slopeb [pos = '-2,10!', label = '@@4', shape = circle]
             age->intercepta
             age->slopea
             age->interceptb
             age->slopeb
+            age->soc1
+            age->cog1
             sex->intercepta
             sex->slopea
             sex->interceptb
             sex->slopeb
+            sex->soc1
+            sex->cog1
             cohort->intercepta
             cohort->slopea
             cohort->interceptb
             cohort->slopeb
+            cohort->soc1
+            cohort->cog1
             health->intercepta
             health->slopea
             health->interceptb
             health->slopeb
+            health->soc1
+            health->cog1
             cog1->cog2 [label = '@@5-9']
             cog2->cog3 [label = '@@5-10']
             cog3->cog4 [label = '@@5-11']
             cog4->cog5 [label = '@@5-12']
             cog5->cog6 [label = '@@5-13']
-            intercepta->cog1 [label = '1']
+
             intercepta->cog2 [label = '1']
             intercepta->cog3 [label = '1']
             intercepta->cog4 [label = '1']
@@ -115,7 +123,7 @@ digraph SEM {
             soc4->soc5 [label = '@@5-17']
             soc5->soc6 [label = '@@5-18']
 
-            interceptb->soc1 [label = '1']
+
             interceptb->soc2 [label = '1']
             interceptb->soc3 [label = '1']
             interceptb->soc4 [label = '1']
@@ -191,19 +199,19 @@ path_diagram_function <- function(){
                     cog3->cog4 [label = '@@5-11']
                     cog4->cog5 [label = '@@5-12']
                     cog5->cog6 [label = '@@5-13']
-                    intercepta->cog1 [label = '1']
+
                     intercepta->cog2 [label = '1']
                     intercepta->cog3 [label = '1']
                     intercepta->cog4 [label = '1']
                     intercepta->cog5 [label = '1']
                     intercepta->cog6 [label = '1']
                     
-                    slopea->cog1 [label = '0']
-                    slopea->cog2 [label = '2']
-                    slopea->cog3 [label = '4']
-                    slopea->cog4 [label = '6']
-                    slopea->cog5 [label = '8']
-                    slopea->cog6 [label = '10']
+                    slopea->cog2 [label = '0']
+                    slopea->cog3 [label = '2']
+                    slopea->cog4 [label = '4']
+                    slopea->cog5 [label = '6']
+                    slopea->cog6 [label = '8']
+                    
                     
                     soc1->soc2 [label = '@@5-14']
                     soc2->soc3 [label = '@@5-15']
@@ -211,19 +219,19 @@ path_diagram_function <- function(){
                     soc4->soc5 [label = '@@5-17']
                     soc5->soc6 [label = '@@5-18']
                     
-                    interceptb->soc1 [label = '1']
+
                     interceptb->soc2 [label = '1']
                     interceptb->soc3 [label = '1']
                     interceptb->soc4 [label = '1']
                     interceptb->soc5 [label = '1']
                     interceptb->soc6 [label = '1']
                     
-                    slopeb->soc1 [label = '0']
-                    slopeb->soc2 [label = '2']
-                    slopeb->soc3 [label = '4']
-                    slopeb->soc4 [label = '6']
-                    slopeb->soc5 [label = '8']
-                    slopeb->soc6 [label = '10']
+                    slopeb->soc2 [label = '0']
+                    slopeb->soc3 [label = '2']
+                    slopeb->soc4 [label = '4']
+                    slopeb->soc5 [label = '6']
+                    slopeb->soc6 [label = '8']
+                    
                     soc1->cog2 [label = '@@5-24']
                     soc2->cog3 [label = '@@5-25']
                     soc3->cog4 [label = '@@5-26']

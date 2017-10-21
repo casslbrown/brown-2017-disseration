@@ -256,6 +256,57 @@ bivariate_quad_ALT_parameter_extraction_function <- function(d){
   return(par_list)
 }
 
+Covariates_ALT_parameter_extraction_function <- function(d){
+  #d <- wrectd_lonely_ATL
+  par_list<- list()
+  par_list[["IA_age"]] <- d[which(d[,"parameter"]=='IA.ON AGE'),"est"]
+  par_list[["IA_age_se"]] <- d[which(d[,"parameter"]=='IA.ON AGE'),"se"]
+  par_list[["IA_educ"]] <- d[which(d[,"parameter"]=='IA.ON EDUC'),"est"]
+  par_list[["IA_educ_se"]] <- d[which(d[,"parameter"]=='IA.ON EDUC'),"se"]
+  par_list[["IA_coh"]] <- d[which(d[,"parameter"]=='IA.ON COH'),"est"]
+  par_list[["IA_coh_se"]]  <- d[which(d[,"parameter"]=='IA.ON COH'),"se"]
+  par_list[["IA_health"]] <- d[which(d[,"parameter"]=="IA.ON HEALTH"), "est"]
+  par_list[["IA_health_se"]] <- d[which(d[,"parameter"]=="IA.ON HEALTH"), "se"]
+  par_list[["IA_sex"]] <- d[which(d[,"parameter"]=="IA.ON SEX"), "est"]
+  par_list[["IA_sex_se"]] <- d[which(d[,"parameter"]=="IA.ON SEX"), "se"]
+  par_list[["SA_age"]] <- d[which(d[,"parameter"]=="SA.ON AGE"), "est"]
+  par_list[["SA_age_se"]] <- d[which(d[,"parameter"]=="SA.ON AGE"), "se"]
+  par_list[["SA_educ"]] <- d[which(d[,"parameter"]=="SA.ON EDUC"), "est"]
+  par_list[["SA_educ_se"]] <- d[which(d[,"parameter"]=="SA.ON EDUC"), "se"]
+  par_list[["SA_coh"]] <- d[which(d[,"parameter"]=="SA.ON COH"), "est"]
+  par_list[["SA_coh_se"]] <- d[which(d[,"parameter"]=="SA.ON COH"), "se"]
+  par_list[["SA_health"]] <- d[which(d[,"parameter"]=="SA.ON HEALTH"), "est"]
+  par_list[["SA_health_se"]] <- d[which(d[,"parameter"]=="SA.ON HEALTH"), "se"]
+  par_list[["SA_sex"]]  <-  d[which(d[,"parameter"]=="SA.ON SEX"), "est"]
+  par_list[["SA_sex"]] <- d[which(d[,"parameter"]=="SA.ON SEX"), "se"]
+  par_list[['A1_age']] <- d[which(d[,"parameter"]=="A_01.ON AGE"), "est"]
+  par_list[['A1_age_se']] <- d[which(d[,"parameter"]=="A_01.ON AGE"), "se"]
+  par_list[['A1_age_p']] <- d[which(d[,"parameter"]=="A_01.ON AGE"), "pval"]
+
+  
+  par_list[["IB_age"]] <- d[which(d[,"parameter"]=='IB.ON AGE'),"est"]
+  par_list[["IB_age_se"]] <- d[which(d[,"parameter"]=='IB.ON AGE'),"se"]
+  par_list[["IB_educ"]] <- d[which(d[,"parameter"]=='IB.ON EDUC'),"est"]
+  par_list[["IB_educ_se"]] <- d[which(d[,"parameter"]=='IB.ON EDUC'),"se"]
+  par_list[["IB_coh"]] <- d[which(d[,"parameter"]=='IB.ON COH'),"est"]
+  par_list[["IB_coh_se"]]  <- d[which(d[,"parameter"]=='IB.ON COH'),"se"]
+  par_list[["IB_health"]] <- d[which(d[,"parameter"]=="IB.ON HEALTH"), "est"]
+  par_list[["IB_health_se"]] <- d[which(d[,"parameter"]=="IB.ON HEALTH"), "se"]
+  par_list[["IB_sex"]] <- d[which(d[,"parameter"]=="IB.ON SEX"), "est"]
+  par_list[["IB_sex_se"]] <- d[which(d[,"parameter"]=="IB.ON SEX"), "se"]
+  par_list[["SB_age"]] <- d[which(d[,"parameter"]=="SB.ON AGE"), "est"]
+  par_list[["SB_age_se"]] <- d[which(d[,"parameter"]=="SB.ON AGE"), "se"]
+  par_list[["SB_educ"]] <- d[which(d[,"parameter"]=="SB.ON EDUC"), "est"]
+  par_list[["SB_educ_se"]] <- d[which(d[,"parameter"]=="SB.ON EDUC"), "se"]
+  par_list[["SB_coh"]] <- d[which(d[,"parameter"]=="SB.ON COH"), "est"]
+  par_list[["SB_coh_se"]] <- d[which(d[,"parameter"]=="SB.ON COH"), "se"]
+  par_list[["SB_health"]] <- d[which(d[,"parameter"]=="SB.ON HEALTH"), "est"]
+  par_list[["SB_health_se"]] <- d[which(d[,"parameter"]=="SB.ON HEALTH"), "se"]
+  par_list[["SB_sex"]]  <-  d[which(d[,"parameter"]=="SB.ON SEX"), "est"]
+  par_list[["SB_sex"]] <- d[which(d[,"parameter"]=="SB.ON SEX"), "se"]
+  
+  return(par_list)
+}
 # This function produces a list of predicted values needed to produce a line plot of the predicted trajectory 
 # given a mean initial value for univariate unconditional ALT models
 #wrectd_lone_parameters <- bivariateALT_parameter_extraction_function(wrectd_lonely_ATL)
@@ -609,6 +660,44 @@ wrectd_lonely_fullALT$parameter <- paste(wrectd_lonely_fullALT$paramHeader,wrect
 wrectd_lonely_fullALT <- wrectd_lonely_fullALT %>% dplyr::select(parameter, est, se, pval)
 
 write.csv(wrectd_lonely_fullALT, file = "./output/univariate-models-nodem-65plus/wrectd_loneliness_fullmodel_parameters.csv")
+
+#----wrectd-lonely-covariate-model--------
+wrectd_lonely_ALTcov <- readModels("./output/bivariate-models-nodem-65plus/wrectotd-score_loneliness_3/m20_aechs_wrectotd_score_loneliness_3.out")
+
+wrectd_lonely_ALTcov_parameters <- wrectd_lonely_ALTcov$parameters$unstandardized
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrectd_lonely_ALTcov_parameters$parameter <- paste(wrectd_lonely_ALTcov_parameters$paramHeader,wrectd_lonely_ALTcov_parameters$param)
+
+# define a vector of variables to keep for each parameter covariate regression
+keepvars <- c('est', 'se', 'pval')
+a1 <- wrectd_lonely_ALTcov_parameters[which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="A_01.ON AGE"):which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="A_01.ON SEX"),]
+a1 <- a1[keepvars]
+
+b1 <- wrectd_lonely_ALTcov_parameters[which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="B_01.ON AGE"):which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="B_01.ON SEX"),]
+b1 <- b1[keepvars]
+
+a1_int <- wrectd_lonely_ALTcov_parameters[which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="IA.ON AGE"):which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="IA.ON SEX"),]
+a1_int <- a1_int[keepvars]
+
+b1_int <- wrectd_lonely_ALTcov_parameters[which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="IB.ON AGE"):which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="IB.ON SEX"),]
+b1_int <- b1_int[keepvars]
+
+a1_s <- wrectd_lonely_ALTcov_parameters[which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="SA.ON AGE"):which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="SA.ON SEX"),]
+a1_s <- a1_s[keepvars]
+
+b1_s <- wrectd_lonely_ALTcov_parameters[which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="SB.ON AGE"):which(wrectd_lonely_ALTcov_parameters[,"parameter"]=="SB.ON SEX"),]
+b1_s <- b1_s[keepvars]
+
+labels_column <- c('Age', 'Education', 'Cohort', 'Health', 'Sex')
+wrectd_lonely_ALTcov_table <- cbind(labels_column, a1, a1_int, a1_s, b1, b1_int, b1_s)
+
+#Covariates_ALT_parameter_extraction_function(wrectd_lonely_ALTcov_parameters)
+# Covariate model effects table 
+# Create a table from the extracted parameters that displays the covariate effects.
+
+colnames(wrectd_lonely_ALTcov_table) <- c("", "_b_", "s.e", "_p_", "_b_", "s.e", "_p_", "_b_", "s.e", "_p_","_b_", "s.e", "_p_","_b_", "s.e", "_p_","_b_", "s.e", "_p_")
+apa_table(wrectd_lonely_ALTcov_table, caption = "Results from the Regression of the Final Conditional ALT Parameters on the Predictors")
 
 #----delayed-word-recall-social-contact-summary--------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
@@ -1396,15 +1485,15 @@ wrectd_lone_plot <- plot(wrectd_lonely_plot_vals$y_values,type = "o", col = "BLA
 lone_wrectd_plot <- plot(wrectd_lonely_plot_vals$x_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
                          main = "Loneliness")
 
-# ---- immediate-word-recall-social-network-plot ---------
+# ---- immediate-word-recall-loneliness-plot ---------
 # immediate word recall and social network
-wrecti_sn_ATL <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_network_model_parameters.csv")
-diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_sn_ATL)
+wrecti_lone_ATL <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_loneliness_model_parameters.csv")
+diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_lone_ATL)
 cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
-soc_labels <- c("Social&#92;nNetwork 1", "Social&#92;nNetwork 2","Social&#92;nNetwork 3","Social&#92;nNetwork 4","Social&#92;nNetwork 5","Social&#92;nNetwork 6")
-wrecti_sn_path_diagram <- path_diagram_function()
+soc_labels <- c("Loneliness 1", "Loneliness 2","Loneliness 3","Loneliness 4","Loneliness 5","Loneliness 6")
+wrecti_lone_path_diagram <- path_diagram_function()
 # Create a PNG of this graph
-tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_sn_path_diagram)),'./reports/wrecti_sn_path_diagram.png'))
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_lone_path_diagram)),'./reports/wrecti_lone_path_diagram.png'))
 
 # ---- immediate-word-recall-and-social-support-plot ----
 cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
@@ -1415,5 +1504,19 @@ wrecti_ss_path_diagram <- path_diagram_function()
 # Create a PNG of this graph
 tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_ss_path_diagram)),'./reports/wrecti_ss_path_diagram.png'))
 
+# ---- immediate-word-recall-and-social-network-plot ----
+cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nNetwork 1", "Social&#92;nNetwork 2","Social&#92;nNetwork 3","Social&#92;nNetwork 4","Social&#92;nNetwork 5","Social&#92;nNetwork 6")
+wrecti_sn <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_network_model_parameters.csv")
+diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_sn)
+wrecti_sn_path_diagram <- path_diagram_function()
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_sn_path_diagram)),'./reports/wrecti_sn_path_diagram.png'))
 
+
+cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nNetwork 1", "Social&#92;nNetwork 2","Social&#92;nNetwork 3","Social&#92;nNetwork 4","Social&#92;nNetwork 5","Social&#92;nNetwork 6")
+wrecti_sn <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_network_model_parameters.csv")
+diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_sn)
+wrecti_sn_path_diagram <- graph_function_covariates()
 

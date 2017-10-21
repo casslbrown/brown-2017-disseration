@@ -39,28 +39,43 @@ varnames_cognitive <- c(
   ,"mentalstatus_tot"         # Mental status total score
 )
 varnames_social <- c(
-   "score_loneliness_3"        # Loneliness score for three item version
-  #,"socialnetwork_total"       # Social network score 0-4
-  ,"social_support_mean"       # Social support mean
-  ,"social_contact_total"      # Social contact total score
-
+ "score_loneliness_3"        # Loneliness score for three item version
+ ,"socialnetwork_total"       # Social network score 0-4
+ ,"social_support_mean"       # Social support mean
+ ,"social_contact_total"      # Social contact total score
 )
+
+# path_prototype_files <- list(
+#   "Model_1_LGM_bivariate.inp"
+#   ,"Model_2_autoregressive_bivariate.inp"
+#   ,"Model_3_ALT-full.inp"
+#   ,"Model_4_ALT-nestedLCM.inp"
+#   ,"Model_5_ALT-fixed-slope-cog.inp"
+#   ,"Model_6_ALT-no-slope-cog.inp"
+#   ,"Model_7_ALT-fixed-slope-soc.inp"
+#   ,"Model_8_ALT-no-slope-soc.inp"
+#   ,"Model_9_ALT-no-time-specific-correlations.inp"
+#   ,"Model_10_ALT-fixed-time-specific-correlations.inp"
+#   ,"Model_11_ALT-9-plus-fixed-autoregressions-cog.inp"
+#   ,"Model_12_ALT-9-plus-fixed-autoregressions-soc.inp"
+#   ,"ALT-fixed-soc-on-cog-regressions.inp"
+#   ,"ALT-fixed-cog-on-soc-regressions.inp"
+# )
 
 path_prototype_files <- list(
   "Model_1_LGM_bivariate.inp"
   ,"Model_2_autoregressive_bivariate.inp"
-  ,"Model_3_ALT-full.inp"
-  ,"Model_4_ALT-nestedLCM.inp"
-  ,"Model_5_ALT-fixed-slope-cog.inp"
-  ,"Model_6_ALT-no-slope-cog.inp"
-  ,"Model_7_ALT-fixed-slope-soc.inp"
-  ,"Model_8_ALT-no-slope-soc.inp"
-  ,"Model_9_ALT-no-time-specific-correlations.inp"
-  ,"Model_10_ALT-fixed-time-specific-correlations.inp"
-  ,"Model_11_ALT-9-plus-fixed-autoregressions-cog.inp"
-  ,"Model_12_ALT-9-plus-fixed-autoregressions-soc.inp"
-  ,"ALT-fixed-soc-on-cog-regressions.inp"
-  ,"ALT-fixed-cog-on-soc-regressions.inp"
+  ,"Model_3_pALT-full.inp"
+  ,"Model_4_ALT-nestedLGM.inp"
+  ,"Model_5_pALT-fixed-cog-slope.inp"
+  ,"Model_6_pALT-no-cog-slope.inp"
+  ,"Model_7_pALT-fixed-soc-slope.inp"
+  ,"Model_8_pALT-no-soc-slope.inp"
+  ,"Model_9_pALT-no-time-correlations.inp"
+  ,"Model_10_pALT-constrained-time-correlations.inp"
+  ,"Model_11_pALT-9-plus-constrained-cog.inp"
+  ,"Model_12_pALT-9-plus-constrained-soc.inp"
+  ,"Model_13_pALT-9-plus-both-constrained.inp"
 )
 
 model_number <- c(
@@ -77,7 +92,6 @@ model_number <- c(
   ,"m11"
   ,"m12"
   , "m13"
-  ,"m14"
 )
 
 # ---- load-data ---------------------------------------------------------------
@@ -156,19 +170,19 @@ subset_group_2 = ""
 
 folder_data        = "./data-unshared/derived/" # where data resides
 #path_prototype     = "./manipulation/estimation/prototype-wide.inp" # Mplus stencil
-folder_output      = "./output/bivariate-models-nodem-65plus/" # where the output will go
+folder_output      = "./output/bivariate-models-nodem-65plus/predetermined-models/" # where the output will go
 
 # # single model
 mplus_generator_bivariate(
-  model_number        = "m13"
+  model_number        = "m14b"
   ,model_type         = "nocov"
   ,covariates         = ""
   ,process_a          = "wrectoti" # item name of process (A), goes into file name
-  ,process_b          = "socialnetwork_total"# item name of process (B), goes into file name
+  ,process_b          = "score_loneliness_3"# item name of process (B), goes into file name
   ,subset_group_1     = subset_group_1
   ,subset_condition_1 = subset_condition_2 # subset data to member of this group
   ,data_file          = "wide-dataset-b.dat"
-  ,path_prototype     = paste0("./manipulation/estimation/bivariate-models/","Model_13_ALT-11-plus-fixed-cog-on-soc.inp")
+  ,path_prototype     = paste0("./manipulation/estimation/predetermined-bivariate-models/","Model_14b_pALT-no-soc-slope-time-correlations-stationary-soc-cog-cross-lagged.inp")
   ,folder_data        = folder_data
   ,folder_output      = folder_output
   ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
@@ -179,23 +193,23 @@ mplus_generator_bivariate(
   model_number        = "m20"
   ,model_type         = "aechs"
   ,covariates         = c("age","educ","coh","health","sex")
-  ,process_a          = "mentalstatus_tot" # item name of process (A), goes into file name
-  ,process_b          = "socialnetwork_total"# item name of process (B), goes into file name
+  ,process_a          = "wrectoti" # item name of process (A), goes into file name
+  ,process_b          = "score_loneliness_3"# item name of process (B), goes into file name
   ,subset_group_1     = subset_group_1
   ,subset_condition_1 = subset_condition_2 # subset data to member of this group
   ,data_file          = "wide-dataset-b.dat"
-  ,path_prototype     = paste0("./manipulation/estimation/covariate-models/","ALT-soc_network_mentalstatus_cov.inp")
+  ,path_prototype     = paste0("./manipulation/estimation/covariate-models/","ALT-fixed-auto-soc-on-cog-covariates.inp")
   ,folder_data        = folder_data
   ,folder_output      = folder_output
   ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
 )
 
-subset_condition_1 = "memoryproblems_baseline EQ 0" # additional subgroup constraints
-folder_data        = "./data-unshared/derived/" # where data resides
-#path_prototype     = "./manipulation/estimation/prototype-wide.inp" # Mplus stencil
-folder_output      = "./output/bivariate-models/" # where the output will go
-# folder_data        = "./data/unshared/derived/map"
-# folder_output      = "./output/studies/map/phys-cog/pulmonary"
+# subset_condition_1 = "memoryproblems_baseline EQ 0" # additional subgroup constraints
+# folder_data        = "./data-unshared/derived/" # where data resides
+# #path_prototype     = "./manipulation/estimation/prototype-wide.inp" # Mplus stencil
+# folder_output      = "./output/bivariate-models/" # where the output will go
+# # folder_data        = "./data/unshared/derived/map"
+# # folder_output      = "./output/studies/map/phys-cog/pulmonary"
 
 
 # loop over conditions
@@ -203,24 +217,24 @@ folder_output      = "./output/bivariate-models/" # where the output will go
 #for(cog_measure in varnames_cognitive){
   #for(cog_measure in "wordlistim"){
   for(soc_measure in varnames_social){
-    for(i in 1:14)
+    for(i in 1:13)
         mplus_generator_bivariate(
           model_number        = model_number[i]
           ,model_type         = "nocov"
           ,covariates         = ""
-          ,process_a          = "mentalstatus_tot" # item name of process (A), goes into file name
+          ,process_a          = "wrectotd" # item name of process (A), goes into file name
           ,process_b          = soc_measure # item name of process (B), goes into file name
           ,subset_group_1     = subset_group_1
           ,subset_condition_1 = subset_condition_2 # subset data to member of this group
           ,data_file          = "wide-dataset-b.dat"
-          ,path_prototype     = paste0("./manipulation/estimation/bivariate-models/",path_prototype_files[i])
+          ,path_prototype     = paste0("./manipulation/estimation/predetermined-bivariate-models/",path_prototype_files[i])
           ,folder_data        = folder_data
           ,folder_output      = folder_output
           ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
         )
           }
 #}
-
+path_prototype_files
 
 
 # ---- examine-created-output ----------------
@@ -247,5 +261,5 @@ head(ds)
 
 
 
-
+sessionInfo()
 
