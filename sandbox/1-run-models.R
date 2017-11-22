@@ -177,8 +177,8 @@ mplus_generator_bivariate(
   model_number        = "m14b"
   ,model_type         = "nocov"
   ,covariates         = ""
-  ,process_a          = "wrectoti" # item name of process (A), goes into file name
-  ,process_b          = "score_loneliness_3"# item name of process (B), goes into file name
+  ,process_a          = "wrectotd" # item name of process (A), goes into file name
+  ,process_b          = "social_contact_total"# item name of process (B), goes into file name
   ,subset_group_1     = subset_group_1
   ,subset_condition_1 = subset_condition_2 # subset data to member of this group
   ,data_file          = "wide-dataset-b.dat"

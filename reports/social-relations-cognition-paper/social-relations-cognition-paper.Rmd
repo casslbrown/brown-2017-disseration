@@ -68,7 +68,7 @@ knit_hooks$set(inline = inline_hook)
 opts_chunk$set(echo = FALSE, cache=FALSE)
 
 # connect to the file with the underlying R script  
-read_chunk("./reports/project1-predetermined-models.R") 
+read_chunk("./reports/social-relations-cognition-paper/project1-predetermined-models-results.R") 
 
 ```
 
@@ -315,12 +315,18 @@ $\rho_{65}$ = `r ms_loneliness_ALT[["cog_rho65"]]`, _p_ = `r ms_loneliness_ALT[[
 
 ## Loneliness
 ```{r}
-loneliness_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/loneliness_model_parameters.csv")
+loneliness_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/predetermined-models/loneliness_model_parameters.csv")
 lone_par_list <- parameter_extraction_function(loneliness_parameters)
+
+fullALT_loneliness_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/predetermined-models/loneliness_fullALTmodel_parameters.csv")
+fullALT_lone_par_list <- parameter_extraction_function(fullALT_loneliness_parameters)
+
 
 ```  
 
-For the univariate loneliness models, the ALT model with the autoregressive parameters constrained to equality over time was the best fitting most parsimonious model according to fit indices (see Table 5). The intercept was $\mu_{\alpha}$ = `r lone_par_list[["ALT_intercept"]]`, _p_ = `r lone_par_list[["ALT_intercept_pval"]]`, with significant variability. Overall, loneliness increased slightly but significantly over time ($\beta$ = `r lone_par_list[["ALT_slope"]]` , _p_ = `r lone_par_list[["ALT_slope_pval"]]`) with significant variance in the slope ($\psi$ = `r lone_par_list[["ALT_slope_variance"]]`, _p_ = `r lone_par_list[["ALT_slope_variance_pval"]]`). Previous loneliness scores significantly predicted later loneliness, over and above the overall trajectory of loneliness ($\rho_{t,t-1}$ = `r lone_par_list[["ALT_rho21"]]`, _p_ = `r lone_par_list[["ALT_rho21_pval"]]`). Figure 4 shows the predicted mean trajectory of loneliness. 
+For the univariate loneliness models, the ALT model with only the level of loneliness estimated (no slope) and autoregressive parameters constrained to equality over time was the best fitting most parsimonious model according to fit indices (see Table 5). The intercept was $\mu_{\alpha}$ = `r lone_par_list[["ALT_intercept"]]`, _p_ = `r lone_par_list[["ALT_intercept_pval"]]`, with significant variability. Previous loneliness scores significantly predicted later loneliness $\rho_{t,t-1}$ = `r lone_par_list[["ALT_rho21"]]`, _p_ = `r lone_par_list[["ALT_rho21_pval"]]`. Figure 4 shows the predicted mean trend of loneliness over time. 
+
+Overall, loneliness increased slightly but significantly over time ($\beta$ = `r lone_par_list[["ALT_slope"]]` , _p_ = `r lone_par_list[["ALT_slope_pval"]]`) with significant variance in the slope ($\psi$ = `r lone_par_list[["ALT_slope_variance"]]`, _p_ = `r lone_par_list[["ALT_slope_variance_pval"]]`)
 
 When loneliness was included in bivariate models to examine the relations between loneliness and cogitive function, as in the univariate models, the slope term was small and significant in the immediate word recall - loneliness model 
 ( $\beta$ = `r  wrecti_loneliness_par_list[["soc_slope"]]`, _p_ = `r wrecti_loneliness_par_list[["soc_slope_pval"]]`, 
@@ -411,7 +417,7 @@ For  delayed word recall - social network bivariate model ($\rho_{t,t-1}$ =
 
 ### _Immediate word recall - Loneliness_  
 
-The results of the bivariate immediate word recall - loneliness model indicate that the time specific correlations can be removed, autoregressive parameters for both immediate word recall and loneliness can be constrained to equality over time, and the cross-lagged regressions of loneliness-on-immediate word recall can be constrained to equality over time without a significant reduction in model fit from the full ALT model (see Table X). Thus, model 15 is identified as the model with the best fit according to all fit indices examined and showed acceptable model fit across all indices. Looking at the results of this model in more detail, the correlation between the first measurement points was not significant (corr. = 
+Convergence problems arose in the estimation of the bivariate immediate word recall - loneliness model such that the full ALT model did not converge and thus could not be the comparison model. Examination of the model suggested that convergence issues may have been due to model miss-specification. Thus, model comparison was limited to converged models. The results of this model comparison indicate that the slope of loneliness can be removed, time specific correlations can be removed, and autoregressive parameters for both immediate word recall and loneliness can be constrained to equality over time without a significant reduction in model fit from the ALT model with the social slope fixed to 0 (see Table X). Thus the model with the best fit according to all fit indices examined and showed acceptable model fit across all indices is the ALT model with a cognitive and . Looking at the results of this model in more detail, the correlation between the first measurement points was not significant (corr. = 
 `r wrecti_loneliness_par_list[["A_01_WITH_B_01"]]`, _p_ = `r wrecti_loneliness_par_list[["A_01_WITH_B_01_pval"]]`). The correlation between the intercept factors was signficant (corr. = 
 `r wrecti_loneliness_par_list[["IB_WITH_IA"]]`, _p_ = `r wrecti_loneliness_par_list[["IB_WITH_IA_pval"]]`). Note that in these models the intercept represents the portion of the time 2 variable remaining unexplained by the time 1 variable, thus this unexplained portion of immdediate word recall performance and loneliness were significantly related but initial levels of each were not. Further, that the time-specific correlations could be removed without changing the overall fit of the model indicates that the time-specific uniquenesses, after accounting for the slope, of loneliness and immediate word recall are not related. There was no significant relation between the linear slope of immediate word recall and the linear slope of loneliness (corr. = 
 `r wrecti_loneliness_par_list[["SB_WITH_SA"]]`, _p_ = `r wrecti_loneliness_par_list[["SB_WITH_SA_pval"]]`). The cross-lagged regressions of loneliness-on-immediate word recall were consistently not signficant indicating that state-like deviations in immediate word recall performance were not predictive of state-like deviations in loneliness two years later (`r wrecti_loneliness_par_list[["A_03_B_02"]]`, _p_ = 

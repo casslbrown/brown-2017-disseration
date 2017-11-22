@@ -39,18 +39,17 @@ varnames_cognitive <- c(
   ,"mentalstatus_tot"         # Mental status total score
 )
 varnames_social <- c(
-   "score_loneliness_3"        # Loneliness score for three item version
-  ,"socialnetwork_total"       # Social network score 0-4
-  ,"social_support_mean"       # Social support mean
+   #"score_loneliness_3"        # Loneliness score for three item version
+  "socialnetwork_total"       # Social network score 0-4
+  #,"social_support_mean"       # Social support mean
   #,"social_strain_mean"        # Social strain mean
-  ,"social_contact_total"      # Social contact total score
+  #,"social_contact_total"      # Social contact total score
   #,"activity_sum"              # Activity sum
 )
 
 path_prototype_files <- list(
 "Autoregressive-univariate.inp"
 ,"LGM-univariate.inp"
-,"LGM-quadratic-univariate.inp"
 ,"ALT-univariate-full.inp"
 ,"ALT-nested-LGM-univariate.inp"
 ,"ALT-no-slope-variance.inp"
@@ -66,7 +65,7 @@ model_number <- c(
   ,"u05"
   ,"u06"
   ,"u07"
-  ,"u08"
+  #,"u08"
 )
 
 # ---- load-data ---------------------------------------------------------------
@@ -103,7 +102,7 @@ subset_group_2 = ""
 
 folder_data        = "./data-unshared/derived/" # where data resides
 #path_prototype    = "./manipulation/estimation/prototype-wide.inp" # Mplus stencil
-folder_output     = "./output/univariate-models-nodem-65plus/" # where the output will go
+folder_output     = "./output/univariate-models-nodem-65plus/predetermined-models" # where the output will go
 #folder_output      = "./output/univariate-models-nodem/" # place output for models with dementia excluded.
 #folder_output      = "./output/univariate-models-nodem-65plus/"
 #folder_output       = "./output/univariate-models-nodem-65plus/"
@@ -123,19 +122,35 @@ folder_output     = "./output/univariate-models-nodem-65plus/" # where the outpu
 #   ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
 # )
 
+#single model
+    mplus_generator_univariate(
+      model_number        = "u03"
+      ,model_type         = "nocov"
+      ,covariates         =  " "
+      ,process_a          = "wrectotd" # item name of process (A), goes into file name
+      ,subset_group_1     = subset_group_1
+      ,subset_condition_1 = subset_condition_2 # subset data to member of this group
+      ,data_file          = "wide-dataset-b.dat"
+      ,path_prototype     = paste0("./manipulation/estimation/univariate-models/predetermined-univariate/","predetermined_univariate_ALT-full-Ou.inp")
+      ,folder_data        = folder_data
+      ,folder_output      = folder_output
+      ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
+    )
+
+
 # loop over conditions
 #for(cog_measure in varnames_cognitive){
 for(soc_measure in varnames_social){
-  for(i in 1:8)
+  for(i in 5:7)
     mplus_generator_univariate(
       model_number        = model_number[i]
       ,model_type         = "nocov"
       ,covariates         =  " "
-      ,process_a          = social_support_mean # item name of process (A), goes into file name
+      ,process_a          = soc_measure # item name of process (A), goes into file name
       ,subset_group_1     = subset_group_1
       ,subset_condition_1 = subset_condition_2 # subset data to member of this group
       ,data_file          = "wide-dataset-b.dat"
-      ,path_prototype     = paste0("./manipulation/estimation/univariate-models/",path_prototype_files[i])
+      ,path_prototype     = paste0("./manipulation/estimation/univariate-models/predetermined-univariate/",path_prototype_files[i])
       ,folder_data        = folder_data
       ,folder_output      = folder_output
       ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files

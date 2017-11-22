@@ -1,5 +1,5 @@
 TITLE:
-9a - Predetermined ALT, fixed cog slope, no-time-correlations
+9d - Predetermined ALT, no social slope, no time-correlations
 DATA:
 File = wide-dataset-b.dat;
 VARIABLE:
@@ -109,10 +109,9 @@ MODEL:
 	! assign process (A) to time points 
 ia BY a_02@1 a_03@1 a_04@1 a_05@1 a_06@1;
 sa BY a_02@0 a_03@2 a_04@4 a_05@6 a_06@8;
-sa@0;
 	! assign process (B) to time points 
 ib BY b_02@1 b_03@1 b_04@1 b_05@1 b_06@1;
-sb BY b_02@0 b_03@2 b_04@4 b_05@6 b_06@8;
+!sb BY b_02@0 b_03@2 b_04@4 b_05@6 b_06@8;
 	!correlations between the first measurement points
 	!autoregressive part
 a_01 a_02 a_03 a_04 a_05 a_06;
@@ -141,22 +140,27 @@ b_06 ON a_05;
 ia;
 sa;
 ib;
-sb;
+!sb;
 ia with sa;
-ib with sb;
+!ib with sb;
 ia with a_01;
 sa with a_01;
 ib with b_01;
-sb with b_01;
+!sb with b_01;
 ia with ib;
-sa with sb;
+!sa with sb;
 ! Time specific correlations
+!b_02 WITH a_02;
+!b_03 WITH a_03;
+!b_04 WITH a_04;
+!b_05 WITH a_05;
+!b_06 WITH a_06;
 [a_02@0 a_03@0 a_04@0 a_05@0 a_06@0];
 [b_02@0 b_03@0 b_04@0 b_05@0 b_06@0];
 [ia];
 [ib];
 [sa];
-[sb];
+![sb];
 [a_01];
 [b_01];
 	
