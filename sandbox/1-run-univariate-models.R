@@ -39,11 +39,11 @@ varnames_cognitive <- c(
   ,"mentalstatus_tot"         # Mental status total score
 )
 varnames_social <- c(
-   #"score_loneliness_3"        # Loneliness score for three item version
-  "socialnetwork_total"       # Social network score 0-4
-  #,"social_support_mean"       # Social support mean
+  "score_loneliness_3"        # Loneliness score for three item version
+  ,"socialnetwork_total"       # Social network score 0-4
+  ,"social_support_mean"       # Social support mean
   #,"social_strain_mean"        # Social strain mean
-  #,"social_contact_total"      # Social contact total score
+  ,"social_contact_total"      # Social contact total score
   #,"activity_sum"              # Activity sum
 )
 
@@ -55,6 +55,7 @@ path_prototype_files <- list(
 ,"ALT-no-slope-variance.inp"
 ,"ALT-no-slope.inp"
 ,"ALT-fixed-regressions.inp"
+,"ALT-no-slope-fixed-autoregressions.inp"
 )
 
 model_number <- c(
@@ -124,14 +125,14 @@ folder_output     = "./output/univariate-models-nodem-65plus/predetermined-model
 
 #single model
     mplus_generator_univariate(
-      model_number        = "u03"
+      model_number        = "u08"
       ,model_type         = "nocov"
       ,covariates         =  " "
-      ,process_a          = "wrectotd" # item name of process (A), goes into file name
+      ,process_a          = "socialnetwork_total" # item name of process (A), goes into file name
       ,subset_group_1     = subset_group_1
       ,subset_condition_1 = subset_condition_2 # subset data to member of this group
       ,data_file          = "wide-dataset-b.dat"
-      ,path_prototype     = paste0("./manipulation/estimation/univariate-models/predetermined-univariate/","predetermined_univariate_ALT-full-Ou.inp")
+      ,path_prototype     = paste0("./manipulation/estimation/univariate-models/predetermined-univariate/","ALT-no-slope-fixed-autoregressions.inp")
       ,folder_data        = folder_data
       ,folder_output      = folder_output
       ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
@@ -141,7 +142,7 @@ folder_output     = "./output/univariate-models-nodem-65plus/predetermined-model
 # loop over conditions
 #for(cog_measure in varnames_cognitive){
 for(soc_measure in varnames_social){
-  for(i in 5:7)
+  for(i in 1:7)
     mplus_generator_univariate(
       model_number        = model_number[i]
       ,model_type         = "nocov"
@@ -160,7 +161,7 @@ for(soc_measure in varnames_social){
 # loop over conditions
 #for(cog_measure in varnames_cognitive){
   for(soc_measure in varnames_social){
-    for(i in 5:7)
+    for(i in 1:7)
         mplus_generator_univariate(
           model_number        = model_number[i]
           ,model_type         = "nocov"

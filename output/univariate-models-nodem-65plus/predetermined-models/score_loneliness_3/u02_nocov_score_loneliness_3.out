@@ -1,6 +1,6 @@
 Mplus VERSION 7.4 (Mac)
 MUTHEN & MUTHEN
-10/21/2017   3:56 PM
+01/14/2018   1:24 PM
 
 INPUT INSTRUCTIONS
 
@@ -98,12 +98,7 @@ INPUT INSTRUCTIONS
   MODEL:
   	!LGM
   	! assign process (A) to time points
-  ia sa | a_2@0
-  a_3@2
-  a_4@4
-  a_5@6
-  a_6@8
-  a_2@10 ;
+  ia sa | a_02@0 a_03@2 a_04@4 a_05@6 a_06@8;
   	! assign process (B) to time points
   	
   OUTPUT: SAMPSTAT MODINDICES (3.0); TECH1 TECH2 TECH3;;
@@ -111,9 +106,11 @@ INPUT INSTRUCTIONS
 
 
 *** WARNING in MODEL command
-  All variables are uncorrelated with all other variables in the model.
+  Variable is uncorrelated with all other variables:  A_01
+*** WARNING in MODEL command
+  At least one variable is uncorrelated with all other variables in the model.
   Check that this is what is intended.
-   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -244,82 +241,141 @@ UNIVARIATE SAMPLE STATISTICS
      A_06                  1.429       1.081       1.000   44.93%       1.000      1.000      1.333
             2010.000       0.256       0.406       3.000    1.74%       1.333      2.000
 
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ILL-CONDITIONED
-     FISHER INFORMATION MATRIX.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
 
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO A NON-POSITIVE
-     DEFINITE FISHER INFORMATION MATRIX.  THIS MAY BE DUE TO THE STARTING VALUES
-     BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE CONDITION
-     NUMBER IS       0.000D+00.
-
-     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES COULD NOT BE
-     COMPUTED.  THIS IS OFTEN DUE TO THE STARTING VALUES BUT MAY ALSO BE
-     AN INDICATION OF MODEL NONIDENTIFICATION.  CHANGE YOUR MODEL AND/OR
-     STARTING VALUES.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
-     Parameter 13, [ SA ]
+THE MODEL ESTIMATION TERMINATED NORMALLY
 
 
 
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       12
+
+Loglikelihood
+
+          H0 Value                       -8668.120
+          H0 Scaling Correction Factor      1.4123
+            for MLR
+          H1 Value                       -8463.679
+          H1 Scaling Correction Factor      1.2476
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   17360.240
+          Bayesian (BIC)                 17440.537
+          Sample-Size Adjusted BIC       17402.405
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            366.452*
+          Degrees of Freedom                    15
+          P-Value                           0.0000
+          Scaling Correction Factor         1.1158
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.063
+
+CFI/TLI
+
+          CFI                                0.836
+          TLI                                0.836
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           2152.497
+          Degrees of Freedom                    15
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.299
 
 
 
 MODEL RESULTS
 
-                    Estimate
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ IA       |
+    A_02               1.000      0.000    999.000    999.000
+    A_03               1.000      0.000    999.000    999.000
+    A_04               1.000      0.000    999.000    999.000
+    A_05               1.000      0.000    999.000    999.000
+    A_06               1.000      0.000    999.000    999.000
+
+ SA       |
+    A_02               0.000      0.000    999.000    999.000
+    A_03               2.000      0.000    999.000    999.000
+    A_04               4.000      0.000    999.000    999.000
+    A_05               6.000      0.000    999.000    999.000
+    A_06               8.000      0.000    999.000    999.000
 
  SA       WITH
-    IA                 0.000
+    IA                -0.002      0.002     -1.323      0.186
 
  Means
-    A_01               1.353
-    A_02               1.432
-    A_03               1.437
-    A_04               1.428
-    A_05               1.455
-    A_06               1.429
-    IA                 0.000
-    SA                 0.000
+    A_01               1.353      0.015     90.937      0.000
+    IA                 1.433      0.008    188.004      0.000
+    SA                 0.003      0.001      2.741      0.006
+
+ Intercepts
+    A_02               0.000      0.000    999.000    999.000
+    A_03               0.000      0.000    999.000    999.000
+    A_04               0.000      0.000    999.000    999.000
+    A_05               0.000      0.000    999.000    999.000
+    A_06               0.000      0.000    999.000    999.000
 
  Variances
-    A_01               0.223
-    A_02               0.259
-    A_03               0.265
-    A_04               0.260
-    A_05               0.251
-    A_06               0.256
-    IA                 0.050
-    SA                 0.050
+    A_01               0.223      0.012     18.999      0.000
+    IA                 0.153      0.011     14.099      0.000
+    SA                 0.001      0.000      2.002      0.045
+
+ Residual Variances
+    A_02               0.107      0.011      9.811      0.000
+    A_03               0.116      0.008     14.890      0.000
+    A_04               0.117      0.007     17.842      0.000
+    A_05               0.100      0.008     12.161      0.000
+    A_06               0.102      0.012      8.332      0.000
 
 
-MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+QUALITY OF NUMERICAL RESULTS
 
-     ia sa | a_2@0
-     a_3@2
-     a_4@4
-     a_5@6
-     a_6@8
-     a_2@10;
+     Condition Number for the Information Matrix              0.266E-02
+       (ratio of smallest to largest eigenvalue)
 
-     sa WITH ia*0;
 
-     [ a_01*1.35298 ];
-     [ a_02*1.43215 ];
-     [ a_03*1.43742 ];
-     [ a_04*1.42778 ];
-     [ a_05*1.45516 ];
-     [ a_06*1.42919 ];
-     [ ia@0 ];
-     [ sa*0 ];
+MODEL MODIFICATION INDICES
 
-     a_01*0.22289;
-     a_02*0.25878;
-     a_03*0.26472;
-     a_04*0.26002;
-     a_05*0.25129;
-     a_06*0.25646;
-     ia*0.05000;
-     sa*0.05000;
+NOTE:  Modification indices for direct effects of observed dependent variables
+regressed on covariates may not be included.  To include these, request
+MODINDICES (ALL).
 
+Minimum M.I. value for printing the modification index     3.000
+
+                                   M.I.     E.P.C.
+
+
+BY Statements
+
+IA       BY A_01                 262.812     0.771
+
+WITH Statements
+
+A_02     WITH A_01                61.687     0.075
+A_03     WITH A_01                38.445     0.059
+A_04     WITH A_01                 3.545     0.018
+A_05     WITH A_01                13.289     0.036
+A_05     WITH A_04                16.953    -0.308
+A_06     WITH A_01                 8.869     0.032
 
 
 TECHNICAL 1 OUTPUT
@@ -331,13 +387,13 @@ TECHNICAL 1 OUTPUT
            NU
               A_01          A_02          A_03          A_04          A_05
               ________      ________      ________      ________      ________
- 1                  1             2             3             4             5
+ 1                  1             0             0             0             0
 
 
            NU
               A_06
               ________
- 1                  6
+ 1                  0
 
 
            LAMBDA
@@ -354,24 +410,24 @@ TECHNICAL 1 OUTPUT
            THETA
               A_01          A_02          A_03          A_04          A_05
               ________      ________      ________      ________      ________
- A_01               7
- A_02               0             8
- A_03               0             0             9
- A_04               0             0             0            10
- A_05               0             0             0             0            11
+ A_01               2
+ A_02               0             3
+ A_03               0             0             4
+ A_04               0             0             0             5
+ A_05               0             0             0             0             6
  A_06               0             0             0             0             0
 
 
            THETA
               A_06
               ________
- A_06              12
+ A_06               7
 
 
            ALPHA
               IA            SA
               ________      ________
- 1                  0            13
+ 1                  8             9
 
 
            BETA
@@ -384,8 +440,8 @@ TECHNICAL 1 OUTPUT
            PSI
               IA            SA
               ________      ________
- IA                14
- SA                15            16
+ IA                10
+ SA                11            12
 
 
      STARTING VALUES
@@ -407,11 +463,11 @@ TECHNICAL 1 OUTPUT
               IA            SA
               ________      ________
  A_01           0.000         0.000
- A_02           0.000         0.000
- A_03           0.000         0.000
- A_04           0.000         0.000
- A_05           0.000         0.000
- A_06           0.000         0.000
+ A_02           1.000         0.000
+ A_03           1.000         2.000
+ A_04           1.000         4.000
+ A_05           1.000         6.000
+ A_06           1.000         8.000
 
 
            THETA
@@ -434,7 +490,7 @@ TECHNICAL 1 OUTPUT
            ALPHA
               IA            SA
               ________      ________
- 1              0.000         0.000
+ 1              1.440         0.006
 
 
            BETA
@@ -447,8 +503,8 @@ TECHNICAL 1 OUTPUT
            PSI
               IA            SA
               ________      ________
- IA             0.050
- SA             0.000         0.050
+ IA             0.299
+ SA             0.000         0.013
 
 
 TECHNICAL 2 OUTPUT
@@ -460,13 +516,13 @@ TECHNICAL 2 OUTPUT
            Derivatives With Respect to NU
               A_01          A_02          A_03          A_04          A_05
               ________      ________      ________      ________      ________
- 1          0.301E-04     0.202E-10     0.443E-10     0.265E-10     0.380E-10
+ 1          0.579E-06     0.000E+00     0.000E+00     0.000E+00     0.000E+00
 
 
            Derivatives With Respect to NU
               A_06
               ________
- 1         -0.977E-10
+ 1          0.000E+00
 
 
            Derivatives With Respect to LAMBDA
@@ -483,24 +539,24 @@ TECHNICAL 2 OUTPUT
            Derivatives With Respect to THETA
               A_01          A_02          A_03          A_04          A_05
               ________      ________      ________      ________      ________
- A_01      -0.857E-04
- A_02       0.000E+00     0.565E-10
- A_03       0.000E+00     0.000E+00     0.298E-10
- A_04       0.000E+00     0.000E+00     0.000E+00    -0.330E-11
- A_05       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.788E-09
+ A_01      -0.571E-06
+ A_02       0.000E+00    -0.221E-05
+ A_03       0.000E+00     0.000E+00     0.229E-05
+ A_04       0.000E+00     0.000E+00     0.000E+00     0.993E-05
+ A_05       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.232E-05
  A_06       0.000E+00     0.000E+00     0.000E+00     0.000E+00     0.000E+00
 
 
            Derivatives With Respect to THETA
               A_06
               ________
- A_06      -0.265E-09
+ A_06       0.116E-05
 
 
            Derivatives With Respect to ALPHA
               IA            SA
               ________      ________
- 1          0.000E+00     0.000E+00
+ 1         -0.387E-06    -0.738E-05
 
 
            Derivatives With Respect to BETA
@@ -513,13 +569,88 @@ TECHNICAL 2 OUTPUT
            Derivatives With Respect to PSI
               IA            SA
               ________      ________
- IA         0.000E+00
- SA         0.000E+00     0.000E+00
+ IA         0.601E-06
+ SA         0.122E-05    -0.485E-04
 
 
-     Beginning Time:  15:56:08
-        Ending Time:  15:56:55
-       Elapsed Time:  00:00:47
+TECHNICAL 3 OUTPUT
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                     1             2             3             4             5
+              ________      ________      ________      ________      ________
+        1   0.221375D-03
+        2   0.129572D-03  0.137569D-03
+        3   0.466699D-05  0.476370D-05  0.119356D-03
+        4   0.333457D-05  0.475020D-06  0.382685D-04  0.607771D-04
+        5   0.344533D-06  0.890152D-07 -0.280770D-05 -0.248560D-05  0.427231D-04
+        6  -0.373918D-06 -0.673827D-06  0.774977D-05 -0.618338D-05  0.262367D-05
+        7   0.123001D-05 -0.497308D-06  0.487818D-04  0.736159D-05  0.127721D-05
+        8   0.234493D-04  0.127064D-04  0.823595D-05  0.787681D-05  0.733214D-05
+        9  -0.720590D-06 -0.337079D-06 -0.772161D-06 -0.225824D-06 -0.120671D-06
+       10   0.724964D-05  0.691423D-05 -0.910138D-04 -0.497005D-04  0.365569D-05
+       11  -0.314863D-06 -0.658129D-07  0.151269D-04  0.704448D-05 -0.109362D-05
+       12   0.848852D-07  0.292943D-07 -0.282964D-05 -0.966771D-06  0.126980D-06
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                     6             7             8             9            10
+              ________      ________      ________      ________      ________
+        6   0.672271D-04
+        7   0.471667D-04  0.149091D-03
+        8   0.414131D-05  0.164370D-05  0.581141D-04
+        9  -0.406665D-06  0.501554D-06 -0.556533D-05  0.156310D-05
+       10   0.141533D-06 -0.313802D-04  0.228272D-04 -0.254084D-05  0.118418D-03
+       11   0.759566D-06  0.776926D-05 -0.136166D-05  0.322698D-06 -0.164160D-04
+       12  -0.117882D-05 -0.324531D-05 -0.376685D-08  0.256856D-07  0.254189D-05
+
+
+           ESTIMATED COVARIANCE MATRIX FOR PARAMETER ESTIMATES
+                    11            12
+              ________      ________
+       11   0.281242D-05
+       12  -0.503848D-06  0.133303D-06
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                     1             2             3             4             5
+              ________      ________      ________      ________      ________
+        1       1.000
+        2       0.742         1.000
+        3       0.029         0.037         1.000
+        4       0.029         0.005         0.449         1.000
+        5       0.004         0.001        -0.039        -0.049         1.000
+        6      -0.003        -0.007         0.087        -0.097         0.049
+        7       0.007        -0.003         0.366         0.077         0.016
+        8       0.207         0.142         0.099         0.133         0.147
+        9      -0.039        -0.023        -0.057        -0.023        -0.015
+       10       0.045         0.054        -0.766        -0.586         0.051
+       11      -0.013        -0.003         0.826         0.539        -0.100
+       12       0.016         0.007        -0.709        -0.340         0.053
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                     6             7             8             9            10
+              ________      ________      ________      ________      ________
+        6       1.000
+        7       0.471         1.000
+        8       0.066         0.018         1.000
+        9      -0.040         0.033        -0.584         1.000
+       10       0.002        -0.236         0.275        -0.187         1.000
+       11       0.055         0.379        -0.107         0.154        -0.900
+       12      -0.394        -0.728        -0.001         0.056         0.640
+
+
+           ESTIMATED CORRELATION MATRIX FOR PARAMETER ESTIMATES
+                    11            12
+              ________      ________
+       11       1.000
+       12      -0.823         1.000
+
+
+     Beginning Time:  13:24:22
+        Ending Time:  13:25:20
+       Elapsed Time:  00:00:58
 
 
 

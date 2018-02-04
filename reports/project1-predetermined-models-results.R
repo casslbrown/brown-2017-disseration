@@ -540,9 +540,9 @@ apa_table(desc, landscape = TRUE,
 
 #---- immediate-word-recall-model-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
-wrecti_fit_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/wrectoti")
+wrecti_fit_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/predetermined-models/wrectoti")
 
-wrecti_fit_series4["CM"] <- 4
+wrecti_fit_series4["CM"] <- 3
 wrecti_fit_series4[1:3, "CM"] <- "-"
 
 cm_row <- wrecti_fit_series4$CM
@@ -562,7 +562,7 @@ apa_table.word(wrecti_fit_series4_table, caption = "Model Fit Indices for Immedi
 
 
 #----immediate-word-recall-results-------
-wrecti_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/wrectoti/u04_nocov_wrectoti.out")
+wrecti_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/predetermined-models/wrectoti/u03_nocov_wrectoti.out")
 
 wrecti_ATL <- as.data.frame(wrecti_ATLparameters[[1]])
 
@@ -917,7 +917,7 @@ wrectd_sc_ATLparameters$parameter <- paste(wrectd_sc_ATLparameters$paramHeader,w
 # select relevant parameters and then save file.
 # this allows the parameters to be accessible to the R markdown file for writing results. 
 wrectd_sc_ATL <- wrectd_sc_ATLparameters %>% dplyr::select(parameter, est, se, pval)
-write.csv(wrectd_sc_ATL, file = "./output/bivariate-models-nodem-65plus/wrectd_social_contact_model_parameters.csv")
+write.csv(wrectd_sc_ATL, file = "./output/bivariate-models-nodem-65plus/predetermined-models/wrectd_social_contact_model_parameters.csv")
 
 # The full model for comparison
 wrectd_sc_ATLfullparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/wrectotd-social_contact_total/m03_nocov_wrectotd_social_contact_total.out")
@@ -934,15 +934,15 @@ write.csv(wrectd_sc_ATLfull, file = "./output/bivariate-models-nodem-65plus/wrec
 
 #----delayed-word-recall-social-support-summary--------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
-wrectotd_social_support_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/wrectotd-social_support_mean")
+wrectotd_social_support_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-social_support_mean/converged-models")
 wrectotd_social_support_summary["CM"] <- 3
 wrectotd_social_support_summary[1:3, "CM"] <- "-"
-wrectotd_social_support_summary[10:11, "CM"] <- "9"
-wrectotd_social_support_summary[12, "CM"] <- "9"
-wrectotd_social_support_summary[13, "CM"] <- "9"
-wrectotd_social_support_summary[14, "CM"] <- "13"
-wrectotd_social_support_summary[15, "CM"] <- "13"
-wrectotd_social_support_summary[16, "CM"] <- "13"
+wrectotd_social_support_summary[5, "CM"] <- 4
+wrectotd_social_support_summary[6, "CM"] <- 4
+wrectotd_social_support_summary[7, "CM"] <- 4
+wrectotd_social_support_summary[8, "CM"] <- 4
+wrectotd_social_support_summary[9, "CM"] <- 4
+wrectotd_social_support_summary[10, "CM"] <- 4
 cm_row <- wrectotd_social_support_summary$CM
 
 wrectotd_social_support_table <- compare_models_function(wrectotd_social_support_summary, cm_row)
@@ -952,8 +952,8 @@ colnames(wrectotd_social_support_table) <- c("Model", "$\\chi^2$", "df", "CM", "
 apa_table.word(wrectotd_social_support_table, caption = "Model Fit Indices for Delayed Word Recall and Social Support")
 
 #----delayed-word-recall-social-support-results--------------------------
-# model 12 the ALT model with no time specific correlations and fixed autoregressions is the final model
-wrectd_ss_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/wrectotd-social_support_mean/m15_nocov_wrectotd_social_support_mean.out")
+# model 12b the ALT model with no time specific correlations and fixed autoregressions is the final model
+wrectd_ss_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-social_support_mean/converged-models/m13b_nocov_wrectotd_social_support_mean.out")
 
 wrectd_ss_ATLparameters <- as.data.frame(wrectd_ss_ATLparameters[[1]]) 
 
@@ -980,15 +980,14 @@ write.csv(wrectd_ss_ALTfull, file = "./output/bivariate-models-nodem-65plus/wrec
 
 #----delayed-word-recall-social-network-summary--------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
-wrectotd_social_network_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/wrectotd-socialnetwork_total")
-wrectotd_social_network_summary["CM"] <- 3
+wrectotd_social_network_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-socialnetwork_total/converged-models")
+wrectotd_social_network_summary["CM"] <- 4
 wrectotd_social_network_summary[1:3, "CM"] <- "-"
-wrectotd_social_network_summary[10:11, "CM"] <- "9"
-wrectotd_social_network_summary[12, "CM"] <- "9"
-wrectotd_social_network_summary[13, "CM"] <- "9"
-wrectotd_social_network_summary[14, "CM"] <- "13"
-wrectotd_social_network_summary[15, "CM"] <- "13"
-wrectotd_social_network_summary[16, "CM"] <- "13"
+wrectotd_social_network_summary[6, "CM"] <- 5
+wrectotd_social_network_summary[7, "CM"] <- 6
+wrectotd_social_network_summary[8, "CM"] <- 6
+wrectotd_social_network_summary[9, "CM"] <- 7
+
 cm_row <- wrectotd_social_network_summary$CM
 
 wrectotd_social_network_table <- compare_models_function(wrectotd_social_network_summary, cm_row)
@@ -999,8 +998,8 @@ colnames(wrectotd_social_contact_table) <- c("Model", "$\\chi^2$", "df", "CM", "
 apa_table.word(wrectotd_social_contact_table, caption = "Model Fit Indices for Delayed Word Recall and Loneliness")
 
 #----delayed-word-recall-social-network-results-----
-# model 12 the ALT model with no time specific correlations and fixed autoregressions is the final model
-wrectd_sn_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/wrectotd-socialnetwork_total/m15_nocov_wrectotd_socialnetwork_total.out")
+# model 11b the ALT model with no social slope, no time specific correlations and fixed autoregressions for delayed word recall is the final model
+wrectd_sn_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-socialnetwork_total/converged-models/m11b_nocov_wrectotd_socialnetwork_total.out")
 
 wrectd_sn_ATLparameters <- as.data.frame(wrectd_sn_ATLparameters[[1]]) 
 
@@ -1027,15 +1026,11 @@ write.csv(wrectd_sn_ALTfull, file = "./output/bivariate-models-nodem-65plus/wrec
 
 #---- mental-status-social-network-summary --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
-mental_socialnetwork_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/mentalstatus_tot-socialnetwork_total")
-mental_socialnetwork_summary["CM"] <- 3
+mental_socialnetwork_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-socialnetwork_total/converged-models")
+mental_socialnetwork_summary["CM"] <- 4
 mental_socialnetwork_summary[1:3, "CM"] <- "-"
-mental_socialnetwork_summary[10:11, "CM"] <- "9"
-mental_socialnetwork_summary[12, "CM"] <- "9"
-mental_socialnetwork_summary[13, "CM"] <- "9"
-mental_socialnetwork_summary[14, "CM"] <- "12"
-mental_socialnetwork_summary[15, "CM"] <- "12"
-#mental_socialnetwork_summary[16, "CM"] <- "13"
+mental_socialnetwork_summary[8, "CM"] <- 9
+
 cm_row <- mental_socialnetwork_summary$CM
 
 mental_socialnetwork_table <- compare_models_function(mental_socialnetwork_summary, cm_row)
@@ -1047,7 +1042,7 @@ apa_table.word(mental_socialnetwork_table, caption = "Model Fit Indices for Imme
 
 #---- mental-status-social-network-results--------------------------
 # model 11 the ALT model with no time specific correlations and fixed autoregressions for immediate word recall is the most supported model 
-mentalstatus_sn_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/mentalstatus_tot-socialnetwork_total/m16_nocov_mentalstatus_tot_socialnetwork_total.out")
+mentalstatus_sn_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-socialnetwork_total/converged-models/m12b_nocov_mentalstatus_tot_socialnetwork_total.out")
 
 mentalstatus_sn_ATLparameters <- as.data.frame(mentalstatus_sn_ATLparameters[[1]]) 
 
@@ -1059,25 +1054,13 @@ mentalstatus_sn_ATLparameters$parameter <- paste(mentalstatus_sn_ATLparameters$p
 mentalstatus_sn_ATL <- mentalstatus_sn_ATLparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(mentalstatus_sn_ATL, file = "./output/bivariate-models-nodem-65plus/mentalstatus_socialnetwork_model_parameters.csv")
 bivariateALT_parameter_extraction_function(mentalstatus_sn_ATL)
-# model 3 is the full ALT model save this as well for comparison
-mentalstatus_sn_fullATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/mentalstatus_tot-socialnetwork_total/m03_nocov_mentalstatus_tot_socialnetwork_total.out")
-
-mentalstatus_sn_fullATLparameters <- as.data.frame(mentalstatus_sn_fullATLparameters[[1]]) 
-
-# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
-mentalstatus_sn_fullATLparameters$parameter <- paste(mentalstatus_sn_fullATLparameters$paramHeader,mentalstatus_sn_fullATLparameters$param)
-
-# select relevant parameters and then save file.
-# this allows the parameters to be accessible to the R markdown file for writing results. 
-mentalstatus_sn_fullATL <- mentalstatus_sn_fullATLparameters %>% dplyr::select(parameter, est, se, pval)
-write.csv(mentalstatus_sn_fullATL, file = "./output/bivariate-models-nodem-65plus/mentalstatus_socialnetwork_fullmodel_parameters.csv")
 
 #---- mental-status-social-support --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
-mental_social_support_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/mentalstatus_tot-social_support_mean")
-mental_social_support_summary["CM"] <- 3
+mental_social_support_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_support_mean/converged-models")
+mental_social_support_summary["CM"] <- 5
 mental_social_support_summary[1:3, "CM"] <- "-"
-mental_social_support_summary[10:11, "CM"] <- "9"
+mental_social_support_summary[5, "CM"] <- 4
 mental_social_support_summary[12, "CM"] <- "9"
 mental_social_support_summary[13, "CM"] <- "9"
 mental_social_support_summary[14, "CM"] <- "12"
@@ -1095,7 +1078,7 @@ apa_table.word(wrectoti_social_contact_table, caption = "Model Fit Indices for I
 
 #---- mental-status-social-support-results---------------
 # model 11 the ALT model with no time specific correlations and fixed autoregressions for immediate word recall is the most supported model 
-mentalstatus_ss_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/mentalstatus_tot-social_support_mean/m14_nocov_mentalstatus_tot_social_support_mean.out")
+mentalstatus_ss_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_support_mean/converged-models/m12b_nocov_mentalstatus_tot_social_support_mean.out")
 
 mentalstatus_ss_ATLparameters <- as.data.frame(mentalstatus_ss_ATLparameters[[1]]) 
 
@@ -1107,27 +1090,13 @@ mentalstatus_ss_ATLparameters$parameter <- paste(mentalstatus_ss_ATLparameters$p
 mentalstatus_ss_ATL <- mentalstatus_ss_ATLparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(mentalstatus_ss_ATL, file = "./output/bivariate-models-nodem-65plus/mentalstatus_social_support_model_parameters.csv")
 
-# model 3 is the full ALT model save this as well for comparison
-mentalstatus_ss_fullATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/mentalstatus_tot-social_support_mean/m03_nocov_mentalstatus_tot_social_support_mean.out")
-
-mentalstatus_ss_fullATLparameters <- as.data.frame(mentalstatus_ss_fullATLparameters[[1]]) 
-
-# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
-mentalstatus_ss_fullATLparameters$parameter <- paste(mentalstatus_ss_fullATLparameters$paramHeader,mentalstatus_ss_fullATLparameters$param)
-
-# select relevant parameters and then save file.
-# this allows the parameters to be accessible to the R markdown file for writing results. 
-mentalstatus_ss_fullATL <- mentalstatus_ss_fullATLparameters %>% dplyr::select(parameter, est, se, pval)
-write.csv(mentalstatus_ss_fullATL, file = "./output/bivariate-models-nodem-65plus/mentalstatus_social_support_fullmodel_parameters.csv")
-
-
 #---- mental-status-social-contact --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
-mental_social_support_contact<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_contact_total")
-mental_social_support_contact["CM"] <- 9
+mental_social_support_contact<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_contact_total/converged-models")
+mental_social_support_contact["CM"] <- 4
 mental_social_support_contact[1:3, "CM"] <- "-"
 mental_social_support_contact[5:7, "CM"] <- "-"
-mental_social_support_contact[12, "CM"] <- "9"
+mental_social_support_contact[11, "CM"] <- 9
 mental_social_support_contact[13, "CM"] <- "9"
 mental_social_support_contact[14, "CM"] <- "12"
 mental_social_support_contact[15, "CM"] <- "12"
@@ -1143,7 +1112,7 @@ apa_table.word(mental_social_contact_table, caption = "Model Fit Indices for Imm
 
 #---- mental-status-social-contact-results---------------
 # model 11 the ALT model with no time specific correlations and fixed autoregressions for immediate word recall is the most supported model 
-mentalstatus_sc_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_contact_total/m12_nocov_mentalstatus_tot_social_contact_total.out")
+mentalstatus_sc_ATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_contact_total/m12b_nocov_mentalstatus_tot_social_contact_total.out")
 
 mentalstatus_sc_ATLparameters <- as.data.frame(mentalstatus_sc_ATLparameters[[1]]) 
 
@@ -1229,9 +1198,9 @@ write.csv(mentalstatus_lone_fullATLparameters, file = "./output/bivariate-models
 
 #---- delayed-word-recall-model-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
-wrectd_fit_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/wrectotd")
+wrectd_fit_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/predetermined-models/wrectotd")
 
-wrectd_fit_series4["CM"] <- 4
+wrectd_fit_series4["CM"] <- 3
 wrectd_fit_series4[1:3, "CM"] <- "-"
 
 cm_row <- wrectd_fit_series4$CM
@@ -1242,7 +1211,7 @@ colnames(wrectd_fit_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\De
 apa_table.word(wrectd_fit_series4_table, caption = "Model Fit Indices for Delayed Word Recall")
 
 #----word-recall-delayed-----
-wrectd_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/wrectotd/u04_nocov_wrectotd.out")
+wrectd_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/predetermined-models/wrectotd/u03_nocov_wrectotd.out")
 
 wrectd_ATL <- as.data.frame(wrectd_ATLparameters[[1]])
 
@@ -1270,9 +1239,9 @@ wrectd_plot <- plot(plotwrectd,type = "o", col = "BLACK", xlab = "Wave", ylab = 
 
 #---- mental-status-model-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
-mental_status_fit_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/mentalstatus_tot")
+mental_status_fit_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/predetermined-models/mentalstatus_tot")
 
-mental_status_fit_series4["CM"] <- 4
+mental_status_fit_series4["CM"] <- 3
 mental_status_fit_series4[1:3, "CM"] <- "-"
 
 cm_row <- mental_status_fit_series4$CM
@@ -1284,7 +1253,7 @@ colnames(mental_status_fit_series4_table) <- c("Model", "$\\chi^2$", "df", "CM",
 apa_table.word(mental_status_fit_series4_table, caption = "Model Fit Indices for Mental Status")
 
 #----mental-status-----
-ms_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/mentalstatus_tot/u04_nocov_mentalstatus_tot.out")
+ms_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/predetermined-models/mentalstatus_tot/u03_nocov_mentalstatus_tot.out")
 
 ms_ATL <- as.data.frame(ms_ATLparameters[[1]])
 
@@ -1325,7 +1294,7 @@ colnames(loneliness_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\De
 apa_table.word(loneliness_series4_table, caption = "Model Fit Indices for Loneliness")
 
 #----loneliness-----
-loneliness_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/predetermined-models/score_loneliness_3/u09_nocov_score_loneliness_3.out")
+loneliness_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/predetermined-models/score_loneliness_3/u07_nocov_score_loneliness_3.out")
 
 loneliness_ATL <- as.data.frame(loneliness_ATLparameters[[1]])
 

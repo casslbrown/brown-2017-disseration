@@ -1,7 +1,7 @@
 TITLE:
-3 - ALT, full model
+ALT, full model
 DATA:
-File = wide-dataset-b.dat;
+File = wide-dataset-b.dat ;
 VARIABLE:
 NAMES are
  id hhid male birthyr_rand birthmo_rand race_rand hispanic_rand cohort
@@ -87,30 +87,19 @@ a_05=socialnetwork_total_2012;
 a_06=socialnetwork_total_2014;
 ANALYSIS:
 TYPE = COMPLEX RANDOM;
-model=nocovariances;
 COVERAGE=.00;  
 H1ITERATIONS = 10000;
 MODEL:
 	!LGM part
 	! assign process (A) to time points 
-ia BY a_02@1 a_03@1 a_04@1 a_05@1 a_06@1;
-sa BY a_02@0 a_03@2 a_04@4 a_05@6 a_06@8;
+ia sa | a_02@0 a_03@2 a_04@4 a_05@6 a_06@8;
+	! assign process (B) to time points 
 	!autoregressive part
-a_01 a_02 a_03 a_04 a_05 a_06;
-a_02 ON a_01 (rho1);
-a_03 ON a_02 (rho2);
-a_04 ON a_03 (rho3); 
-a_05 ON a_04 (rho4);
-a_06 ON a_05 (rho5);
-ia;
-sa;
-ia with sa;
-ia with a_01;
-sa with a_01;
 a_01;
-[a_01@0 a_02@0 a_03@0 a_04@0 a_05@0 a_06@0];
-[a_01];
-[ia];
-[sa];
+a_02 ON a_01;
+a_03 ON a_02;
+a_04 ON a_03; 
+a_05 ON a_04;
+a_06 ON a_05;
 	
-OUTPUT: SAMPSTAT MODINDICES (3.0); TECH1 RESIDUAL;
+OUTPUT: SAMPSTAT MODINDICES (3.0); TECH1 TECH2 TECH3;;
