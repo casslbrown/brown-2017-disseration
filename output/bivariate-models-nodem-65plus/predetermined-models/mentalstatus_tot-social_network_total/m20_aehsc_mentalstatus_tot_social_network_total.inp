@@ -94,19 +94,19 @@ health = healthcond_mean - 2;
 sex = male-1; 
 coh = cohort;	
 ! assign variables to the process (A)
-a_01=wrectoti_2004;
-a_02=wrectoti_2006;
-a_03=wrectoti_2008;
-a_04=wrectoti_2010;
-a_05=wrectoti_2012;
-a_06=wrectoti_2014;
+a_01=mentalstatus_tot_2004;
+a_02=mentalstatus_tot_2006;
+a_03=mentalstatus_tot_2008;
+a_04=mentalstatus_tot_2010;
+a_05=mentalstatus_tot_2012;
+a_06=mentalstatus_tot_2014;
 	! assign variables to the process (B)
-b_01=score_loneliness_3_2004;
-b_02=score_loneliness_3_2006;
-b_03=score_loneliness_3_2008;
-b_04=score_loneliness_3_2010;
-b_05=score_loneliness_3_2012;
-b_06=score_loneliness_3_2014;
+b_01=social_network_total_2004;
+b_02=social_network_total_2006;
+b_03=social_network_total_2008;
+b_04=social_network_total_2010;
+b_05=social_network_total_2012;
+b_06=social_network_total_2014;
 ANALYSIS:
 TYPE = COMPLEX RANDOM;
 COVERAGE=.00;  
@@ -118,15 +118,15 @@ ia BY a_02@1 a_03@1 a_04@1 a_05@1 a_06@1;
 sa BY a_02@0 a_03@2 a_04@4 a_05@6 a_06@8;
 	! assign process (B) to time points 
 ib BY b_02@1 b_03@1 b_04@1 b_05@1 b_06@1;
-!sb BY b_02@0 b_03@2 b_04@4 b_05@6 b_06@8;
+sb BY b_02@0 b_03@2 b_04@4 b_05@6 b_06@8;
 	!correlations between the first measurement points
 	!autoregressive part
 a_01 a_02 a_03 a_04 a_05 a_06;
-a_02 ON a_01(1);
-a_03 ON a_02(1);
-a_04 ON a_03(1); 
-a_05 ON a_04(1);
-a_06 ON a_05(1);
+a_02 ON a_01;
+a_03 ON a_02;
+a_04 ON a_03; 
+a_05 ON a_04;
+a_06 ON a_05;
 b_01 b_02 b_03 b_04 b_05 b_06;
 b_02 ON b_01(2);
 b_03 ON b_02(2);
@@ -147,15 +147,15 @@ b_06 ON a_05;
 ia;
 sa;
 ib;
-!sb;
+sb;
 ia with sa;
-!ib with sb;
+ib with sb;
 ia with a_01;
 sa with a_01;
 ib with b_01;
 !sb with b_01;
 ia with ib;
-!sa with sb;
+sa with sb;
 ! Time specific correlations
 a_01 WITH b_01;
 !b_02 WITH a_02;
@@ -168,7 +168,7 @@ a_01 WITH b_01;
 [ia];
 [ib];
 [sa];
-![sb];
+[sb];
 [a_01];
 [b_01];
 ! Predictive part of the model

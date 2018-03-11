@@ -363,6 +363,19 @@ uALT_plot_function <- function(t1value, parameter_list){
   return(values)
 }
 
+uALT_noslope_plot_function <- function(t1value, parameter_list){
+  # This part enters the mplus produced parameter values into the equations of the ALT model.
+  y1 <- mean(t1value, na.rm = T) # 2004, this value is within rounding error of the mplus output value
+  y2 <- parameter_list[["ALT_intercept"]]+ parameter_list[["ALT_rho21"]]*y1 #2006
+  y3 <- parameter_list[["ALT_intercept"]]+parameter_list[["ALT_rho32"]]*y2 #2008
+  y4 <- parameter_list[["ALT_intercept"]]+parameter_list[["ALT_rho43"]]*y3 #2010
+  y5 <- parameter_list[["ALT_intercept"]]+parameter_list[["ALT_rho54"]]*y4 #2012
+  y6 <- parameter_list[["ALT_intercept"]]+parameter_list[["ALT_rho65"]]*y5 #2014
+  # Create a list of predicted values, for initial value at the mean
+  values <- c(y1,y2,y3,y4,y5,y6)
+  return(values)
+}
+
 lgm_quadratic_function <- function(d){
   #d <- wrecti_ATL
   linear_slope <- d[which(d[,"parameter"]=='Means SA'),"est"]
@@ -1328,7 +1341,7 @@ write.csv(loneliness_ATL, file = "./output/univariate-models-nodem-65plus/predet
 lone_ALTparameters <- parameter_extraction_function(loneliness_ATL)
 
 # first value should be the 2004 mean, copy right from mplus output
-loneliness_plot_vals <- uALT_plot_function(1.379, lone_ALTparameters)
+loneliness_plot_vals <- uALT_noslope_plot_function(1.379, lone_ALTparameters)
 
 # Plot the bar chart.
 loneliness_plot <- plot(loneliness_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
@@ -1336,9 +1349,9 @@ loneliness_plot <- plot(loneliness_plot_vals,type = "o", col = "BLACK", xlab = "
 
 #---- social-contact-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
-social_contact_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/social_contact_total")
+social_contact_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/predetermined-models/social_contact_total")
 
-social_contact_series4["CM"] <- 4
+social_contact_series4["CM"] <- 3
 social_contact_series4[1:3, "CM"] <- "-"
 cm_row <- social_contact_series4$CM
 social_contact_series4_table <- compare_models_function(social_contact_series4, cm_row)
@@ -1374,9 +1387,9 @@ social_contact_plot <- plot(sc_plot_vals,type = "o", col = "BLACK", xlab = "Wave
 
 #---- social-support-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
-social_support_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/social_support_mean")
+social_support_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/predetermined-models/social_support_mean")
 
-social_support_series4["CM"] <- 4
+social_support_series4["CM"] <- 3
 social_support_series4[1:3, "CM"] <- "-"
 
 social_support_series4_table <- compare_models_function(social_support_series4, cm_row)
@@ -1387,7 +1400,7 @@ apa_table.word(social_support_series4_table , caption = "Model Fit Indices for S
 
 
 #----social-support-----
-social_support_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/social_support_mean/u08_nocov_social_support_mean.out")
+social_support_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/predetermined-models/social_support_mean/u03_nocov_social_support_mean.out")
 
 social_support_ATL <- as.data.frame(social_support_ATLparameters[[1]])
 
@@ -1413,7 +1426,7 @@ social_support_plot <- plot(ss_plot_vals,type = "o", col = "BLACK", xlab = "Wave
 
 #---- social-network-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
-social_network_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/socialnetwork_total")
+social_network_series4 <- extractModelSummaries("./output/univariate-models-nodem-65plus/predetermined-models/socialnetwork_total")
 
 social_network_series4["CM"] <- 4
 social_network_series4[1:3, "CM"] <- "-"
@@ -1425,7 +1438,7 @@ colnames(social_network_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$
 apa_table.word(social_network_series4_table, caption = "Model Fit Indices for Social Network")
 
 #----social-network-----
-social_network_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/socialnetwork_total/u08_nocov_socialnetwork_total.out")
+social_network_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/predetermined-models/socialnetwork_total/u07_nocov_socialnetwork_total.out")
 
 social_network_ATL <- as.data.frame(social_network_ATLparameters[[1]])
 
