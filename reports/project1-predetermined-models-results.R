@@ -659,6 +659,30 @@ wrecti_sn_ATL$pval <- sprintf("%.3f", wrecti_sn_ATL$pval)
 wrecti_sn_ATL$est <- sprintf("%.3f", wrecti_sn_ATL$est)
 write.csv(wrecti_sn_ATL, file = "./output/bivariate-models-nodem-65plus/wrecti_social_network_model_parameters.csv")
 
+# covariate model
+wrecti_sn_covATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-socialnetwork_total/m20_aech_wrectoti_socialnetwork_total.out")
+
+wrecti_sn_covATLparameters <- as.data.frame(wrecti_sn_covATLparameters[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrecti_sn_covATLparameters$parameter <- paste(wrecti_sn_covATLparameters$paramHeader,wrecti_sn_covATLparameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+wrecti_sn_covATL <- wrecti_sn_covATLparameters %>% dplyr::select(parameter, est, se, pval)
+wrecti_sn_covATL$pval <- sprintf("%.3f", wrecti_sn_covATL$pval)
+wrecti_sn_covATL$est <- sprintf("%.3f", wrecti_sn_covATL$est)
+write.csv(wrecti_sn_covATL, file = "./output/bivariate-models-nodem-65plus/wrecti_social_network_cov_model_parameters.csv")
+
+# ---- immediate-word-recall-and-social-network-plot ----
+cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nNetwork 1", "Social&#92;nNetwork 2","Social&#92;nNetwork 3","Social&#92;nNetwork 4","Social&#92;nNetwork 5","Social&#92;nNetwork 6")
+wrecti_sn <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_network_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(wrecti_sn)
+wrecti_sn_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_sn_path_diagram)),'./reports/wrecti_sn_path_diagram.png'))
 
 #---- immediate-word-recall-social-support-summary --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
@@ -708,6 +732,32 @@ wrecti_socsup_fullALT_parameters$parameter <- paste(wrecti_socsup_fullALT_parame
 wrecti_socsup_fullALT <- wrecti_socsup_fullALT_parameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(wrecti_socsup_fullALT, file = "./output/bivariate-models-nodem-65plus/wrecti_social_suppport_fullmodel_parameters.csv")
 bivariateALT_parameter_extraction_function(wrecti_socsup_fullALT)
+
+# covariate model 
+wrecti_ss_covATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-social_support_mean/m20_aehsc_wrectoti_social_support_mean.out")
+
+wrecti_ss_covATLparameters <- as.data.frame(wrecti_ss_covATLparameters[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrecti_ss_covATLparameters$parameter <- paste(wrecti_ss_covATLparameters$paramHeader,wrecti_ss_covATLparameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+wrecti_ss_covATL <- wrecti_ss_covATLparameters %>% dplyr::select(parameter, est, se, pval)
+wrecti_ss_covATL$pval <- sprintf("%.3f", wrecti_ss_covATL$pval)
+wrecti_ss_covATL$est <- sprintf("%.3f", wrecti_ss_covATL$est)
+write.csv(wrecti_ss_covATL, file = "./output/bivariate-models-nodem-65plus/wrecti_social_support_cov_model_parameters.csv")
+
+# ---- immediate-word-recall-and-social-support-covariate-plot ----
+cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nSupport 1", "Social&#92;nSupport 2","Social&#92;nSupport 3","Social&#92;nSupport 4","Social&#92;nSupport 5","Social&#92;nSupport 6")
+wrecti_ss <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_support_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(wrecti_ss)
+wrecti_ss_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_ss_path_diagram)),'./reports/wrecti_ss_path_diagram.png'))
+
 
 #---- immediate-word-recall-social-contact-summary --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
@@ -761,13 +811,35 @@ bivariateALT_parameter_extraction_function(wrecti_social_contact_fullALT)
 wrecti_social_contact_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/wrectoti-social_contact_total/m20_aechs_wrectoti_social_contact_total.out")
 
 wrecti_social_contact_covALT_parameters <- as.data.frame(wrecti_social_contact_covALT_parameters[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrecti_social_contact_covALT_parameters$parameter <- paste(wrecti_social_contact_covALT_parameters$paramHeader,wrecti_social_contact_covALT_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+wrecti_sc_covATL <- wrecti_social_contact_covALT_parameters %>% dplyr::select(parameter, est, se, pval)
+wrecti_sc_covATL$pval <- sprintf("%.3f", wrecti_sc_covATL$pval)
+wrecti_sc_covATL$est <- sprintf("%.3f", wrecti_sc_covATL$est)
+write.csv(wrecti_ss_covATL, file = "./output/bivariate-models-nodem-65plus/wrecti_social_contact_cov_model_parameters.csv")
+
+# ---- immediate-word-recall-and-social-contact-covariate-plot ----
+cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nContact 1", "Social&#92;nContact 2","Social&#92;nContact 3","Social&#92;nContact 4","Social&#92;nContact 5","Social&#92;nContact 6")
+wrecti_sc <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_contact_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(wrecti_sc)
+wrecti_sc_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_sc_path_diagram)),'./reports/wrecti_sc_path_diagram.png'))
+
+
 #---- immediate-word-recall-loneliness-summary --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
 wrectoti_loneliness_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-score_loneliness_3/converged-models")
 wrectoti_loneliness_summary["CM"] <- 4
 wrectoti_loneliness_summary[1:4, "CM"] <- "3"
 wrectoti_loneliness_summary[4, "CM"] <- "3"
-wrectoti_loneliness_summary[5, "CM"] <- "4"
+wrectoti_loneliness_summary[5, "CM"] <- "6"
 wrectoti_loneliness_summary[6, "CM"] <- "5"
 wrectoti_loneliness_summary[7, "CM"] <- "6"
 wrectoti_loneliness_summary[8, "CM"] <- "7"
@@ -813,8 +885,29 @@ write.csv(wrecti_loneliness_fullALT, file = "./output/bivariate-models-nodem-65p
 bivariateALT_parameter_extraction_function(wrecti_loneliness_fullALT)
 
 # covariate model
-wrecti_loneliness_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/wrectoti-score_loneliness_3/m20_aechs_wrectoti_score_loneliness_3.out")
+wrecti_loneliness_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-score_loneliness_3/m20_aehsc_wrectoti_score_loneliness_3.out")
 
+wrecti_loneliness_covALT_parameters <- as.data.frame(wrecti_loneliness_covALT_parameters[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrecti_loneliness_covALT_parameters$parameter <- paste(wrecti_loneliness_covALT_parameters$paramHeader,wrecti_loneliness_covALT_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+wrecti_lone_covATL <- wrecti_loneliness_covALT_parameters %>% dplyr::select(parameter, est, se, pval)
+wrecti_lone_covATL$pval <- sprintf("%.3f", wrecti_lone_covATL$pval)
+wrecti_lone_covATL$est <- sprintf("%.3f", wrecti_lone_covATL$est)
+write.csv(wrecti_lone_covATL, file = "./output/bivariate-models-nodem-65plus/wrecti_loneliness_cov_model_parameters.csv")
+
+# ---- immediate-word-recall-and-loneliness-covariate-plot ----
+cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Loneliness 1", "Loneliness 2","Loneliness 3","Loneliness 4","Loneliness 5","Loneliness 6")
+wrecti_lone <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_loneliness_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(wrecti_lone)
+wrecti_lone_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_lone_path_diagram)),'./reports/wrecti_lone_path_diagram.png'))
 
 #----delayed-word-recall-loneliness-summary--------------------------
 wrectotd_loneliness_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-score_loneliness_3/converged-models")
@@ -865,7 +958,7 @@ wrectd_lonely_fullALT <- wrectd_lonely_fullALT %>% dplyr::select(parameter, est,
 write.csv(wrectd_lonely_fullALT, file = "./output/univariate-models-nodem-65plus/wrectd_loneliness_fullmodel_parameters.csv")
 
 #----wrectd-lonely-covariate-model--------
-wrectd_lonely_ALTcov <- readModels("./output/bivariate-models-nodem-65plus/wrectotd-score_loneliness_3/m20_aechs_wrectotd_score_loneliness_3.out")
+wrectd_lonely_ALTcov <- readModels("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-score_loneliness_3/m20_aehsc_wrectotd_score_loneliness_3.out")
 
 wrectd_lonely_ALTcov_parameters <- wrectd_lonely_ALTcov$parameters$unstandardized
 
@@ -901,6 +994,33 @@ wrectd_lonely_ALTcov_table <- cbind(labels_column, a1, a1_int, a1_s, b1, b1_int,
 
 colnames(wrectd_lonely_ALTcov_table) <- c("", "_b_", "s.e", "_p_", "_b_", "s.e", "_p_", "_b_", "s.e", "_p_","_b_", "s.e", "_p_","_b_", "s.e", "_p_","_b_", "s.e", "_p_")
 apa_table(wrectd_lonely_ALTcov_table, caption = "Results from the Regression of the Final Conditional ALT Parameters on the Predictors")
+
+
+# covariate model delayed word recall and loneliness
+wrectd_loneliness_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-score_loneliness_3/m20_aehsc_wrectotd_score_loneliness_3.out")
+
+wrectd_loneliness_covALT_parameters <- as.data.frame(wrectd_loneliness_covALT_parameters[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrectd_loneliness_covALT_parameters$parameter <- paste(wrectd_loneliness_covALT_parameters$paramHeader,wrectd_loneliness_covALT_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+wrectd_loneliness_covALT_parameters <- wrectd_loneliness_covALT_parameters %>% dplyr::select(parameter, est, se, pval)
+wrectd_loneliness_covALT_parameters$pval <- sprintf("%.3f", wrectd_loneliness_covALT_parameters$pval)
+wrectd_loneliness_covALT_parameters$est <- sprintf("%.3f", wrectd_loneliness_covALT_parameters$est)
+write.csv(wrectd_loneliness_covALT_parameters, file = "./output/bivariate-models-nodem-65plus/wrectd_loneliness_cov_model_parameters.csv")
+
+# ---- immediate-word-recall-and-loneliness-covariate-plot ----
+cog_labels <- c("Delayed&#92;nWord&#92;nRecall 1", "Delayed&#92;nWord&#92;nRecall 2","Delayed&#92;nWord&#92;nRecall 3","Delayed&#92;nWord&#92;nRecall 4","Delayed&#92;nWord&#92;nRecall 5","Delayed&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Loneliness 1", "Loneliness 2","Loneliness 3","Loneliness 4","Loneliness 5","Loneliness 6")
+wrectd_lone <- read.csv("./output/bivariate-models-nodem-65plus/wrectd_loneliness_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(wrectd_lone)
+wrectd_lone_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrectd_lone_path_diagram)),'./reports/wrectd_lone_path_diagram.png'))
+
 
 #----delayed-word-recall-social-contact-summary--------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
@@ -944,6 +1064,31 @@ wrectd_sc_ATLfullparameters$parameter <- paste(wrectd_sc_ATLfullparameters$param
 # this allows the parameters to be accessible to the R markdown file for writing results. 
 wrectd_sc_ATLfull <- wrectd_sc_ATLfullparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(wrectd_sc_ATLfull, file = "./output/bivariate-models-nodem-65plus/wrectd_social_contact_fullmodel_parameters.csv")
+
+# covariate model delayed word recall and social contact
+wrectd_sc_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-social_contact_total/m20_aehsc_wrectotd_social_contact_total.out")
+
+wrectd_sc_covALT_parameters <- as.data.frame(wrectd_sc_covALT_parameters[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrectd_sc_covALT_parameters$parameter <- paste(wrectd_sc_covALT_parameters$paramHeader,wrectd_sc_covALT_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+wrectd_sc_covALT_parameters <- wrectd_sc_covALT_parameters %>% dplyr::select(parameter, est, se, pval)
+wrectd_sc_covALT_parameters$pval <- sprintf("%.3f", wrectd_sc_covALT_parameters$pval)
+wrectd_sc_covALT_parameters$est <- sprintf("%.3f", wrectd_sc_covALT_parameters$est)
+write.csv(wrectd_sc_covALT_parameters, file = "./output/bivariate-models-nodem-65plus/wrectd_sc_cov_model_parameters.csv")
+
+# ---- delayed-word-recall-and-social-contact-covariate-plot ----
+cog_labels <- c("Delayed&#92;nWord&#92;nRecall 1", "Delayed&#92;nWord&#92;nRecall 2","Delayed&#92;nWord&#92;nRecall 3","Delayed&#92;nWord&#92;nRecall 4","Delayed&#92;nWord&#92;nRecall 5","Delayed&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nContact 1", "Social&#92;nContact 2","Social&#92;nContact 3","Social&#92;nContact 4","Social&#92;nContact 5","Social&#92;nContact 6")
+wrectd_sc <- read.csv("./output/bivariate-models-nodem-65plus/wrectd_sc_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(wrectd_sc)
+wrectd_sc_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_sc_path_diagram)),'./reports/wrectd_sc_path_diagram.png'))
 
 #----delayed-word-recall-social-support-summary--------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
@@ -991,6 +1136,31 @@ wrectd_ss_ATLfullparameters$parameter <- paste(wrectd_ss_ATLfullparameters$param
 wrectd_ss_ALTfull <- wrectd_ss_ATLfullparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(wrectd_ss_ALTfull, file = "./output/bivariate-models-nodem-65plus/wrectd_social_support_full_model_parameters.csv")
 
+# covariate model delayed word recall and social support
+wrectd_ss_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-social_support_mean/m20_aehsc_wrectotd_social_support_mean.out")
+
+wrectd_ss_covALT_parameters <- as.data.frame(wrectd_ss_covALT_parameters[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrectd_ss_covALT_parameters$parameter <- paste(wrectd_ss_covALT_parameters$paramHeader,wrectd_ss_covALT_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+wrectd_ss_covALT_parameters <- wrectd_ss_covALT_parameters %>% dplyr::select(parameter, est, se, pval)
+wrectd_ss_covALT_parameters$pval <- sprintf("%.3f", wrectd_ss_covALT_parameters$pval)
+wrectd_ss_covALT_parameters$est <- sprintf("%.3f", wrectd_ss_covALT_parameters$est)
+write.csv(wrectd_ss_covALT_parameters, file = "./output/bivariate-models-nodem-65plus/wrectd_ss_cov_model_parameters.csv")
+
+# ---- delayed-word-recall-and-social-support-covariate-plot ----
+cog_labels <- c("Delayed&#92;nWord&#92;nRecall 1", "Delayed&#92;nWord&#92;nRecall 2","Delayed&#92;nWord&#92;nRecall 3","Delayed&#92;nWord&#92;nRecall 4","Delayed&#92;nWord&#92;nRecall 5","Delayed&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nSupport 1", "Social&#92;nSupport 2","Social&#92;nSupport 3","Social&#92;nSupport 4","Social&#92;nSupport 5","Social&#92;nSupport 6")
+wrectd_ss <- read.csv("./output/bivariate-models-nodem-65plus/wrectd_ss_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(wrectd_ss)
+wrectd_ss_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrectd_ss_path_diagram)),'./reports/wrectd_ss_path_diagram.png'))
+
 #----delayed-word-recall-social-network-summary--------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
 wrectotd_social_network_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-socialnetwork_total/converged-models")
@@ -1037,6 +1207,31 @@ wrectd_sn_ATLfullparameters$parameter <- paste(wrectd_sn_ATLfullparameters$param
 wrectd_sn_ALTfull <- wrectd_sn_ATLfullparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(wrectd_sn_ALTfull, file = "./output/bivariate-models-nodem-65plus/wrectd_social_network_full_model_parameters.csv")
 
+# covariate model delayed word recall and social network
+wrectd_sn_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-socialnetwork_total/m20_aehsc_wrectotd_socialnetwork_total.out")
+
+wrectd_sn_covALT_parameters <- as.data.frame(wrectd_sn_covALT_parameters[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+wrectd_sn_covALT_parameters$parameter <- paste(wrectd_sn_covALT_parameters$paramHeader,wrectd_sn_covALT_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+wrectd_sn_covALT_parameters <- wrectd_sn_covALT_parameters %>% dplyr::select(parameter, est, se, pval)
+wrectd_sn_covALT_parameters$pval <- sprintf("%.3f", wrectd_sn_covALT_parameters$pval)
+wrectd_sn_covALT_parameters$est <- sprintf("%.3f", wrectd_sn_covALT_parameters$est)
+write.csv(wrectd_sn_covALT_parameters, file = "./output/bivariate-models-nodem-65plus/wrectd_sn_cov_model_parameters.csv")
+
+# ---- delayed-word-recall-and-social-contact-covariate-plot ----
+cog_labels <- c("Delayed&#92;nWord&#92;nRecall 1", "Delayed&#92;nWord&#92;nRecall 2","Delayed&#92;nWord&#92;nRecall 3","Delayed&#92;nWord&#92;nRecall 4","Delayed&#92;nWord&#92;nRecall 5","Delayed&#92;nWord&#92;nRecall 6")
+soc_labels <- c("Social&#92;nNetwork 1", "Social&#92;nNetwork 2","Social&#92;nNetwork 3","Social&#92;nNetwork 4","Social&#92;nNetwork 5","Social&#92;nNetwork 6")
+wrectd_sn <- read.csv("./output/bivariate-models-nodem-65plus/wrectd_sn_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(wrectd_sn)
+wrectd_sn_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrectd_sn_path_diagram)),'./reports/wrectd_sn_path_diagram.png'))
+
 #---- mental-status-social-network-summary --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
 mental_socialnetwork_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-socialnetwork_total/converged-models")
@@ -1067,6 +1262,31 @@ mentalstatus_sn_ATLparameters$parameter <- paste(mentalstatus_sn_ATLparameters$p
 mentalstatus_sn_ATL <- mentalstatus_sn_ATLparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(mentalstatus_sn_ATL, file = "./output/bivariate-models-nodem-65plus/mentalstatus_socialnetwork_model_parameters.csv")
 bivariateALT_parameter_extraction_function(mentalstatus_sn_ATL)
+
+# covariate model mental status and social network
+mentalstatus_sn_covATL <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-socialnetwork_total/m20_aehsc_mentalstatus_tot_socialnetwork_total.out")
+
+mentalstatus_sn_covATL_parameters <- as.data.frame(mentalstatus_sn_covATL[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+mentalstatus_sn_covATL_parameters$parameter <- paste(mentalstatus_sn_covATL_parameters$paramHeader,mentalstatus_sn_covATL_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+mentalstatus_sn_covATL_parameters <- mentalstatus_sn_covATL_parameters %>% dplyr::select(parameter, est, se, pval)
+mentalstatus_sn_covATL_parameters$pval <- sprintf("%.3f", mentalstatus_sn_covATL_parameters$pval)
+mentalstatus_sn_covATL_parameters$est <- sprintf("%.3f", mentalstatus_sn_covATL_parameters$est)
+write.csv(mentalstatus_sn_covATL_parameters, file = "./output/bivariate-models-nodem-65plus/mentalstatus_sn_cov_model_parameters.csv")
+
+# ---- mental-status-and-social-network-covariate-plot ----
+cog_labels <- c("Mental&#92;nStatus 1", "Mental&#92;nStatus 2","Mental&#92;nStatus 3","Mental&#92;nStatus 4","Mental&#92;nStatus 5","Mental&#92;nStatus 6")
+soc_labels <- c("Social&#92;nNetwork 1", "Social&#92;nNetwork 2","Social&#92;nNetwork 3","Social&#92;nNetwork 4","Social&#92;nNetwork 5","Social&#92;nNetwork 6")
+mentalstatus_sn <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_sn_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(mentalstatus_sn)
+mentalstatus_sn_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(mentalstatus_sn_path_diagram)),'./reports/mentalstatus_sn_path_diagram.png'))
 
 #---- mental-status-social-support --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
@@ -1102,6 +1322,31 @@ mentalstatus_ss_ATLparameters$parameter <- paste(mentalstatus_ss_ATLparameters$p
 # this allows the parameters to be accessible to the R markdown file for writing results. 
 mentalstatus_ss_ATL <- mentalstatus_ss_ATLparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(mentalstatus_ss_ATL, file = "./output/bivariate-models-nodem-65plus/mentalstatus_social_support_model_parameters.csv")
+
+# covariate model mental status and social network
+mentalstatus_ss_covATL <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_support_mean/m20_aehsc_mentalstatus_tot_social_support_mean.out")
+
+mentalstatus_ss_covATL_parameters <- as.data.frame(mentalstatus_ss_covATL[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+mentalstatus_ss_covATL_parameters$parameter <- paste(mentalstatus_ss_covATL_parameters$paramHeader,mentalstatus_ss_covATL_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+mentalstatus_ss_covATL_parameters <- mentalstatus_ss_covATL_parameters %>% dplyr::select(parameter, est, se, pval)
+mentalstatus_ss_covATL_parameters$pval <- sprintf("%.3f", mentalstatus_ss_covATL_parameters$pval)
+mentalstatus_ss_covATL_parameters$est <- sprintf("%.3f", mentalstatus_ss_covATL_parameters$est)
+write.csv(mentalstatus_ss_covATL_parameters, file = "./output/bivariate-models-nodem-65plus/mentalstatus_ss_cov_model_parameters.csv")
+
+# ---- mental-status-and-social-support-covariate-plot ----
+cog_labels <- c("Mental&#92;nStatus 1", "Mental&#92;nStatus 2","Mental&#92;nStatus 3","Mental&#92;nStatus 4","Mental&#92;nStatus 5","Mental&#92;nStatus 6")
+soc_labels <- c("Social&#92;nSupport 1", "Social&#92;nSupport 2","Social&#92;nSupport 3","Social&#92;nSupport 4","Social&#92;nSupport 5","Social&#92;nSupport 6")
+mentalstatus_ss <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_ss_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(mentalstatus_ss)
+mentalstatus_ss_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(mentalstatus_ss_path_diagram)),'./reports/mentalstatus_ss_path_diagram.png'))
 
 #---- mental-status-social-contact --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
@@ -1150,7 +1395,32 @@ mentalstatus_sc_fullATLparameters$parameter <- paste(mentalstatus_sc_fullATLpara
 mentalstatus_sc_fullATL <- mentalstatus_sc_fullATLparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(mentalstatus_sc_fullATL, file = "./output/bivariate-models-nodem-65plus/mentalstatus_social_contact_fullmodel_parameters.csv")
 
-#---- mental-status-loneliness --------------------------
+# covariate model mental status and social contact
+mentalstatus_sc_covATL <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_contact_total/m21_aehsc_mentalstatus_tot_social_contact_total.out")
+
+mentalstatus_sc_covATL_parameters <- as.data.frame(mentalstatus_sc_covATL[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+mentalstatus_sc_covATL_parameters$parameter <- paste(mentalstatus_sc_covATL_parameters$paramHeader,mentalstatus_sc_covATL_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+mentalstatus_sc_covATL_parameters <- mentalstatus_sc_covATL_parameters %>% dplyr::select(parameter, est, se, pval)
+mentalstatus_sc_covATL_parameters$pval <- sprintf("%.3f", mentalstatus_sc_covATL_parameters$pval)
+mentalstatus_sc_covATL_parameters$est <- sprintf("%.3f", mentalstatus_sc_covATL_parameters$est)
+write.csv(mentalstatus_sc_covATL_parameters, file = "./output/bivariate-models-nodem-65plus/mentalstatus_sc_cov_model_parameters.csv")
+
+# ---- mental-status-and-social-contact-covariate-plot ----
+cog_labels <- c("Mental&#92;nStatus 1", "Mental&#92;nStatus 2","Mental&#92;nStatus 3","Mental&#92;nStatus 4","Mental&#92;nStatus 5","Mental&#92;nStatus 6")
+soc_labels <- c("Social&#92;nContact 1", "Social&#92;nContact 2","Social&#92;nContact 3","Social&#92;nContact 4","Social&#92;nContact 5","Social&#92;nContact 6")
+mentalstatus_sc <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_sc_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(mentalstatus_sc)
+mentalstatus_sc_path_diagram <- graph_function_covariates_nosocslope()
+
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(mentalstatus_sc_path_diagram)),'./reports/mentalstatus_sc_path_diagram.png'))
+
+#---- mental-status-loneliness -----------------------------------------------------------------------------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
 mental_loneliness<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-score_loneliness_3")
 #mental_loneliness<- readModels("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-score_loneliness_3")
@@ -1193,7 +1463,7 @@ mental_lone <- read.csv("./output/bivariate-models-nodem-65plus/predetermined-mo
 diagram_parameters <- ALT_diagram_parameter_extraction_function(mental_lone)
 mental_lone_path_diagram <- path_diagram_function()
 # Create a PNG of this graph
-tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_ss_path_diagram)),'./reports/wrecti_ss_path_diagram.png'))
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(mental_lone_path_diagram)),'./reports/mental_lone_path_diagram.png'))
 
 
 # model 3 is the full ALT model save this as well for comparison
@@ -1208,6 +1478,30 @@ mentalstatus_lone_fullATLparameters$parameter <- paste(mentalstatus_lone_fullATL
 # this allows the parameters to be accessible to the R markdown file for writing results. 
 mentalstatus_lone_fullATLparameters <- mentalstatus_lone_fullATLparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(mentalstatus_lone_fullATLparameters, file = "./output/bivariate-models-nodem-65plus/mentalstatus_loneliness_fullmodel_parameters.csv")
+
+# covariate model mental status and loneliness----------------
+mentalstatus_lone_covATL <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-score_loneliness_3/m21_aehsc_mentalstatus_tot_score_loneliness_3.out")
+
+mentalstatus_lone_covATL_parameters <- as.data.frame(mentalstatus_lone_covATL[[1]]) 
+
+# # create a new column `parameter` with the two name columns paramHeader and param collapsed together
+mentalstatus_lone_covATL_parameters$parameter <- paste(mentalstatus_lone_covATL_parameters$paramHeader,mentalstatus_lone_covATL_parameters$param)
+
+# select relevant parameters and then save file.
+# this allows the parameters to be accessible to the R markdown file for writing results. 
+mentalstatus_lone_covATL_parameters <- mentalstatus_lone_covATL_parameters %>% dplyr::select(parameter, est, se, pval)
+mentalstatus_lone_covATL_parameters$pval <- sprintf("%.3f", mentalstatus_lone_covATL_parameters$pval)
+mentalstatus_lone_covATL_parameters$est <- sprintf("%.3f", mentalstatus_lone_covATL_parameters$est)
+write.csv(mentalstatus_lone_covATL_parameters, file = "./output/bivariate-models-nodem-65plus/mentalstatus_lone_cov_model_parameters.csv")
+
+# ---- mental-status-and-loneliness-covariate-plot ----
+cog_labels <- c("Mental&#92;nStatus 1", "Mental&#92;nStatus 2","Mental&#92;nStatus 3","Mental&#92;nStatus 4","Mental&#92;nStatus 5","Mental&#92;nStatus 6")
+soc_labels <- c("Loneliness 1", "Loneliness 2","Loneliness 3","Loneliness 4","Loneliness 5","Loneliness 6")
+mental_lone_cov <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_lone_cov_model_parameters.csv")
+diagram_parameters <- ALTcov_diagram_parameter_extraction_function(mental_lone_cov)
+mentalstatus_lone_cov_path_diagram <- graph_function_covariates_nosocslope()
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(mentalstatus_lone_cov_path_diagram)),'./reports/mental_lone_cov_path_diagram.png'))
 
 #---- delayed-word-recall-model-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
@@ -1510,3 +1804,4 @@ wrecti_sn <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_netw
 diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_sn)
 wrecti_sn_path_diagram <- graph_function_covariates()
 
+Covariates_ALT_parameter_extraction_function

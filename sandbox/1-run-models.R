@@ -222,12 +222,12 @@ mplus_generator_bivariate(
   model_number        = "m20"
   ,model_type         = "aehsc"
   ,covariates         = c("age","educ","health","sex","coh")
-  ,process_a          = "wrectoti" # item name of process (A), goes into file name
-  ,process_b          = "score_loneliness_3"# item name of process (B), goes into file name
+  ,process_a          = "mentalstatus_tot" # item name of process (A), goes into file name
+  ,process_b          = "social_support_mean"# item name of process (B), goes into file name
   ,subset_group_1     = subset_group_1
   ,subset_condition_1 = subset_condition_2 # subset data to member of this group
   ,data_file          = "wide-dataset-b.dat"
-  ,path_prototype     = paste0("./manipulation/estimation/covariate-models/","ALT-no-social-slope-fixed-auto-covariates.inp")
+  ,path_prototype     = paste0("./manipulation/estimation/covariate-models/","ALT-no-social-slope-fixed-soc-auto-covariates.inp")
   ,folder_data        = folder_data
   ,folder_output      = folder_output
   ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files

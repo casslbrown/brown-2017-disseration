@@ -101,7 +101,7 @@ A series of models were estimated, first to examine social and cognitive variabl
 
 # Results
 
-The descriptive statistics for all included variables are presented in Table 1. Model fit indices are presented for each model series in Tables 2 though X. Each processes was investigating separately as a univariate model and then each cognitive-social combination was estimated. Because in ALT models the slope term and autoregressive parameters are not independent it can be difficult to visualize the shape of the trajectory from parameter estimates alone. Thus, a plot of the mean predicted trajectory for each processes was also created. Results for each process are presented followed by bivariate relations.  
+The descriptive statistics for all included variables are presented in Table 1. Model fit indices are presented for each model series in Tables 2 though X. Each processes was investigating separately as a univariate model and then each cognitive-social combination was estimated. Because in ALT models the slope term and autoregressive parameters are not independent it can be difficult to visualize the shape of the trajectory from parameter estimates alone. Thus, a plot of the mean predicted trajectory for each processes was also created (see supplementary materials). Results for each process are presented followed by bivariate relations.  
 
 ## Immediate Word Recall 
 <br>
@@ -113,11 +113,12 @@ wrecti_par_list <- parameter_extraction_function(wrecti_ATL)
 ```
 
 For immediate word recall, the full ALT model (model 3) evidenced the best model fit (see Table 2). The intercept of immediate word recall score was ($\mu_{t1}$ = `r wrecti_par_list[["ALT_intercept"]]`). Overall, immediate word recall performance decreased over time ($\beta$ = `r wrecti_par_list[["ALT_slope"]]` ,
-_p_ = `r wrecti_par_list[["ALT_slope_pval"]]`) with significant variance in the slope ($\psi$ = 
-`r wrecti_par_list[["ALT_slope_variance"]]`, _p_ = `r wrecti_par_list[["ALT_slope_variance_pval"]]`). The ability of immediate word recall preformance to predict immediate word recall performance two years later, once overall trajectories were taken into account, was small and not significant 
+_p_ = `r wrecti_par_list[["ALT_slope_pval"]]`) the variance in slope was not significant ($\psi$ = 
+`r wrecti_par_list[["ALT_slope_variance"]]`, _p_ = `r wrecti_par_list[["ALT_slope_variance_pval"]]`). The ability of immediate word recall preformance to predict immediate word recall performance two years later, once overall trajectories were taken into account, was consistently small and not significant 
 ($\rho_{21}$ = `r wrecti_par_list[["ALT_rho21"]]`, _p_ = `r wrecti_par_list[["ALT_rho21_pval"]]`; $\rho_{32}$ = 
 `r wrecti_par_list[["ALT_rho32"]]`, _p_ = `r wrecti_par_list[["ALT_rho32_pval"]]`; $\rho_{43}$ = `r wrecti_par_list[["ALT_rho43"]]`, 
 _p_ = `r wrecti_par_list[["ALT_rho43_pval"]]`; $\rho_{54}$ = `r wrecti_par_list[["ALT_rho54"]]`, _p_ = `r wrecti_par_list[["ALT_rho54_pval"]]`; $\rho_{65}$ = `r wrecti_par_list[["ALT_rho65"]]`, _p_ = `r wrecti_par_list[["ALT_rho65_pval"]]`). Figure 1 shows the predicted mean trajectory for immediate word recall.
+
 
 
 
@@ -163,8 +164,13 @@ social contact: $\beta$ = `r  wrecti_social_contact_par_list[["cog_slope"]]`, _p
 `r wrecti_social_contact_par_list[["cog_slope_pval"]]` $\psi$ = `r wrecti_social_contact_par_list[["cog_slope_variance"]]`, _p_ = 
 `r wrecti_social_contact_par_list[["cog_slope_variance_pval"]]`; loneliness: $\beta$ = `r  wrecti_loneliness_par_list[["cog_slope"]]`, _p_ = 
 `r wrecti_loneliness_par_list[["cog_slope_pval"]]`, $\psi$ = `r wrecti_loneliness_par_list[["cog_slope_variance"]]`, _p_ = 
-`r wrecti_loneliness_par_list[["cog_slope_variance_pval"]]`). However, in the bivariate models, allowing the autoregressive parameters to vary over time did not significantly improve model fit compared to the less complex models with the autoregressive parameters constrained to equality over time (see tables X through Y). When the autoregressive parameters were constrained to equality over time, the ability of immediate recall performance to predict future immediate word recall performance was not significant for three of the four models (it was significant in the immediate word recall - social network model). The autoregressive parameter values were similar in the full bivariate ALTs but reached significance in several cases: in the immediate word recall - social network model immediate recall performance the 5th wave significantly predicted immediate recall performance at the 6th wave ($\rho_{65}$ = `r wrecti_sn_fullALT_par_list[["cog_rho65"]]`, _p_ = `r wrecti_sn_fullALT_par_list[["cog_rho65_pval"]]`). In the bivariate immediate word recall - social support ALT model ($\rho_{43}$ = `r wrecti_socsup_fullALT_par_list[["cog_rho43"]]`, _p_ = `r wrecti_socsup_fullALT_par_list[["cog_rho43_pval"]]`) and bivariate immediate word recall - loneliness immediate word recall performance at time 3 significantly predicted immediate word recall preformance at time 4 ($\rho_{43}$ = `r wrecti_loneliness_fullALT_par_list[["cog_rho43"]]`, _p_ = 
-`r wrecti_loneliness_fullALT_par_list[["cog_rho43_pval"]]`).  
+`r wrecti_loneliness_par_list[["cog_slope_variance_pval"]]`). However, in the bivariate models, allowing the autoregressive parameters to vary over time did not significantly improve model fit compared to the less complex models with the autoregressive parameters constrained to equality over time (see tables X through Y). When the autoregressive parameters were constrained to equality over time, the ability of immediate recall performance to predict future immediate word recall performance was not significant (social network: $\rho_{65}$ = `r wrecti_sn_par_list[["cog_rho65"]]`, _p_ = `r wrecti_sn_par_list[["cog_rho65_pval"]]`, social support: $\rho_{43}$ = `r wrecti_socsup_ALT_par_list[["cog_rho43"]]`, _p_ = `r wrecti_socsup_ALT_par_list[["cog_rho43_pval"]]`, loneliness: $\rho_{43}$ = `r wrecti_loneliness_fullALT_par_list[["cog_rho43"]]`, _p_ = 
+`r wrecti_loneliness_fullALT_par_list[["cog_rho43_pval"]]`).
+
+Effect of Covariates on Immediate Word Recall
+Women and those with more years of education had significantly higher initial immediate word recall scores and significantly higher immediate word recall scores overall, across all occasions. Those who were older and had more health conditions had lower initial immediate word recall scores and lower immediate word recall scores overall, across all occasions.  
+
+
 
 ## Delayed Word Recall
 
@@ -230,9 +236,10 @@ social support: $\rho_{t,t-1}$  = `r  wrectd_social_support_ALT[["cog_rho21"]]`,
 social contact: $\rho_{t,t-1}$ = `r  wrectd_social_contact_ALT[["cog_rho21"]]`, _p_ = 
 `r wrectd_social_contact_ALT[["cog_rho21_pval"]]` 
 loneliness: $\rho_{t,t-1}$ = `r  wrectd_loneliness_ALT[["cog_rho21"]]`, _p_ = 
-`r wrectd_loneliness_ALT[["cog_rho21_pval"]]`). In two of the four bivariate models, social contact and social network, with delayed word recall, previous delayed word recall performance did not significantly predict performance two years later at any occasion and thus constraining the autogressive parameter did not change the substantive interpretation. In the other two bivariate models, loneliness and social support, delayed word recall at time two significantly predicted delayed recall performance at time three when the autoregressive parameters were allowed to vary over time (social support: $\rho_{3,2}$  = `r  wrectd_social_support_fullALT[["cog_rho32"]]`, _p_ = `r wrectd_social_support_fullALT[["cog_rho32_pval"]]`,
-loneliness: $\rho_{3,2}$ = `r  wrectd_loneliness_fullALT[["cog_rho32"]]`, _p_ = 
-`r wrectd_loneliness_fullALT[["cog_rho32_pval"]]`). However the negative significance indicates that better performance in 2006 actually predicted worse performance in 2008.
+`r wrectd_loneliness_ALT[["cog_rho21_pval"]]`). In bivariate models where autoregressive components were freed to vary over time there was so significant relation thus constraining the autogressive parameter did not change the substantive interpretation. 
+
+Effects of Covariates on Delayed Word Recall
+Those who were older and had more health conditions had lower initial delayed recall scores and lower delayed word recall overall. Women and those with more education had higher initial delayed word recall performance and lower levels of delayed word recall performance across all occasions. Those who were older had a greater rate of decline in delayed word recall performance over time. 
 
 ## Mental Status
 ```{r mental-status, echo=FALSE}
@@ -311,7 +318,8 @@ $\rho_{43}$ = `r ms_loneliness_ALT[["cog_rho43"]]`, _p_ = `r ms_loneliness_ALT[[
 $\rho_{54}$ = `r ms_loneliness_ALT[["cog_rho54"]]`, _p_ = `r ms_loneliness_ALT[["cog_rho54_pval"]]`;
 $\rho_{65}$ = `r ms_loneliness_ALT[["cog_rho65"]]`, _p_ = `r ms_loneliness_ALT[["cog_rho65_pval"]]`).
 
-
+Effects of Covariates on Mental Status
+Those who were older and had a greater number of health conditions had lower initial mental status and lower overall, across occasions. Women and those who had more more education showed significantly higher initial mental status and higher levels of mental status over all, across occasions. Individuals who were older had a greater rate of decline while those with more years of education had a lower rate of decline over time in mental status. 
 
 ## Loneliness
 ```{r}
@@ -326,20 +334,11 @@ fullALT_lone_par_list <- parameter_extraction_function(fullALT_loneliness_parame
 
 For the univariate loneliness models, the ALT model with only the level of loneliness estimated (no slope) and autoregressive parameters constrained to equality over time was the best fitting most parsimonious model according to fit indices (see Table 5). The intercept was $\mu_{\alpha}$ = `r lone_par_list[["ALT_intercept"]]`, _p_ = `r lone_par_list[["ALT_intercept_pval"]]`, with significant variability. Previous loneliness scores significantly predicted later loneliness $\rho_{t,t-1}$ = `r lone_par_list[["ALT_rho21"]]`, _p_ = `r lone_par_list[["ALT_rho21_pval"]]`. Figure 4 shows the predicted mean trend of loneliness over time. Although, the ALT model with no slope for loneliness was indicated in the model comparison, when estimated in the full ALT model the slope term of loneliness was significant ($\beta$ = `r lone_par_list[["ALT_slope"]]` , _p_ = `r fullALT_lone_par_list[["ALT_slope_pval"]]`) with non-significant variance ($\psi$ = `r fullALT_lone_par_list[["ALT_slope_variance"]]`, _p_ = `r fullALT_lone_par_list[["ALT_slope_variance_pval"]]`).
 
-When loneliness was included in bivariate models to examine the relations between loneliness and cognitive function, as in the univariate models, the slope term was small and significant in the immediate word recall - loneliness model 
-( $\beta$ = `r  wrecti_loneliness_par_list[["soc_slope"]]`, _p_ = `r wrecti_loneliness_par_list[["soc_slope_pval"]]`, 
-$\psi$ = `r wrecti_loneliness_par_list[["soc_slope_variance"]]`, _p_ = `r wrecti_loneliness_par_list[["soc_slope_variance_pval"]]`). 
-However, in the delayed word recall - loneliness and mental status - loneliness models the mean slope term of loneliness was not significant but the variance of the loneliness slope was small but significant 
-(delayed word recall: $\beta$ = `r  wrectd_loneliness_ALT[["soc_slope"]]`, _p_ = `r wrectd_loneliness_ALT[["soc_slope_pval"]]`,
-$\psi$ = `r  wrectd_loneliness_ALT[["soc_slope_variance"]]`, _p_ = `r wrectd_loneliness_ALT[["soc_slope_variance_pval"]]`;
-mental status: $\beta$ = `r  ms_loneliness_ALT[["soc_slope"]]`, _p_ = `r ms_loneliness_ALT[["soc_slope_pval"]]`,
-$\psi$ = `r  ms_loneliness_ALT[["soc_slope_variance"]]`, _p_ = `r ms_loneliness_ALT[["soc_slope_variance_pval"]]`).
-In the bivariate models constraining the autoregressive parameters of loneliness on loneliness two years later to be stable over time did not significantly decrease model fit and was the more parsimonious model. However, in these models there was a consistent significant effect, over and above the estimated trajectory, of loneliness on loneliness two years later (immediate word recall:
-$\rho_{t,t-1}$ = `r wrecti_loneliness_par_list[["soc_rho21"]]`, _p_ = `r wrecti_loneliness_par_list[["soc_rho21_pval"]]`;
-delayed word recall: $\rho_{t,t-1}$ = `r wrectd_loneliness_ALT[["soc_rho21"]]`, _p_ = `r wrectd_loneliness_ALT[["soc_rho21_pval"]]`;
-mental status: $\rho_{t,t-1}$ = `r ms_loneliness_ALT[["soc_rho21"]]`, _p_ = `r ms_loneliness_ALT[["soc_rho21_pval"]]`).
+In some bivariate models examining the relations between loneliness and cognitive function, models including the slope of loneliness did not converge. Models did converge when the variance of loneliness was constrained to zero (e.g., the bivariate immediate word recall and loneliness model). In these models the mean slope was significant in some bivariate models the immediate word recall - loneliness model, and not significant in the delayed word recall - loneliness model, or the mental status - loneliness model.
 
-There were some substantive differences when the autoregressive parameters for loneliness were constrained over time. In some of the bivariate models, when the autoregressive parameter of loneliness was allowed to vary over time there were occasions when the value was negative however, when constrained across time the loneliness autoregressive parameter was significantly positive as was the case in the unvariate models (see tables). This instability may be due to the fact that loneliness scores were only collected every four years as opposed to every two years like the cognitive data. Therefore, models with the autoregressive parameter constrained to equality were retained as the most parsimonious models with which the effects of covariates were investigated. 
+Effects of Covariates on Loneliness
+Those with more education reported significantly lower levels of loneliness overall and lower initial levels of loneliness. Women and individuals with more health conditions reported greater levels of loneliness overall, across occasions and greater initial levels of loneliness. 
+ 
 
 
 ## Social Contact
@@ -355,10 +354,10 @@ Social contact increased over time ($\beta$ = `r sc_par_list[["ALT_slope"]]` , _
 _p_ = `r sc_par_list[["ALT_slope_variance_pval"]]`). The ability of earlier social contact to predict later social contact, over and above the overall trajectory of change was consistently significant but negative ($\rho_{21}$ = `r sc_par_list[["ALT_rho21"]]`, _p_ = `r sc_par_list[["ALT_rho21_pval"]]`; $\rho_{32}$ = `r sc_par_list[["ALT_rho32"]]`, _p_ = `r sc_par_list[["ALT_rho32_pval"]]`; $\rho_{43}$ = `r sc_par_list[["ALT_rho43"]]`, 
 _p_ = `r sc_par_list[["ALT_rho43_pval"]]`; $\rho_{54}$ = `r sc_par_list[["ALT_rho54"]]`, _p_ = `r sc_par_list[["ALT_rho54_pval"]]`; $\rho_{65}$ = `r sc_par_list[["ALT_rho65"]]`, _p_ = `r sc_par_list[["ALT_rho65_pval"]]`). When the autoregressive parameters are fixed over time, the slope becomes significant and negative, this is consistent with the univariate LGM as well. This suggests that when the autoregressive parameters are allowed to vary over time the decline in social contact over time is accounted for by the autoregressive parameters rather than in in the linear slope term, however, examing trajectory plots reveals that in both cases the mean predicted trajectory of social contact shows a decrease over time in social contact (see Figure 5).
 
-For two of the three bivariate models with social contact (mental status - social contact, delayed word recall - social contact) the full ALT model was not able to be estimated due to convergence problems. Additional constraints on social contact were needed for models to converge without issue. There was no significant decrease in model fit when autoregressive parameters of social contact were constrained over time. In bivariate models with the autoregressive parameters of social contact constrained over time, the slope of social contact was significant and negative indicating that overall there was a decrease in social contact over time in the delayed word recall - social contact model only (delayed word recall: $\beta$ = `r  wrectd_social_contact_ALT[["soc_slope"]]`, _p_ = `r wrectd_social_contact_ALT[["soc_slope_pval"]]`, $\psi$ = `r  wrectd_social_contact_ALT[["soc_slope_variance"]]`, _p_ = `r wrectd_social_contact_ALT[["soc_slope_variance_pval"]]`). Whereas in the bivariate models with immediate word recall and mental status, the slope term for social contact was not significant (immediate word recall: $\beta$ = `r  wrecti_social_contact_par_list[["soc_slope"]]`, _p_ = `r wrecti_social_contact_par_list[["soc_slope_pval"]]`, 
-$\psi$ = `r wrecti_social_contact_par_list[["soc_slope_variance"]]`, _p_ = `r wrecti_social_contact_par_list[["soc_slope_variance_pval"]]`;
-mental status: $\beta$ = `r  ms_social_contact_ALT[["soc_slope"]]`, _p_ = `r ms_social_contact_ALT[["soc_slope_pval"]]`,
-$\psi$ = `r  ms_social_contact_ALT[["soc_slope_variance"]]`, _p_ = `r ms_social_contact_ALT[["soc_slope_variance_pval"]]`). In all three models there was significant variance in the slope term. Social contact did not significantly predict social contact two years later in any of the bivariate models (delayed word recall: $\rho_{t,t-1}$ = `r wrectd_social_contact_ALT[["soc_rho21"]]`, _p_ = `r wrectd_social_contact_ALT[["soc_rho21_pval"]]`; immediate word recall: $\rho_{t,t-1}$ = `r wrecti_social_contact_par_list[["soc_rho21"]]`, _p_ = `r wrecti_social_contact_par_list[["soc_rho21_pval"]]`; mental status: $\rho_{t,t-1}$ = `r ms_social_contact_ALT[["soc_rho21"]]`, _p_ = `r ms_social_contact_ALT[["soc_rho21_pval"]]`).
+For two of the three bivariate models with social contact (mental status - social contact, delayed word recall - social contact) the full ALT model was not able to be estimated due to convergence problems. Additional constraints on social contact were needed for models to converge without issue. In all three bivariate models the best fitting model included the intercept only, with no slope estimated. Across all three bivariate models, social contact significantly predicted social contact two years later across all occassions (delayed word recall: $\rho_{t,t-1}$ = `r wrectd_social_contact_ALT[["soc_rho21"]]`, _p_ = `r wrectd_social_contact_ALT[["soc_rho21_pval"]]`; immediate word recall: $\rho_{t,t-1}$ = `r wrecti_social_contact_par_list[["soc_rho21"]]`, _p_ = `r wrecti_social_contact_par_list[["soc_rho21_pval"]]`; mental status: $\rho_{t,t-1}$ = `r ms_social_contact_ALT[["soc_rho21"]]`, _p_ = `r ms_social_contact_ALT[["soc_rho21_pval"]]`).
+
+Covariate Effects on Social Contact
+Individuals who are older had significantly less social contact overall across time, individuals with more education and women had more social contact overall, across time. Women and individuals with more education had greater initial social contact. 
 
 
 ## Social Support  
@@ -374,16 +373,11 @@ For univariate social support models, comparing model results showed that autore
 ```{r social-support, echo=FALSE, results='asis'}
 ```
 
+In the bivariate models investigating the relations between cognitive performance and social support, models including a slope of social support did not converge. Thus, all bivariate models were estimated with only overall level of social support (intercept) and autoregressive parameters. 
+As in the univariate models, model fit was not significantly improved by allowing the autoregressive parameters of social support to vary over time in any of the bivariate models. For the immediate word recall - social support model ($\rho_{t,t-1}$ = `r wrecti_socsup_par_list[["soc_rho21"]]`, _p_ = `r wrecti_socsup_par_list[["soc_rho21_pval"]]`), delayed word recall - social support bivariate models ($\rho_{t,t-1}$ = `r wrectd_social_support_ALT[["soc_rho21"]]`, _p_ = `r wrectd_social_support_ALT[["soc_rho21_pval"]]`), and mental status - social support bivariate model ($\rho_{t,t-1}$ = `r ms_social_support_ALT[["soc_rho21"]]`, _p_ = `r ms_social_support_ALT[["soc_rho21_pval"]]`). 
 
-In the bivariate models investigating the relations between cognitive performance and social support, consistent with the univariate model, the slope of social support was consistently not significant but the variance of the slope term was significant 
-(immediate word recall: $\beta$ = `r  wrecti_socsup_par_list[["soc_slope"]]`, _p_ = `r wrecti_socsup_par_list[["soc_slope_pval"]]`, 
-$\psi$ = `r wrecti_socsup_par_list[["soc_slope_variance"]]`, _p_ = `r wrecti_socsup_par_list[["soc_slope_variance_pval"]]`;
-delayed word recall: $\beta$ = `r  wrectd_social_support_ALT[["soc_slope"]]`, _p_ = `r wrectd_social_support_ALT[["soc_slope_pval"]]`, 
-$\psi$ = `r wrectd_social_support_ALT[["soc_slope_variance"]]`, _p_ = `r wrectd_social_support_ALT[["soc_slope_variance_pval"]]`;
-mental status: $\beta$ =`r ms_social_support_ALT[["soc_slope"]]`, _p_ = `r ms_social_support_ALT[["soc_slope_pval"]]`
-$\psi$ = `r ms_social_support_ALT[["soc_slope_variance"]]`, _p_ = `r ms_social_support_ALT[["soc_slope_variance_pval"]]`).
-As in the univariate models, model fit was not significantly improved by allowing the autoregressive parameters of social support to vary over time in any of the bivariate models. For the mental status - social support bivariate model ($\rho_{t,t-1}$ = `r ms_social_support_ALT[["soc_rho21"]]`, _p_ = 
-`r ms_social_support_ALT[["soc_rho21_pval"]]`) autoregressive parameters were not significant. However, the immediate word recall - social support model ($\rho_{t,t-1}$ = `r wrecti_socsup_par_list[["soc_rho21"]]`, _p_ = `r wrecti_socsup_par_list[["soc_rho21_pval"]]`) and delayed word recall - social support bivariate models ($\rho_{t,t-1}$ = `r wrectd_social_support_ALT[["soc_rho21"]]`, _p_ = `r wrectd_social_support_ALT[["soc_rho21_pval"]]`) the autoregressive parameters were significant and negative. 
+Effect of Covariates on Social Support
+Those with more education and fewer health conditions had lower levels of social support overall. While women reported greater social support overall, across time. Older inidividals and women had higher initial social support. Those with more health conditions had lower initial social support. 
 
 ## Social Network
 ```{r}
@@ -397,15 +391,12 @@ Among the univariate social network models, the full ALT model showed significan
 `r sn_par_list[["ALT_slope_variance_pval"]]`). Previous social network scores significantly predicted later social network size, over and above the overall trajectory of social network ($\rho_{t,t-1}$ = 
 `r sn_par_list[["ALT_rho21"]]`, _p_ = `r sn_par_list[["ALT_rho21_pval"]]`). A plot of the predicted mean trajectory of social network is shown in Figure 7.
 
+In the bivariate models investigating the relations between cognitive performance and social network, models including a slope of social network did not converge. 
+In all models the autoregressive parameters were significant and positive (immediate word recall: $\rho_{t,t-1}$ = `r wrecti_sn_par_list[["soc_rho21"]]`, _p_ = `r wrecti_sn_par_list[["soc_rho21_pval"]]`; delayed word recall: $\rho_{t,t-1}$ = 
+`r wrectd_social_network_ALT[["soc_rho21"]]`, _p_ = `r wrectd_social_network_ALT[["soc_rho21_pval"]]`) and mental status $\rho_{t,t-1}$ = `r ms_social_network_ALT[["soc_rho21"]]`, _p_ = `r ms_social_network_ALT[["soc_rho21_pval"]]`). The intercepts were also significant with significant variability. 
 
-In the three bivariate models investigating the relations between cognitive performance and social network, the trajectory of social network was described somewhat differently depending on the cognitive variable in the bivariate model and the model constraints.  In the immediate word recall - social network model there was no significant mean slope in social network however the variance was significant ($\beta$ = `r  wrecti_sn_par_list[["soc_slope"]]`, _p_ = `r wrecti_sn_par_list[["soc_slope_pval"]]`, 
-$\psi$ = `r wrecti_sn_par_list[["soc_slope_variance"]]`, _p_ = `r wrecti_sn_par_list[["soc_slope_variance_pval"]]`). In the bivariate models with delayed word recall and mental status there was a significant negative mean slope  with significant variance (delayed word recall: $\beta$ = `r  wrectd_social_network_ALT[["soc_slope"]]`, _p_ = `r wrectd_social_network_ALT[["soc_slope_pval"]]`, 
-$\psi$ = `r wrectd_social_network_ALT[["soc_slope_variance"]]`, _p_ = `r wrectd_social_network_ALT[["soc_slope_variance_pval"]]`;
-mental status: $\beta$ =`r ms_social_network_ALT[["soc_slope"]]`, _p_ = `r ms_social_network_ALT[["soc_slope_pval"]]`
-$\psi$ = `r ms_social_network_ALT[["soc_slope_variance"]]`, _p_ = `r ms_social_network_ALT[["soc_slope_variance_pval"]]`).
-For  delayed word recall - social network bivariate model ($\rho_{t,t-1}$ = 
-`r wrectd_social_network_ALT[["soc_rho21"]]`, _p_ = `r wrectd_social_network_ALT[["soc_rho21_pval"]]`) the autoregressive parameters were significant and positive. However, for the mental status - social support bivariate model ($\rho_{t,t-1}$ = `r ms_social_network_ALT[["soc_rho21"]]`, _p_ = 
-`r ms_social_network_ALT[["soc_rho21_pval"]]`) and the immediate word recall - social network model ($\rho_{t,t-1}$ = `r wrecti_sn_par_list[["soc_rho21"]]`, _p_ = `r wrecti_sn_par_list[["soc_rho21_pval"]]`) the autoregressive parameters were not significant. For all three of the bivariate models with cognitive performance where the social network autoregressive parameters were not constrained to equality over time the autoregressive parameters were consistently not significant. 
+Covariate Effects on Social Network
+Older individuals, men, and individuals with lower levels of education had smaller social networks. Individuals with more education and men had larger social networks. 
 
 
 ## Bivariate model results
@@ -518,7 +509,7 @@ The results of the bivariate mental status and social contact are presented in T
 `r ms_social_contact_ALT[["IB_WITH_IA"]]`, _p_ = `r ms_social_contact_ALT[["IB_WITH_IA_pval"]]`), there was also no significant relation between the initial values of mental status and social contact (corr. = `r ms_social_contact_ALT[["A_01_WITH_B_01"]]`, _p_ = `r ms_social_contact_ALT[["A_01_WITH_B_01_pval"]]`). There was a significant cross-lagged relationship such that social contact at all occasions, except time 1, significantly and positively predicted mental status two years later, and occasion specific variations in mental status, after accounting for overall trajectory of mental status, significantly predicted occasion specific variations in social contact after accounting for mean level of social contact. 
 
 ### _mental status - social support_  
-The results of the bivariate mental status and social support are presented in Table Y. The full ALT model did not converge and model contraints needed to be added. ALT models without time-specific correlations between mental status and social support and models without a slope term for social support all converged and were compared for model fit. The ALT model with only level of social support estimated, with the autoregressive parameters of social support contrained to be stationary over time, and time-specific correlations between mental status and social support excluded was the best fitting model according to χ2 difference testing . In this model, there was no significant relationship between the first occasions of mental status and social support (corr. = 
+The results of the bivariate mental status and social support are presented in Table Y. The full ALT model did not converge and model contraints needed to be added. ALT models without time-specific correlations between mental status and social support and models without a slope term for social support all converged and were compared for model fit. The ALT model with only level of social support estimated, with the autoregressive parameters of social support contrained to be stationary over time, and time-specific correlations between mental status and social support excluded was the best fitting model according to χ2 difference testing. In this model, there was no significant relationship between the first occasions of mental status and social support (corr. = 
 `r ms_social_support_ALT[["A_01_WITH_B_01"]]`, _p_ = `r ms_social_support_ALT[["A_01_WITH_B_01_pval"]]` or between intercept terms (corr. = 
 `r ms_social_support_ALT[["IB_WITH_IA"]]`, _p_ = `r ms_social_support_ALT[["IB_WITH_IA_pval"]]`). There was a significant decline in mental status over time with significant variance in the slope. Only one of the cross-lagged associations was significant with social support at time 2 significantly predicted mental status at time 3 (`r ms_social_support_ALT[["A_03_B_02"]]`, _p_ = `r ms_social_support_ALT[["A_02_B_02_pval"]]`) however, time-specific uniquenesses in social support did not predict time-specific uniquenesses in mental status at other occasions. The cross-lagged regressions of social support - on - mental status were were all not significant. 
 
