@@ -1,0 +1,1563 @@
+Mplus VERSION 7.4 (Mac)
+MUTHEN & MUTHEN
+04/02/2018   8:04 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  ALT-no social slope, stationary social autoregressive, covariates
+  DATA:
+  File = wide-dataset-b.dat;
+  VARIABLE:
+  NAMES are
+   id hhid male birthyr_rand birthmo_rand race_rand hispanic_rand cohort
+      raedyrs raedegrm memoryproblems_baseline memory_disease_ever age_baseline
+      age_baseline_65 health_conditions_baseline healthcond_mean activity_mean_2004
+      activity_mean_2006 activity_mean_2008 activity_mean_2010 activity_mean_2012
+      activity_mean_2014 activity_sum_2004 activity_sum_2006 activity_sum_2008
+      activity_sum_2010 activity_sum_2012 activity_sum_2014 close_social_network_2004
+      close_social_network_2006 close_social_network_2008 close_social_network_2010
+      close_social_network_2012 close_social_network_2014 countb20r_2004
+      countb20r_2006 countb20r_2008 countb20r_2010 countb20r_2012 countb20r_2014
+      crp_adj_2004 crp_adj_2006 crp_adj_2008 crp_adj_2010 crp_adj_2012 crp_adj_2014
+      dep_total_2004 dep_total_2006 dep_total_2008 dep_total_2010 dep_total_2012
+      dep_total_2014 exercise_2004 exercise_2006 exercise_2008 exercise_2010
+      exercise_2012 exercise_2014 healthcond_2004 healthcond_2006 healthcond_2008
+      healthcond_2010 healthcond_2012 healthcond_2014 hhres_2004 hhres_2006
+      hhres_2008 hhres_2010 hhres_2012 hhres_2014 hrs_tscore_2004 hrs_tscore_2006
+      hrs_tscore_2008 hrs_tscore_2010 hrs_tscore_2012 hrs_tscore_2014 intage_r_2004
+      intage_r_2006 intage_r_2008 intage_r_2010 intage_r_2012 intage_r_2014
+      interview_date_2004 interview_date_2006 interview_date_2008 interview_date_2010
+      interview_date_2012 interview_date_2014 lb_65_wave_2004 lb_65_wave_2006
+      lb_65_wave_2008 lb_65_wave_2010 lb_65_wave_2012 lb_65_wave_2014 lb_wave_2004
+      lb_wave_2006 lb_wave_2008 lb_wave_2010 lb_wave_2012 lb_wave_2014 listassi_2004
+      listassi_2006 listassi_2008 listassi_2010 listassi_2012 listassi_2014
+      mentalstatus_tot_2004 mentalstatus_tot_2006 mentalstatus_tot_2008
+      mentalstatus_tot_2010 mentalstatus_tot_2012 mentalstatus_tot_2014 proxy_2004
+      proxy_2006 proxy_2008 proxy_2010 proxy_2012 proxy_2014 responded_2004
+      responded_2006 responded_2008 responded_2010 responded_2012 responded_2014
+      rmaritalst_2004 rmaritalst_2006 rmaritalst_2008 rmaritalst_2010 rmaritalst_2012
+      rmaritalst_2014 rpartst_2004 rpartst_2006 rpartst_2008 rpartst_2010
+      rpartst_2012 rpartst_2014 score_loneliness_11_2004 score_loneliness_11_2006
+      score_loneliness_11_2008 score_loneliness_11_2010 score_loneliness_11_2012
+      score_loneliness_11_2014 score_loneliness_3_2004 score_loneliness_3_2006
+      score_loneliness_3_2008 score_loneliness_3_2010 score_loneliness_3_2012
+      score_loneliness_3_2014 shhidpnr_2004 shhidpnr_2006 shhidpnr_2008 shhidpnr_2010
+      shhidpnr_2012 shhidpnr_2014 snchild_2004 snchild_2006 snchild_2008 snchild_2010
+      snchild_2012 snchild_2014 snfamily_2004 snfamily_2006 snfamily_2008
+      snfamily_2010 snfamily_2012 snfamily_2014 snfriends_2004 snfriends_2006
+      snfriends_2008 snfriends_2010 snfriends_2012 snfriends_2014 snspouse_2004
+      snspouse_2006 snspouse_2008 snspouse_2010 snspouse_2012 snspouse_2014
+      social_contact_total_2004 social_contact_total_2006 social_contact_total_2008
+      social_contact_total_2010 social_contact_total_2012 social_contact_total_2014
+      social_strain_mean_2004 social_strain_mean_2006 social_strain_mean_2008
+      social_strain_mean_2010 social_strain_mean_2012 social_strain_mean_2014
+      social_support_mean_2004 social_support_mean_2006 social_support_mean_2008
+      social_support_mean_2010 social_support_mean_2012 social_support_mean_2014
+      socialnetwork_total_2004 socialnetwork_total_2006 socialnetwork_total_2008
+      socialnetwork_total_2010 socialnetwork_total_2012 socialnetwork_total_2014
+      srmemory_2004 srmemory_2006 srmemory_2008 srmemory_2010 srmemory_2012
+      srmemory_2014 srmemoryp_2004 srmemoryp_2006 srmemoryp_2008 srmemoryp_2010
+      srmemoryp_2012 srmemoryp_2014 vocab_total_2004 vocab_total_2006 vocab_total_2008
+      vocab_total_2010 vocab_total_2012 vocab_total_2014 wrectotd_2004 wrectotd_2006
+      wrectotd_2008 wrectotd_2010 wrectotd_2012 wrectotd_2014 wrectoti_2004
+      wrectoti_2006 wrectoti_2008 wrectoti_2010 wrectoti_2012 wrectoti_2014
+  	;
+  Missing are all(9999);
+  USEVARIABLES are
+  	!define the variables used in the analysis
+  	!estimated time points
+  a_01
+  a_02
+  a_03
+  a_04
+  a_05
+  a_06
+  	!modelled time points of process (B)
+  b_01
+  b_02
+  b_03
+  b_04
+  b_05
+  b_06
+  	! covariates used in the model
+  age
+  educ
+  health
+  sex
+  coh	;
+  SUBPOPULATION are
+  	!select a subset of observations
+  age_baseline > 64 AND
+  memory_disease_ever EQ 0
+  ;
+  CLUSTER = hhid;
+  DEFINE:
+    ! centre baseline age
+  age = age_baseline - 69;
+  educ = raedyrs - 12;
+  health = healthcond_mean - 2;
+  sex = male-1;
+  coh = cohort;	
+  ! assign variables to the process (A)
+  a_01=mentalstatus_tot_2004;
+  a_02=mentalstatus_tot_2006;
+  a_03=mentalstatus_tot_2008;
+  a_04=mentalstatus_tot_2010;
+  a_05=mentalstatus_tot_2012;
+  a_06=mentalstatus_tot_2014;
+  	! assign variables to the process (B)
+  b_01=socialnetwork_total_2004;
+  b_02=socialnetwork_total_2006;
+  b_03=socialnetwork_total_2008;
+  b_04=socialnetwork_total_2010;
+  b_05=socialnetwork_total_2012;
+  b_06=socialnetwork_total_2014;
+  ANALYSIS:
+  TYPE = COMPLEX RANDOM;
+  COVERAGE=.00;
+  H1ITERATIONS = 15000;
+  MODEL:
+  	!LGM part
+  	! assign process (A) to time points
+  ia BY a_02@1 a_03@1 a_04@1 a_05@1 a_06@1;
+  sa BY a_02@0 a_03@2 a_04@4 a_05@6 a_06@8;
+  	! assign process (B) to time points
+  ib BY b_02@1 b_03@1 b_04@1 b_05@1 b_06@1;
+  !sb BY b_02@0 b_03@2 b_04@4 b_05@6 b_06@8;
+  	!correlations between the first measurement points
+  	!autoregressive part
+  a_01 a_02 a_03 a_04 a_05 a_06;
+  a_02 ON a_01;
+  a_03 ON a_02;
+  a_04 ON a_03;
+  a_05 ON a_04;
+  a_06 ON a_05;
+  b_01 b_02 b_03 b_04 b_05 b_06;
+  b_02 ON b_01(1);
+  b_03 ON b_02(1);
+  b_04 ON b_03(1);
+  b_05 ON b_04(1);
+  b_06 ON b_05(1);
+  	!Cross lagged part
+  a_02 ON b_01;
+  a_03 ON b_02;
+  a_04 ON b_03;
+  a_05 ON b_04;
+  a_06 ON b_05;
+  b_02 ON a_01;
+  b_03 ON a_02;
+  b_04 ON a_03;
+  b_05 ON a_04;
+  b_06 ON a_05;
+  ia;
+  sa;
+  ib;
+  !sb;
+  ia with sa;
+  !ib with sb;
+  ia with a_01;
+  sa with a_01;
+  ib with b_01;
+  !sb with b_01;
+  ia with ib;
+  !sa with sb;
+  ! Time specific correlations
+  a_01 WITH b_01;
+  !b_02 WITH a_02;
+  !b_03 WITH a_03;
+  !b_04 WITH a_04;
+  !b_05 WITH a_05;
+  !b_06 WITH a_06;
+  [a_02@0 a_03@0 a_04@0 a_05@0 a_06@0];
+  [b_02@0 b_03@0 b_04@0 b_05@0 b_06@0];
+  [ia];
+  [ib];
+  [sa];
+  ![sb];
+  [a_01];
+  [b_01];
+  ! Predictive part of the model
+  ia sa ib a_01 b_01 ON age
+  educ
+  health
+  sex
+  coh;	
+  OUTPUT: SAMPSTAT MODINDICES (3.0); TECH1; TECH4;
+
+
+
+*** WARNING in OUTPUT command
+  TECH4 option for TYPE=RANDOM requires ALGORITHM=INTEGRATION.
+  Request for TECH4 is ignored.
+*** WARNING
+  Data set contains cases with missing on x-variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on x-variables:  8
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+ALT-no social slope, stationary social autoregressive, covariates
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        5952
+
+Number of dependent variables                                   12
+Number of independent variables                                  5
+Number of continuous latent variables                            3
+
+Observed dependent variables
+
+  Continuous
+   A_01        A_02        A_03        A_04        A_05        A_06
+   B_01        B_02        B_03        B_04        B_05        B_06
+
+Observed independent variables
+   AGE         EDUC        HEALTH      SEX         COH
+
+Continuous latent variables
+   IA          SA          IB
+
+Variables with special functions
+
+  Cluster variable      HHID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                          15000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  wide-dataset-b.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns           259
+     Number of clusters        4882
+
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              A_01          A_02          A_03          A_04          A_05
+              ________      ________      ________      ________      ________
+ 1              8.515         8.505         8.438         8.049         8.015
+
+
+           Means
+              A_06          B_01          B_02          B_03          B_04
+              ________      ________      ________      ________      ________
+ 1              7.832         3.383         3.404         3.307         3.230
+
+
+           Means
+              B_05          B_06          AGE           EDUC          HEALTH
+              ________      ________      ________      ________      ________
+ 1              3.076         2.972         3.147         0.375         0.323
+
+
+           Means
+              SEX           COH
+              ________      ________
+ 1              0.585         2.524
+
+
+           Covariances
+              A_01          A_02          A_03          A_04          A_05
+              ________      ________      ________      ________      ________
+ A_01           0.634
+ A_02           0.331         0.661
+ A_03           0.345         0.353         0.790
+ A_04           0.369         0.386         0.458         1.241
+ A_05           0.395         0.402         0.499         0.791         1.453
+ A_06           0.402         0.430         0.528         0.857         1.082
+ B_01           0.042         0.049         0.071         0.103         0.123
+ B_02           0.051         0.049         0.084         0.104         0.117
+ B_03           0.061         0.058         0.072         0.110         0.127
+ B_04           0.042         0.054         0.069         0.105         0.130
+ B_05           0.081         0.088         0.102         0.126         0.183
+ B_06           0.094         0.081         0.117         0.151         0.178
+ AGE           -0.104        -0.272        -0.629        -1.254        -1.693
+ EDUC           0.932         0.869         0.926         1.174         1.222
+ HEALTH        -0.037        -0.032        -0.045        -0.065        -0.079
+ SEX            0.000        -0.001        -0.006         0.007        -0.006
+ COH            0.011         0.024         0.066         0.132         0.176
+
+
+           Covariances
+              A_06          B_01          B_02          B_03          B_04
+              ________      ________      ________      ________      ________
+ A_06           1.968
+ B_01           0.158         0.588
+ B_02           0.137         0.364         0.522
+ B_03           0.135         0.337         0.244         0.591
+ B_04           0.122         0.321         0.363         0.133         0.634
+ B_05           0.213         0.330         0.274         0.373         0.279
+ B_06           0.196         0.302         0.310         0.344         0.379
+ AGE           -2.351        -0.664        -0.714        -0.819        -0.865
+ EDUC           1.318         0.235         0.284         0.341         0.241
+ HEALTH        -0.086        -0.024        -0.038        -0.022        -0.045
+ SEX           -0.011        -0.041        -0.072        -0.071        -0.072
+ COH            0.246         0.077         0.079         0.089         0.097
+
+
+           Covariances
+              B_05          B_06          AGE           EDUC          HEALTH
+              ________      ________      ________      ________      ________
+ B_05           0.717
+ B_06           0.526         0.763
+ AGE           -1.083        -0.922        33.899
+ EDUC           0.415         0.379        -0.215         9.598
+ HEALTH        -0.020        -0.038         0.487        -0.187         1.298
+ SEX           -0.051        -0.075         0.119        -0.084        -0.016
+ COH            0.119         0.112        -3.639         0.001        -0.051
+
+
+           Covariances
+              SEX           COH
+              ________      ________
+ SEX            0.243
+ COH           -0.014         0.477
+
+
+           Correlations
+              A_01          A_02          A_03          A_04          A_05
+              ________      ________      ________      ________      ________
+ A_01           1.000
+ A_02           0.511         1.000
+ A_03           0.487         0.488         1.000
+ A_04           0.416         0.426         0.463         1.000
+ A_05           0.412         0.410         0.466         0.589         1.000
+ A_06           0.360         0.377         0.423         0.548         0.640
+ B_01           0.069         0.079         0.105         0.120         0.133
+ B_02           0.089         0.084         0.130         0.129         0.134
+ B_03           0.099         0.092         0.106         0.129         0.137
+ B_04           0.066         0.083         0.097         0.119         0.136
+ B_05           0.120         0.128         0.135         0.134         0.179
+ B_06           0.135         0.115         0.151         0.155         0.169
+ AGE           -0.022        -0.057        -0.122        -0.193        -0.241
+ EDUC           0.378         0.345         0.336         0.340         0.327
+ HEALTH        -0.041        -0.035        -0.044        -0.051        -0.058
+ SEX           -0.001        -0.002        -0.013         0.013        -0.010
+ COH            0.020         0.042         0.108         0.171         0.212
+
+
+           Correlations
+              A_06          B_01          B_02          B_03          B_04
+              ________      ________      ________      ________      ________
+ A_06           1.000
+ B_01           0.147         1.000
+ B_02           0.136         0.658         1.000
+ B_03           0.125         0.573         0.439         1.000
+ B_04           0.109         0.525         0.632         0.217         1.000
+ B_05           0.179         0.509         0.448         0.573         0.414
+ B_06           0.160         0.450         0.492         0.513         0.544
+ AGE           -0.288        -0.149        -0.170        -0.183        -0.187
+ EDUC           0.303         0.099         0.127         0.143         0.098
+ HEALTH        -0.054        -0.027        -0.047        -0.025        -0.050
+ SEX           -0.016        -0.108        -0.202        -0.187        -0.184
+ COH            0.254         0.145         0.158         0.168         0.177
+
+
+           Correlations
+              B_05          B_06          AGE           EDUC          HEALTH
+              ________      ________      ________      ________      ________
+ B_05           1.000
+ B_06           0.711         1.000
+ AGE           -0.220        -0.181         1.000
+ EDUC           0.158         0.140        -0.012         1.000
+ HEALTH        -0.020        -0.038         0.073        -0.053         1.000
+ SEX           -0.123        -0.174         0.042        -0.055        -0.029
+ COH            0.204         0.186        -0.905         0.001        -0.065
+
+
+           Correlations
+              SEX           COH
+              ________      ________
+ SEX            1.000
+ COH           -0.042         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -53056.603
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     A_01                  8.527      -2.114       2.000    0.02%       8.000      9.000      9.000
+            5486.000       0.624       5.952       9.000   66.11%       9.000      9.000
+     A_02                  8.511      -2.361       1.000    0.02%       8.000      9.000      9.000
+            5688.000       0.654       8.721       9.000   64.64%       9.000      9.000
+     A_03                  8.443      -2.238       1.000    0.02%       8.000      9.000      9.000
+            5784.000       0.783       7.416       9.000   61.91%       9.000      9.000
+     A_04                  8.065      -1.739       0.000    0.02%       7.000      8.000      8.000
+            5680.000       1.209       4.575       9.000   41.95%       9.000      9.000
+     A_05                  8.085      -1.899       0.000    0.04%       7.000      8.000      8.000
+            5132.000       1.350       5.356       9.000   45.93%       9.000      9.000
+     A_06                  7.967      -2.016       0.000    0.07%       7.000      8.000      8.000
+            4423.000       1.750       5.505       9.000   43.55%       9.000      9.000
+     B_01                  3.445      -1.333       0.000    0.10%       3.000      3.000      4.000
+            1052.000       0.578       1.365       4.000   58.27%       4.000      4.000
+     B_02                  3.405      -1.091       0.000    0.07%       3.000      3.000      4.000
+            2799.000       0.521       0.900       4.000   52.66%       4.000      4.000
+     B_03                  3.308      -0.980       0.000    0.26%       3.000      3.000      3.000
+            2744.000       0.587       0.764       4.000   46.79%       4.000      4.000
+     B_04                  3.253      -0.935       0.000    0.23%       3.000      3.000      3.000
+            2655.000       0.624       0.629       4.000   43.58%       4.000      4.000
+     B_05                  3.123      -0.839       0.000    0.40%       3.000      3.000      3.000
+            2235.000       0.700       0.465       4.000   36.38%       3.000      4.000
+     B_06                  3.038      -0.783       0.000    0.79%       2.000      3.000      3.000
+            2036.000       0.732       0.509       4.000   31.93%       3.000      4.000
+     AGE                   3.147       0.872      -4.000    8.92%      -2.000      0.000      2.000
+            5952.000      33.899       0.185      25.000    0.02%       4.000      8.000
+     EDUC                  0.375      -0.907     -12.000    0.59%      -1.000      0.000      0.000
+            5952.000       9.598       1.828       5.000    9.90%       0.000      3.000
+     HEALTH                0.323       0.289      -2.000    2.34%      -0.667      0.000      0.167
+            5952.000       1.298      -0.079       5.000    0.02%       0.600      1.200
+     SEX                   0.585      -0.344       0.000   41.53%       0.000      0.000      1.000
+            5952.000       0.243      -1.882       1.000   58.47%       1.000      1.000
+     COH                   2.524      -1.089       1.000   11.19%       2.000      3.000      3.000
+            5952.000       0.477      -0.083       4.000    0.17%       3.000      3.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       68
+
+Loglikelihood
+
+          H0 Value                      -53147.086
+          H0 Scaling Correction Factor      1.5383
+            for MLR
+          H1 Value                      -53056.603
+          H1 Scaling Correction Factor      1.3343
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                  106430.172
+          Bayesian (BIC)                106885.193
+          Sample-Size Adjusted BIC      106669.108
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            155.330*
+          Degrees of Freedom                    82
+          P-Value                           0.0000
+          Scaling Correction Factor         1.1650
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.012
+
+CFI/TLI
+
+          CFI                                0.994
+          TLI                                0.991
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          12950.101
+          Degrees of Freedom                   126
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.055
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ IA       BY
+    A_02               1.000      0.000    999.000    999.000
+    A_03               1.000      0.000    999.000    999.000
+    A_04               1.000      0.000    999.000    999.000
+    A_05               1.000      0.000    999.000    999.000
+    A_06               1.000      0.000    999.000    999.000
+
+ SA       BY
+    A_02               0.000      0.000    999.000    999.000
+    A_03               2.000      0.000    999.000    999.000
+    A_04               4.000      0.000    999.000    999.000
+    A_05               6.000      0.000    999.000    999.000
+    A_06               8.000      0.000    999.000    999.000
+
+ IB       BY
+    B_02               1.000      0.000    999.000    999.000
+    B_03               1.000      0.000    999.000    999.000
+    B_04               1.000      0.000    999.000    999.000
+    B_05               1.000      0.000    999.000    999.000
+    B_06               1.000      0.000    999.000    999.000
+
+ IA         ON
+    AGE               -0.008      0.004     -2.057      0.040
+    EDUC               0.091      0.005     16.798      0.000
+    HEALTH            -0.009      0.009     -1.084      0.278
+    SEX                0.038      0.019      2.023      0.043
+    COH               -0.019      0.033     -0.573      0.567
+
+ SA         ON
+    AGE               -0.006      0.001     -6.767      0.000
+    EDUC               0.003      0.001      2.612      0.009
+    HEALTH            -0.001      0.002     -0.745      0.456
+    SEX                0.005      0.004      1.092      0.275
+    COH                0.000      0.007     -0.029      0.977
+
+ IB         ON
+    AGE               -0.013      0.003     -4.442      0.000
+    EDUC               0.019      0.003      6.236      0.000
+    HEALTH            -0.010      0.006     -1.737      0.082
+    SEX               -0.186      0.021     -8.816      0.000
+    COH                0.034      0.022      1.549      0.121
+
+ A_02       ON
+    A_01              -0.018      0.033     -0.562      0.574
+    B_01               0.016      0.028      0.598      0.550
+
+ A_03       ON
+    A_02               0.027      0.023      1.139      0.255
+    B_02               0.064      0.023      2.727      0.006
+
+ A_04       ON
+    A_03               0.048      0.019      2.439      0.015
+    B_03               0.083      0.026      3.226      0.001
+
+ A_05       ON
+    A_04               0.120      0.029      4.175      0.000
+    B_04               0.089      0.033      2.717      0.007
+
+ A_06       ON
+    A_05               0.168      0.043      3.914      0.000
+    B_05               0.110      0.041      2.668      0.008
+
+ B_02       ON
+    B_01               0.318      0.064      4.986      0.000
+    A_01               0.045      0.009      4.798      0.000
+
+ B_03       ON
+    B_02               0.318      0.064      4.986      0.000
+    A_02               0.033      0.009      3.514      0.000
+
+ B_04       ON
+    B_03               0.318      0.064      4.986      0.000
+    A_03               0.027      0.009      2.898      0.004
+
+ B_05       ON
+    B_04               0.318      0.064      4.986      0.000
+    A_04               0.015      0.010      1.448      0.148
+
+ B_06       ON
+    B_05               0.318      0.064      4.986      0.000
+    A_05               0.008      0.010      0.770      0.442
+
+ A_01       ON
+    AGE                0.000      0.004      0.102      0.919
+    EDUC               0.097      0.005     21.378      0.000
+    HEALTH            -0.013      0.009     -1.413      0.158
+    SEX                0.033      0.020      1.682      0.092
+    COH                0.026      0.034      0.758      0.448
+
+ B_01       ON
+    AGE               -0.013      0.007     -1.778      0.075
+    EDUC               0.020      0.007      2.827      0.005
+    HEALTH            -0.011      0.017     -0.647      0.518
+    SEX               -0.187      0.039     -4.805      0.000
+    COH                0.031      0.064      0.490      0.624
+
+ IA       WITH
+    SA                -0.003      0.004     -0.804      0.421
+    A_01               0.254      0.021     12.055      0.000
+    IB                 0.000      0.007      0.046      0.963
+
+ SA       WITH
+    A_01              -0.004      0.004     -1.002      0.316
+
+ IB       WITH
+    B_01               0.177      0.024      7.392      0.000
+    SA                -0.002      0.002     -0.973      0.331
+
+ A_01     WITH
+    B_01              -0.004      0.014     -0.320      0.749
+
+ Intercepts
+    A_01               8.396      0.100     83.600      0.000
+    A_02               0.000      0.000    999.000    999.000
+    A_03               0.000      0.000    999.000    999.000
+    A_04               0.000      0.000    999.000    999.000
+    A_05               0.000      0.000    999.000    999.000
+    A_06               0.000      0.000    999.000    999.000
+    B_01               3.459      0.189     18.270      0.000
+    B_02               0.000      0.000    999.000    999.000
+    B_03               0.000      0.000    999.000    999.000
+    B_04               0.000      0.000    999.000    999.000
+    B_05               0.000      0.000    999.000    999.000
+    B_06               0.000      0.000    999.000    999.000
+    IA                 8.628      0.315     27.386      0.000
+    SA                -0.291      0.072     -4.021      0.000
+    IB                 2.005      0.256      7.823      0.000
+
+ Residual Variances
+    A_01               0.542      0.019     29.218      0.000
+    A_02               0.324      0.021     15.178      0.000
+    A_03               0.417      0.016     25.645      0.000
+    A_04               0.652      0.027     24.353      0.000
+    A_05               0.609      0.034     17.838      0.000
+    A_06               0.748      0.044     16.919      0.000
+    B_01               0.556      0.030     18.555      0.000
+    B_02               0.182      0.013     14.364      0.000
+    B_03               0.232      0.018     12.823      0.000
+    B_04               0.248      0.016     15.842      0.000
+    B_05               0.331      0.021     15.727      0.000
+    B_06               0.389      0.027     14.319      0.000
+    IA                 0.260      0.034      7.730      0.000
+    SA                 0.007      0.001      6.522      0.000
+    IB                 0.138      0.031      4.502      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.100E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+MODEL MODIFICATION INDICES
+
+NOTE:  Modification indices for direct effects of observed dependent variables
+regressed on covariates may not be included.  To include these, request
+MODINDICES (ALL).
+
+Minimum M.I. value for printing the modification index     3.000
+
+                                   M.I.     E.P.C.
+
+
+ON/BY Statements
+
+A_01     ON IA       /
+IA       BY A_01                   5.349    42.359
+A_01     ON SA       /
+SA       BY A_01                   4.603    -7.303
+A_01     ON IB       /
+IB       BY A_01                   4.598     0.093
+A_02     ON SA       /
+SA       BY A_02                   8.363     0.762
+A_03     ON SA       /
+SA       BY A_03                  29.943    -0.977
+A_04     ON SA       /
+SA       BY A_04                  20.433     0.872
+A_05     ON IA       /
+IA       BY A_05                   5.310    -0.047
+A_06     ON IA       /
+IA       BY A_06                   5.138     0.075
+A_06     ON IB       /
+IB       BY A_06                   4.394     0.257
+B_04     ON IB       /
+IB       BY B_04                   8.089     0.123
+B_05     ON SA       /
+SA       BY B_05                   3.490     0.373
+B_06     ON IB       /
+IB       BY B_06                   7.603    -0.129
+IB       ON IA       /
+IA       BY IB                     4.593     0.051
+IB       ON SA       /
+SA       BY IB                     4.585    -3.446
+
+ON Statements
+
+IA       ON A_02                   8.980     0.143
+IA       ON A_03                  19.819    -0.113
+IA       ON A_04                   3.650     0.023
+SA       ON A_01                   3.040    -1.146
+SA       ON A_02                  10.240     0.029
+SA       ON A_03                  24.204    -0.021
+SA       ON A_04                  20.877     0.015
+IB       ON A_01                   4.595     0.024
+IB       ON A_02                   3.685     0.036
+IB       ON A_05                  11.740     0.051
+IB       ON B_01                   4.603    -2.934
+IB       ON B_04                   8.793     0.138
+A_01     ON B_01                   4.598     0.073
+A_01     ON B_05                   4.277     0.035
+A_01     ON B_06                   7.433     0.046
+A_02     ON A_04                   4.959     0.041
+A_02     ON A_06                  11.492     0.055
+A_02     ON B_05                   3.745     0.055
+A_03     ON A_03                   7.716    -0.108
+A_03     ON A_04                  11.567    -0.043
+A_03     ON A_05                  10.171    -0.042
+A_03     ON A_06                  27.543    -0.058
+A_03     ON AGE                    3.529     0.004
+A_03     ON EDUC                   4.599    -0.008
+A_04     ON A_04                  14.875     0.115
+A_04     ON A_05                  17.338     0.058
+A_04     ON A_06                  35.361     0.085
+A_04     ON EDUC                   9.866     0.013
+A_04     ON SEX                    4.590     0.056
+A_05     ON A_02                   3.937    -0.032
+A_05     ON A_03                   5.060    -0.042
+A_05     ON A_05                   8.719    -0.083
+A_05     ON A_06                   8.990    -0.048
+A_06     ON A_02                   9.380     0.089
+A_06     ON A_04                  22.047     0.125
+A_06     ON A_06                   3.529     0.123
+A_06     ON B_01                   4.242     0.088
+A_06     ON B_02                   3.254     0.074
+B_01     ON B_02                  13.347    -0.498
+B_01     ON B_04                   5.045     0.180
+B_02     ON B_06                   3.042    -0.032
+B_02     ON SEX                    3.347    -0.047
+B_03     ON B_01                   3.376     0.052
+B_03     ON B_02                   4.203     0.058
+B_03     ON B_03                   3.217     0.066
+B_04     ON B_01                   9.019     0.070
+B_04     ON B_02                  10.537     0.069
+B_04     ON B_03                   8.932     0.071
+B_04     ON B_04                   8.443     0.083
+B_04     ON B_05                   7.560     0.075
+B_04     ON B_06                   5.158     0.046
+B_05     ON A_05                   3.942     0.029
+B_05     ON AGE                    4.591    -0.006
+B_05     ON EDUC                   3.184     0.009
+B_05     ON SEX                    6.055     0.081
+B_06     ON B_01                   9.011    -0.083
+B_06     ON B_02                  10.922    -0.082
+B_06     ON B_03                   7.390    -0.074
+B_06     ON B_04                   3.547    -0.043
+B_06     ON B_05                   5.921    -0.073
+B_06     ON B_06                   7.038    -0.082
+
+WITH Statements
+
+A_01     WITH IB                   4.597     0.013
+A_02     WITH IA                   8.809     0.046
+A_02     WITH SA                   9.907     0.009
+A_03     WITH IA                  20.381    -0.047
+A_03     WITH SA                  25.101    -0.009
+A_04     WITH IA                   4.078     0.016
+A_04     WITH SA                  21.392     0.010
+A_04     WITH A_03                 5.576    -0.027
+A_05     WITH IB                   5.668     0.026
+A_05     WITH A_04                 7.883     0.045
+A_06     WITH IB                   3.835    -0.030
+A_06     WITH A_03                 9.212    -0.039
+A_06     WITH A_04                17.315     0.089
+A_06     WITH A_05                 9.378    -0.095
+B_02     WITH B_01                13.157    -0.090
+B_03     WITH IA                   3.061    -0.014
+B_04     WITH IB                   7.456     0.031
+B_04     WITH B_01                 4.802     0.044
+B_04     WITH B_02                 5.305     0.023
+B_05     WITH A_05                 3.616     0.027
+B_05     WITH B_02                 5.522    -0.078
+B_06     WITH A_01                 4.383     0.023
+B_06     WITH B_02                 8.300    -0.039
+EDUC     WITH A_03                 4.644    -0.073
+EDUC     WITH A_04                10.593     0.130
+EDUC     WITH B_05                 3.936     0.100
+SEX      WITH A_04                 6.360     0.016
+SEX      WITH B_02                 4.470    -0.013
+SEX      WITH B_05                 8.685     0.024
+COH      WITH B_06                 3.513     0.010
+
+Means/Intercepts/Thresholds
+
+[ A_03     ]                       5.762     0.404
+[ A_05     ]                       4.233    -0.277
+[ A_06     ]                       4.724     0.409
+[ B_06     ]                       5.959    -0.328
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              A_01          A_02          A_03          A_04          A_05
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              A_06          B_01          B_02          B_03          B_04
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B_05          B_06          AGE           EDUC          HEALTH
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              SEX           COH
+              ________      ________
+ 1                  0             0
+
+
+           LAMBDA
+              IA            SA            IB            A_01          A_02
+              ________      ________      ________      ________      ________
+ A_01               0             0             0             0             0
+ A_02               0             0             0             0             0
+ A_03               0             0             0             0             0
+ A_04               0             0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_01               0             0             0             0             0
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           LAMBDA
+              A_03          A_04          A_05          A_06          B_01
+              ________      ________      ________      ________      ________
+ A_01               0             0             0             0             0
+ A_02               0             0             0             0             0
+ A_03               0             0             0             0             0
+ A_04               0             0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_01               0             0             0             0             0
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           LAMBDA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ A_01               0             0             0             0             0
+ A_02               0             0             0             0             0
+ A_03               0             0             0             0             0
+ A_04               0             0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_01               0             0             0             0             0
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           LAMBDA
+              AGE           EDUC          HEALTH        SEX           COH
+              ________      ________      ________      ________      ________
+ A_01               0             0             0             0             0
+ A_02               0             0             0             0             0
+ A_03               0             0             0             0             0
+ A_04               0             0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_01               0             0             0             0             0
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           THETA
+              A_01          A_02          A_03          A_04          A_05
+              ________      ________      ________      ________      ________
+ A_01               0
+ A_02               0             0
+ A_03               0             0             0
+ A_04               0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_01               0             0             0             0             0
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           THETA
+              A_06          B_01          B_02          B_03          B_04
+              ________      ________      ________      ________      ________
+ A_06               0
+ B_01               0             0
+ B_02               0             0             0
+ B_03               0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           THETA
+              B_05          B_06          AGE           EDUC          HEALTH
+              ________      ________      ________      ________      ________
+ B_05               0
+ B_06               0             0
+ AGE                0             0             0
+ EDUC               0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           THETA
+              SEX           COH
+              ________      ________
+ SEX                0
+ COH                0             0
+
+
+           ALPHA
+              IA            SA            IB            A_01          A_02
+              ________      ________      ________      ________      ________
+ 1                  1             2             3             4             0
+
+
+           ALPHA
+              A_03          A_04          A_05          A_06          B_01
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             5
+
+
+           ALPHA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           ALPHA
+              AGE           EDUC          HEALTH        SEX           COH
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           BETA
+              IA            SA            IB            A_01          A_02
+              ________      ________      ________      ________      ________
+ IA                 0             0             0             0             0
+ SA                 0             0             0             0             0
+ IB                 0             0             0             0             0
+ A_01               0             0             0             0             0
+ A_02               0             0             0            26             0
+ A_03               0             0             0             0            28
+ A_04               0             0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_01               0             0             0             0             0
+ B_02               0             0             0            41             0
+ B_03               0             0             0             0            43
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           BETA
+              A_03          A_04          A_05          A_06          B_01
+              ________      ________      ________      ________      ________
+ IA                 0             0             0             0             0
+ SA                 0             0             0             0             0
+ IB                 0             0             0             0             0
+ A_01               0             0             0             0             0
+ A_02               0             0             0             0            27
+ A_03               0             0             0             0             0
+ A_04              30             0             0             0             0
+ A_05               0            32             0             0             0
+ A_06               0             0            34             0             0
+ B_01               0             0             0             0             0
+ B_02               0             0             0             0            42
+ B_03               0             0             0             0             0
+ B_04              44             0             0             0             0
+ B_05               0            45             0             0             0
+ B_06               0             0            46             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           BETA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ IA                 0             0             0             0             0
+ SA                 0             0             0             0             0
+ IB                 0             0             0             0             0
+ A_01               0             0             0             0             0
+ A_02               0             0             0             0             0
+ A_03              29             0             0             0             0
+ A_04               0            31             0             0             0
+ A_05               0             0            33             0             0
+ A_06               0             0             0            35             0
+ B_01               0             0             0             0             0
+ B_02               0             0             0             0             0
+ B_03              42             0             0             0             0
+ B_04               0            42             0             0             0
+ B_05               0             0            42             0             0
+ B_06               0             0             0            42             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           BETA
+              AGE           EDUC          HEALTH        SEX           COH
+              ________      ________      ________      ________      ________
+ IA                 6             7             8             9            10
+ SA                11            12            13            14            15
+ IB                16            17            18            19            20
+ A_01              21            22            23            24            25
+ A_02               0             0             0             0             0
+ A_03               0             0             0             0             0
+ A_04               0             0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_01              36            37            38            39            40
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           PSI
+              IA            SA            IB            A_01          A_02
+              ________      ________      ________      ________      ________
+ IA                47
+ SA                48            49
+ IB                50            51            52
+ A_01              53            54             0            55
+ A_02               0             0             0             0            56
+ A_03               0             0             0             0             0
+ A_04               0             0             0             0             0
+ A_05               0             0             0             0             0
+ A_06               0             0             0             0             0
+ B_01               0             0            61            62             0
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           PSI
+              A_03          A_04          A_05          A_06          B_01
+              ________      ________      ________      ________      ________
+ A_03              57
+ A_04               0            58
+ A_05               0             0            59
+ A_06               0             0             0            60
+ B_01               0             0             0             0            63
+ B_02               0             0             0             0             0
+ B_03               0             0             0             0             0
+ B_04               0             0             0             0             0
+ B_05               0             0             0             0             0
+ B_06               0             0             0             0             0
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           PSI
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02              64
+ B_03               0            65
+ B_04               0             0            66
+ B_05               0             0             0            67
+ B_06               0             0             0             0            68
+ AGE                0             0             0             0             0
+ EDUC               0             0             0             0             0
+ HEALTH             0             0             0             0             0
+ SEX                0             0             0             0             0
+ COH                0             0             0             0             0
+
+
+           PSI
+              AGE           EDUC          HEALTH        SEX           COH
+              ________      ________      ________      ________      ________
+ AGE                0
+ EDUC               0             0
+ HEALTH             0             0             0
+ SEX                0             0             0             0
+ COH                0             0             0             0             0
+
+
+     STARTING VALUES
+
+
+           NU
+              A_01          A_02          A_03          A_04          A_05
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              A_06          B_01          B_02          B_03          B_04
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B_05          B_06          AGE           EDUC          HEALTH
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SEX           COH
+              ________      ________
+ 1              0.000         0.000
+
+
+           LAMBDA
+              IA            SA            IB            A_01          A_02
+              ________      ________      ________      ________      ________
+ A_01           0.000         0.000         0.000         1.000         0.000
+ A_02           0.000         0.000         0.000         0.000         1.000
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              A_03          A_04          A_05          A_06          B_01
+              ________      ________      ________      ________      ________
+ A_01           0.000         0.000         0.000         0.000         0.000
+ A_02           0.000         0.000         0.000         0.000         0.000
+ A_03           1.000         0.000         0.000         0.000         0.000
+ A_04           0.000         1.000         0.000         0.000         0.000
+ A_05           0.000         0.000         1.000         0.000         0.000
+ A_06           0.000         0.000         0.000         1.000         0.000
+ B_01           0.000         0.000         0.000         0.000         1.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ A_01           0.000         0.000         0.000         0.000         0.000
+ A_02           0.000         0.000         0.000         0.000         0.000
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+ B_02           1.000         0.000         0.000         0.000         0.000
+ B_03           0.000         1.000         0.000         0.000         0.000
+ B_04           0.000         0.000         1.000         0.000         0.000
+ B_05           0.000         0.000         0.000         1.000         0.000
+ B_06           0.000         0.000         0.000         0.000         1.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              AGE           EDUC          HEALTH        SEX           COH
+              ________      ________      ________      ________      ________
+ A_01           0.000         0.000         0.000         0.000         0.000
+ A_02           0.000         0.000         0.000         0.000         0.000
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            1.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         1.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         1.000         0.000         0.000
+ SEX            0.000         0.000         0.000         1.000         0.000
+ COH            0.000         0.000         0.000         0.000         1.000
+
+
+           THETA
+              A_01          A_02          A_03          A_04          A_05
+              ________      ________      ________      ________      ________
+ A_01           0.000
+ A_02           0.000         0.000
+ A_03           0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              A_06          B_01          B_02          B_03          B_04
+              ________      ________      ________      ________      ________
+ A_06           0.000
+ B_01           0.000         0.000
+ B_02           0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B_05          B_06          AGE           EDUC          HEALTH
+              ________      ________      ________      ________      ________
+ B_05           0.000
+ B_06           0.000         0.000
+ AGE            0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SEX           COH
+              ________      ________
+ SEX            0.000
+ COH            0.000         0.000
+
+
+           ALPHA
+              IA            SA            IB            A_01          A_02
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              A_03          A_04          A_05          A_06          B_01
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              AGE           EDUC          HEALTH        SEX           COH
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              IA            SA            IB            A_01          A_02
+              ________      ________      ________      ________      ________
+ IA             0.000         0.000         0.000         0.000         0.000
+ SA             0.000         0.000         0.000         0.000         0.000
+ IB             0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ A_02           1.000         0.000         0.000         0.000         0.000
+ A_03           1.000         2.000         0.000         0.000         0.000
+ A_04           1.000         4.000         0.000         0.000         0.000
+ A_05           1.000         6.000         0.000         0.000         0.000
+ A_06           1.000         8.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         1.000         0.000         0.000
+ B_03           0.000         0.000         1.000         0.000         0.000
+ B_04           0.000         0.000         1.000         0.000         0.000
+ B_05           0.000         0.000         1.000         0.000         0.000
+ B_06           0.000         0.000         1.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              A_03          A_04          A_05          A_06          B_01
+              ________      ________      ________      ________      ________
+ IA             0.000         0.000         0.000         0.000         0.000
+ SA             0.000         0.000         0.000         0.000         0.000
+ IB             0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ A_02           0.000         0.000         0.000         0.000         0.000
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ IA             0.000         0.000         0.000         0.000         0.000
+ SA             0.000         0.000         0.000         0.000         0.000
+ IB             0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ A_02           0.000         0.000         0.000         0.000         0.000
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              AGE           EDUC          HEALTH        SEX           COH
+              ________      ________      ________      ________      ________
+ IA             0.000         0.000         0.000         0.000         0.000
+ SA             0.000         0.000         0.000         0.000         0.000
+ IB             0.000         0.000         0.000         0.000         0.000
+ A_01           0.000         0.000         0.000         0.000         0.000
+ A_02           0.000         0.000         0.000         0.000         0.000
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              IA            SA            IB            A_01          A_02
+              ________      ________      ________      ________      ________
+ IA             0.050
+ SA             0.000         0.050
+ IB             0.000         0.000         0.050
+ A_01           0.000         0.000         0.000         0.312
+ A_02           0.000         0.000         0.000         0.000         0.327
+ A_03           0.000         0.000         0.000         0.000         0.000
+ A_04           0.000         0.000         0.000         0.000         0.000
+ A_05           0.000         0.000         0.000         0.000         0.000
+ A_06           0.000         0.000         0.000         0.000         0.000
+ B_01           0.000         0.000         0.000         0.000         0.000
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              A_03          A_04          A_05          A_06          B_01
+              ________      ________      ________      ________      ________
+ A_03           0.391
+ A_04           0.000         0.605
+ A_05           0.000         0.000         0.675
+ A_06           0.000         0.000         0.000         0.875
+ B_01           0.000         0.000         0.000         0.000         0.289
+ B_02           0.000         0.000         0.000         0.000         0.000
+ B_03           0.000         0.000         0.000         0.000         0.000
+ B_04           0.000         0.000         0.000         0.000         0.000
+ B_05           0.000         0.000         0.000         0.000         0.000
+ B_06           0.000         0.000         0.000         0.000         0.000
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B_02          B_03          B_04          B_05          B_06
+              ________      ________      ________      ________      ________
+ B_02           0.261
+ B_03           0.000         0.294
+ B_04           0.000         0.000         0.312
+ B_05           0.000         0.000         0.000         0.350
+ B_06           0.000         0.000         0.000         0.000         0.366
+ AGE            0.000         0.000         0.000         0.000         0.000
+ EDUC           0.000         0.000         0.000         0.000         0.000
+ HEALTH         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ COH            0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              AGE           EDUC          HEALTH        SEX           COH
+              ________      ________      ________      ________      ________
+ AGE           16.950
+ EDUC           0.000         4.799
+ HEALTH         0.000         0.000         0.649
+ SEX            0.000         0.000         0.000         0.121
+ COH            0.000         0.000         0.000         0.000         0.238
+
+
+     Beginning Time:  20:04:41
+        Ending Time:  20:20:32
+       Elapsed Time:  00:15:51
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2015 Muthen & Muthen

@@ -272,11 +272,11 @@ digraph SEM {
                     health->soc1       [label = '@@4-50']
                     health->cog1       [label = '@@4-45']
 
-                    cog1->cog2 [label = '@@4-9']
-                    cog2->cog3 [label = '@@4-10']
-                    cog3->cog4 [label = '@@4-11']
-                    cog4->cog5 [label = '@@4-12']
-                    cog5->cog6 [label = '@@4-13']
+                    cog1->cog2 [label = '@@4-7']
+                    cog2->cog3 [label = '@@4-8']
+                    cog3->cog4 [label = '@@4-9']
+                    cog4->cog5 [label = '@@4-10']
+                    cog5->cog6 [label = '@@4-11']
                     
                     intercepta->cog2 [label = '1']
                     intercepta->cog3 [label = '1']
@@ -291,13 +291,13 @@ digraph SEM {
                     slopea->cog5 [label = '8']
                     slopea->cog6 [label = '10']
                     
-                    soc1->soc2 [label = '@@4-14']
-                    soc2->soc3 [label = '@@4-15']
-                    soc3->soc4 [label = '@@4-16']
-                    soc4->soc5 [label = '@@4-17']
-                    soc5->soc6 [label = '@@4-18']
+                    soc1->soc2 [label = '@@4-12']
+                    soc2->soc3 [label = '@@4-13']
+                    soc3->soc4 [label = '@@4-14']
+                    soc4->soc5 [label = '@@4-15']
+                    soc5->soc6 [label = '@@4-16']
                     
-                    
+
                     interceptb->soc2 [label = '1']
                     interceptb->soc3 [label = '1']
                     interceptb->soc4 [label = '1']
@@ -305,16 +305,16 @@ digraph SEM {
                     interceptb->soc6 [label = '1']
                     
 
-                    soc1->cog2 [label = '@@4-24']
-                    soc2->cog3 [label = '@@4-25']
-                    soc3->cog4 [label = '@@4-26']
-                    soc4->cog5 [label = '@@4-27']
-                    soc5->cog6 [label = '@@4-28']
-                    cog1->soc2 [label = '@@4-19'] 
-                    cog2->soc3 [label = '@@4-20']
-                    cog3->soc4 [label = '@@4-21']
-                    cog4->soc5 [label = '@@4-22']
-                    cog5->soc6 [label = '@@4-23']
+                    soc1->cog2 [label = '@@4-17']
+                    soc2->cog3 [label = '@@4-18']
+                    soc3->cog4 [label = '@@4-19']
+                    soc4->cog5 [label = '@@4-20']
+                    soc5->cog6 [label = '@@4-21']
+                    cog1->soc2 [label = '@@4-22'] 
+                    cog2->soc3 [label = '@@4-23']
+                    cog3->soc4 [label = '@@4-24']
+                    cog4->soc5 [label = '@@4-25']
+                    cog5->soc6 [label = '@@4-26']
 }
 [1]: paste0('i = ',diagram_parameters[['cog_intercept']],'&#92;n','var = ', diagram_parameters[['cog_intercept_variance']])
 [2]: paste0('s = ',diagram_parameters[['cog_slope']],'&#92;n','var = ', diagram_parameters[['cog_slope_variance']])
@@ -327,7 +327,7 @@ digraph SEM {
 }
 #---------
 
-path_diagram_function <- function(){
+path_diagram_noslope_function <- function(){
   alt_plot <- grViz("
                     digraph SEM {
                     
@@ -337,32 +337,31 @@ path_diagram_function <- function(){
                     
                     node [shape = rectangle]
                     
-                    cog1 [pos = '-6,1!', label = '@@6-1']
-                    cog2 [pos = '-4,1!', label = '@@6-2']
-                    cog3 [pos = '-2,1!', label = '@@6-3']
-                    cog4 [pos = '0,1!', label = '@@6-4']
-                    cog5 [pos = '2,1!', label = '@@6-5']
-                    cog6 [pos = '4,1!', label = '@@6-6']
+                    cog1 [pos = '-6,1!', label = '@@5-1']
+                    cog2 [pos = '-4,1!', label = '@@5-2']
+                    cog3 [pos = '-2,1!', label = '@@5-3']
+                    cog4 [pos = '0,1!', label = '@@5-4']
+                    cog5 [pos = '2,1!', label = '@@5-5']
+                    cog6 [pos = '4,1!', label = '@@5-6']
                     
                     
                     intercepta [pos = '-3,-1!', label = '@@1', shape = circle]
                     slopea [pos = '-2,-2!', label = '@@2', shape = circle]
                     
-                    soc1 [pos = '-6,4!', label = '@@7-1']
-                    soc2 [pos = '-4,4!', label = '@@7-2']
-                    soc3 [pos = '-2,4!', label = '@@7-3']
-                    soc4 [pos = '0,4!', label = '@@7-4']
-                    soc5 [pos = '2,4!', label = '@@7-5']
-                    soc6 [pos = '4,4!', label = '@@7-6']
+                    soc1 [pos = '-6,4!', label = '@@6-1']
+                    soc2 [pos = '-4,4!', label = '@@6-2']
+                    soc3 [pos = '-2,4!', label = '@@6-3']
+                    soc4 [pos = '0,4!', label = '@@6-4']
+                    soc5 [pos = '2,4!', label = '@@6-5']
+                    soc6 [pos = '4,4!', label = '@@6-6']
                     
-                    interceptb [pos = '-3,6!', label = '@@3', shape = circle]
-                    slopeb [pos = '-2,7!', label = '@@4', shape = circle]
+                    interceptb [pos = '-5,8!', label = '@@3', shape = circle]
 
-                    cog1->cog2 [label = '@@5-9']
-                    cog2->cog3 [label = '@@5-10']
-                    cog3->cog4 [label = '@@5-11']
-                    cog4->cog5 [label = '@@5-12']
-                    cog5->cog6 [label = '@@5-13']
+                    cog1->cog2 [label = '@@4-9']
+                    cog2->cog3 [label = '@@4-10']
+                    cog3->cog4 [label = '@@4-11']
+                    cog4->cog5 [label = '@@4-12']
+                    cog5->cog6 [label = '@@4-13']
 
                     intercepta->cog2 [label = '1']
                     intercepta->cog3 [label = '1']
@@ -377,11 +376,11 @@ path_diagram_function <- function(){
                     slopea->cog6 [label = '8']
                     
                     
-                    soc1->soc2 [label = '@@5-14']
-                    soc2->soc3 [label = '@@5-15']
-                    soc3->soc4 [label = '@@5-16']
-                    soc4->soc5 [label = '@@5-17']
-                    soc5->soc6 [label = '@@5-18']
+                    soc1->soc2 [label = '@@4-14']
+                    soc2->soc3 [label = '@@4-15']
+                    soc3->soc4 [label = '@@4-16']
+                    soc4->soc5 [label = '@@4-17']
+                    soc5->soc6 [label = '@@4-18']
                     
 
                     interceptb->soc2 [label = '1']
@@ -390,32 +389,27 @@ path_diagram_function <- function(){
                     interceptb->soc5 [label = '1']
                     interceptb->soc6 [label = '1']
                     
-                    slopeb->soc2 [label = '0']
-                    slopeb->soc3 [label = '2']
-                    slopeb->soc4 [label = '4']
-                    slopeb->soc5 [label = '6']
-                    slopeb->soc6 [label = '8']
+                   
                     
-                    soc1->cog2 [label = '@@5-24']
-                    soc2->cog3 [label = '@@5-25']
-                    soc3->cog4 [label = '@@5-26']
-                    soc4->cog5 [label = '@@5-27']
-                    soc5->cog6 [label = '@@5-28']
-                    cog1->soc2 [label = '@@5-19'] 
-                    cog2->soc3 [label = '@@5-20']
-                    cog3->soc4 [label = '@@5-21']
-                    cog4->soc5 [label = '@@5-22']
-                    cog5->soc6 [label = '@@5-23']
+                    soc1->cog2 [label = '@@4-24']
+                    soc2->cog3 [label = '@@4-25']
+                    soc3->cog4 [label = '@@4-26']
+                    soc4->cog5 [label = '@@4-27']
+                    soc5->cog6 [label = '@@4-28']
+                    cog1->soc2 [label = '@@4-19'] 
+                    cog2->soc3 [label = '@@4-20']
+                    cog3->soc4 [label = '@@4-21']
+                    cog4->soc5 [label = '@@4-22']
+                    cog5->soc6 [label = '@@4-23']
                     
                     
                     }
                     [1]: paste0('i = ',diagram_parameters[['cog_intercept']],'&#92;n','var = ', diagram_parameters[['cog_intercept_variance']])
                     [2]: paste0('s = ',diagram_parameters[['cog_slope']],'&#92;n','var = ', diagram_parameters[['cog_slope_variance']])
                     [3]: paste0('i = ',diagram_parameters[['soc_intercept']],'&#92;n','var = ', diagram_parameters[['soc_intercept_variance']])
-                    [4]: paste0('s = ',diagram_parameters[['soc_slope']],'&#92;n','var = ', diagram_parameters[['soc_slope_variance']])
-                    [5]: diagram_parameters
-                    [6]: cog_labels
-                    [7]: soc_labels
+                    [4]: diagram_parameters
+                    [5]: cog_labels
+                    [6]: soc_labels
                     
                     ")
   return(alt_plot)

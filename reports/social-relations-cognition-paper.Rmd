@@ -101,7 +101,7 @@ A series of models were estimated, first to examine social and cognitive variabl
 
 # Results
 
-The descriptive statistics for all included variables are presented in Table 1. Model fit indices are presented for each model series in Tables 2 though X. Each processes was investigating separately as a univariate model and then each cognitive-social combination was estimated. Because in ALT models the slope term and autoregressive parameters are not independent it can be difficult to visualize the shape of the trajectory from parameter estimates alone. Thus, a plot of the mean predicted trajectory for each processes was also created (see supplementary materials). Results for each process are presented followed by bivariate relations.  
+The descriptive statistics for all included variables are presented in Table 1. Model fit indices are presented for each model series in Tables 2 though X. Each process was investigating separately as a univariate model and then each cognitive-social combination was estimated. Because in ALT models the slope term and autoregressive parameters are not independent it can be difficult to visualize the shape of the trajectory from parameter estimates alone. Thus, a plot of the mean predicted trajectory for each processes was also created (see supplementary materials). A summary of the results for each variable in univariate and bivariate models are described including the effects of covariates, followed by bivariate relations. 
 
 ## Immediate Word Recall 
 <br>
@@ -134,8 +134,8 @@ wrecti_sn_fullALT_par_list <- bivariateALT_parameter_extraction_function(wrecti_
 wrecti_socsup_ALT <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_support_model_parameters.csv")
 wrecti_socsup_par_list <- bivariateALT_parameter_extraction_function(wrecti_socsup_ALT)
 
-wrecti_socsup_fullALT <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_suppport_fullmodel_parameters.csv")
-wrecti_socsup_fullALT_par_list <- bivariateALT_parameter_extraction_function(wrecti_socsup_fullALT)
+wrecti_socsup_covALT <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_support_cov_model_parameters.csv")
+wrecti_socsup_covALT_par_list <- bivariateALT_parameter_extraction_function(wrecti_socsup_covALT)
 ```
 
 ```{r}
@@ -164,11 +164,11 @@ social contact: $\beta$ = `r  wrecti_social_contact_par_list[["cog_slope"]]`, _p
 `r wrecti_social_contact_par_list[["cog_slope_pval"]]` $\psi$ = `r wrecti_social_contact_par_list[["cog_slope_variance"]]`, _p_ = 
 `r wrecti_social_contact_par_list[["cog_slope_variance_pval"]]`; loneliness: $\beta$ = `r  wrecti_loneliness_par_list[["cog_slope"]]`, _p_ = 
 `r wrecti_loneliness_par_list[["cog_slope_pval"]]`, $\psi$ = `r wrecti_loneliness_par_list[["cog_slope_variance"]]`, _p_ = 
-`r wrecti_loneliness_par_list[["cog_slope_variance_pval"]]`). However, in the bivariate models, allowing the autoregressive parameters to vary over time did not significantly improve model fit compared to the less complex models with the autoregressive parameters constrained to equality over time (see tables X through Y). When the autoregressive parameters were constrained to equality over time, the ability of immediate recall performance to predict future immediate word recall performance was not significant (social network: $\rho_{65}$ = `r wrecti_sn_par_list[["cog_rho65"]]`, _p_ = `r wrecti_sn_par_list[["cog_rho65_pval"]]`, social support: $\rho_{43}$ = `r wrecti_socsup_ALT_par_list[["cog_rho43"]]`, _p_ = `r wrecti_socsup_ALT_par_list[["cog_rho43_pval"]]`, loneliness: $\rho_{43}$ = `r wrecti_loneliness_fullALT_par_list[["cog_rho43"]]`, _p_ = 
+`r wrecti_loneliness_par_list[["cog_slope_variance_pval"]]`). However, in the bivariate models, allowing the autoregressive parameters to vary over time did not significantly improve model fit compared to the less complex models with the autoregressive parameters constrained to equality over time (see tables X through Y). When the autoregressive parameters were constrained to equality over time, the ability of immediate recall performance to predict future immediate word recall performance was not significant (social network: $\rho_{65}$ = `r wrecti_sn_par_list[["cog_rho65"]]`, _p_ = `r wrecti_sn_par_list[["cog_rho65_pval"]]`, social support: $\rho_{43}$ = `r wrecti_socsup_par_list[["cog_rho43"]]`, _p_ = `r wrecti_socsup_par_list[["cog_rho43_pval"]]`, loneliness: $\rho_{43}$ = `r wrecti_loneliness_fullALT_par_list[["cog_rho43"]]`, _p_ = 
 `r wrecti_loneliness_fullALT_par_list[["cog_rho43_pval"]]`).
 
 Effect of Covariates on Immediate Word Recall
-Women and those with more years of education had significantly higher initial immediate word recall scores and significantly higher immediate word recall scores overall, across all occasions. Those who were older and had more health conditions had lower initial immediate word recall scores and lower immediate word recall scores overall, across all occasions.  
+Women and those with more years of education had significantly higher initial immediate word recall scores and significantly higher immediate word recall scores overall, across all occasions. Those who were older and had more health conditions had lower initial immediate word recall scores and lower immediate word recall scores overall, across all occasions. Age was significantly related to slope such that those who were older showed greater decline in immediate recall performance over time.   
 
 
 
@@ -396,33 +396,22 @@ In all models the autoregressive parameters were significant and positive (immed
 `r wrectd_social_network_ALT[["soc_rho21"]]`, _p_ = `r wrectd_social_network_ALT[["soc_rho21_pval"]]`) and mental status $\rho_{t,t-1}$ = `r ms_social_network_ALT[["soc_rho21"]]`, _p_ = `r ms_social_network_ALT[["soc_rho21_pval"]]`). The intercepts were also significant with significant variability. 
 
 Covariate Effects on Social Network
-Older individuals, men, and individuals with lower levels of education had smaller social networks. Individuals with more education and men had larger social networks. 
+Older individuals, men, and individuals with lower levels of education had smaller social networks. Individual's with more education and men had larger social networks. 
 
 
 ## Bivariate model results
-
-```{r immediate-word-recall-loneliness-results, echo=FALSE, results='asis'}
-```
 
 ### _Immediate word recall - Loneliness_  
 
 Convergence problems arose in the estimation of the bivariate immediate word recall - loneliness model such that the full ALT model did not converge and thus could not be the comparison model. Examination of the model suggested that convergence issues may have been due to model miss-specification. Thus, model comparison was limited to converged models. The results of this model comparison indicate that the slope of loneliness can be removed, time specific correlations can be removed, and autoregressive parameters for both immediate word recall and loneliness can be constrained to equality over time without a significant reduction in model fit from the ALT model with the social slope fixed to 0 (see Table X). Looking at the results of this model in more detail, the correlation between the intercept factors was not signficant (corr. = 
 `r wrecti_loneliness_par_list[["IB_WITH_IA"]]`, _p_ = `r wrecti_loneliness_par_list[["IB_WITH_IA_pval"]]`) nor was the correlation between time 1 loneliness and time 1 immediate word recall (corr. = 
-`r wrecti_loneliness_par_list[["A_01_WITH_B_01"]]`, _p_ = `r wrecti_loneliness_par_list[["A_01_WITH_B_01_pval"]]`). Note that in these models the intercept represents the portion of the time 2 variable remaining unexplained by the time 1 variable. Further, that the time-specific correlations could be removed without changing the overall fit of the model indicates that the time-specific uniquenesses, after accounting for the slope of immediate word recall, are not related. The cross-lagged regressions of loneliness-on-immediate word recall were all signficant except for time 2 loneliness predicting time 3 immediate word recall performance and state like deviations immediate word recall performance significantly predicted state like deviations in loneliness across all occasions indicating a reciprical relationship. Specifically, state-like deviations in loneliness at time 1 significantly predicted state-like deviations in immediate word recall performance at time 2 (`r wrecti_loneliness_par_list[["A_02_B_01"]]`, _p_ = 
+`r wrecti_loneliness_par_list[["A_01_WITH_B_01"]]`, _p_ = `r wrecti_loneliness_par_list[["A_01_WITH_B_01_pval"]]`). Note that in these models the intercept represents the portion of the time 2 variable remaining unexplained by the time 1 variable. Further, that the time-specific correlations could be removed without changing the overall fit of the model indicates that the time-specific uniquenesses, after accounting for the slope of immediate word recall, are not related. The cross-lagged regressions of loneliness on immediate word recall were all significant except for time 2 loneliness predicting time 3 immediate word recall performance and state like deviations in immediate word recall performance significantly predicted state like deviations in loneliness across all occasions indicating a reciprical relationship. Specifically, state-like deviations in loneliness at time 1 significantly predicted state-like deviations in immediate word recall performance at time 2 (`r wrecti_loneliness_par_list[["A_02_B_01"]]`, _p_ = 
 `r wrecti_loneliness_par_list[["A_02_B_01_pval"]]`), state-like deviations in loneliness at time 2 
 (`r wrecti_loneliness_par_list[["A_03_B_02"]]`, _p_ = `r wrecti_loneliness_par_list[["A_03_B_02_pval"]]`) did not significantly predict state-like deviations in immediate word recall performance at time 3 but state-like deviations in loneliness did predict immediate word recall performance at time 3 (`r wrecti_loneliness_par_list[["A_04_B_03"]]`, _p_ = `r wrecti_loneliness_par_list[["A_04_B_03_pval"]]`), 4 (`r wrecti_loneliness_par_list[["A_05_B_04"]]`, _p_ = `r wrecti_loneliness_par_list[["A_05_B_04_pval"]]`), or 5 
 (`r wrecti_loneliness_par_list[["A_06_B_05"]]`, _p_ = `r wrecti_loneliness_par_list[["A_06_B_05_pval"]]`).  
 
-Effect of covariates on immediate word recall (from immediate word recall loneliness)
-The predictors age, years of education, cohort, and number of health conditions, were added to the final ALT model. The model fit indices appear in the last row of Table 2 and show adequate fit by all indices.  
 
-_Effect of covariates on loneliness._
-Years of education, number of health conditions, and sex were significantly related the first occasion of loneliness such that those with more years of education, those with fewer health conditions, and men reported significantly less loneliness. Years of education, number of health conditions, and sex were also reported to overall level of lonelinss such that those with more education, with fewer health conditions, and men reported less loneliness on average across all occassions. 
-
-_Effect of covariates on immediate word recall._
-Individuals who are younger, with more years of education, fewer health conditions, and female had better immediate word recall performance at the first included occasion. The same relationship was observed for overall level of immediate word recall performance such that younger individuals, those with more education, with fewer health conditions, and female, performed better on average across all occasions. Only age was significantly related to the trajectory of change in immediate word recall performance such that older individuals showed an increased rate of change over time. 
-
-When covariates were added to the model significant cross-lagged relations remained such that loneliness at time 3, 4, and 5 predicted immediate recall performance at time 4, 5, and 6, respectively and immediate recall performance at all occasions significantly predicted loneliness two years later. The relation was negative. There was no significant relationship between the intercept terms or the first occasions of measurement. 
+The predictors age, years of education, cohort, and number of health conditions, were added to the final ALT model. The model fit indices appear in the last row of Table 2 and show adequate fit by all indices. When covariates were added to the model significant cross-lagged relations remained such that loneliness at time 3, 4, and 5 predicted immediate recall performance at time 4, 5, and 6, respectively and immediate recall performance at all occasions significantly predicted loneliness two years later. The relation was negative. There was no significant relationship between the intercept terms or the first occasions of measurement. 
  
 
 ### _immediate word recall - social contact_      
@@ -527,14 +516,13 @@ Covariates were added directly to the final model (model 15). Specifically, the 
 Age and cohort were significantly related to the first measurement occasion of social network indicating that those who are older endorsed having individuals in more social network categories. Further, women had higher social network scores at the first measurement occasion. Age, education, and sex were significantly related to the intercept factor of social network indicating that the social network constant was lower for older individuals and women but higher for those with more years of education. Cohort and sex were significantly related to the linear slope term for social network indicating that those in later cohorts (also younger) and women showed less decline over time in social network. The inclusion of covariates did not alter the significant mental status - on - social network cross-lagged regression terms such that social network significantly predicted mental status two years later (`r ms_social_network_ALT[["A_02_B_01"]]`, _p_ = `r ms_social_network_ALT[["A_02_B_01_pval"]]`) such that higher time specific uniquenesses in social network predicted greater time specific uniquenesses in mental status.
 
 
-## Bivariate models with covariates
-
-Covariates were added to the model identified as the best fitting bivariate model for each social variable - cognitive variable pair. The effects of age, sex, education, cohort, and number of health conditions were estimated on the inital values for each variable, on the intercept, and on the slope terms. 
 
 # Discussion
 
+
+
 _Immediate Recall Summary_  
-In the predetermined ALT model used here were the first measurement occasion is the initial value, and the intercept term is a constant. In the unconditional bivariate ALT models there was no significant relationship between the inital values of immediate recall and any of the social relationship factors examined. However, there was a significant relationship between the intercept terms of immediate recall and loneliness, social contact, and social network. The correlation between immediate recall and social support intercept terms was not significant. Thus there was a relationship between overall levels of immediate recall performance and three of the four social domains examined. Interestingly this relationship became not significant in the immediate recall and social network model when covariates were included indicating that this relation is fully accounted for by age, education, health, sex, and cohort. The relation remained significant for overall immediate recall and overall social contact when covariates were included indicating that it was not accounted for by these covariates. 
+In the predetermined ALT model used here were the first measurement occasion is the initial value, and the intercept term is a constant. In the unconditional bivariate ALT models there was no significant relationship between the inital values of immediate recall and any of the social relationship factors examined. Nor were there significant relationships between the intercept terms of immediate recall and loneliness, social support, social contact, and social network. Thus there was a relationship between overall levels of immediate recall performance and three of the four social domains examined. Interestingly this relationship became not significant in the immediate recall and social network model when covariates were included indicating that this relation is fully accounted for by age, education, health, sex, and cohort. The relation remained significant for overall immediate recall and overall social contact when covariates were included indicating that it was not accounted for by these covariates. 
 The mean trajectory over time of immediate recall performance was not related to the mean trajectories of loneliness, social support, or social network size. However, there was a significant relationship between the linear slope terms of immediate recall and social contact. The positive relationship indicates that social contact and immediate recall seem to trend together over time. Interesting, in unconditional immediate recall - social contact model the time specific residual of social contact negatively predicted the time-specific residual of immediate recall two years later. However, when age, education, cohort, sex, and health were included in the model this relationship became none significant. It is possible that this indicates that although more frequent social contact is overall related to lower rates of decline in immediate recall a time specific effect is possible where bouts of increased social contact are related to a decline in immediate word recall. That this was no longer significant when covariates including health conditions were included in the model, raises the possibility that what is captured in this effect is a spike in social contact when the individual is in poorer physical health which may precipitate poorer immediate recall performance.  
 Although correlations between trajectories were not common time-specific deviations in all four social domains significant predicted time-specific deviations in immediate recall performance two years later at some point over the study period. However, some of these relations were no longer significant once covariates were added. Even when age, education, sex, health conditions, and cohort were included in the model deviations from the linear trajectory in social support at time 1 and at time 2 significantly predicted deviations from the linear trajectory of immediate recall performance such that occasions of greater than usual social support predicted better than usual immediate recall performance two years later (time 2 immediate recall and time 3 immediate recall respectively). Further, time-specific deviations from the mean trajectory of social contact at time 3 continued to significantly and negatively predicted time-specific deviations from the mean trajectory of immediate recall at time 4 with all covariates included in the model.  
 
@@ -570,6 +558,7 @@ r_refs(file = "r-references.bib")
 ```{r immediate-word-recall-model-summaries, echo=FALSE, results='asis'}
 ```
 
+![Figure 8. Autoregressive Latent Trajectory Model for Immediate Word Recall and Social Network.](wrecti_sn_path_diagram.png)
 
 \newpage
 ```{r mental-status-model-summaries, echo=FALSE, results='asis'}
@@ -642,7 +631,7 @@ Figure 6
 Figure 7
 ```{r social-network, echo=FALSE}
 ```
-![Figure 8. Autoregressive Latent Trajectory Model for Immediate Word Recall and Social Network.](wrecti_sn_path_diagram.png)
+
 ![Figure 9. Autoregressive Latent Trajectory Model for Immediate Word Recall and Social Support.](wrecti_ss_path_diagram.png)
 
 ![Figure 10. Autoregressive Latent Trajectory Model for Immediate Word Recall and Loneliness.](wrecti_lone_path_diagram.png')

@@ -202,15 +202,15 @@ folder_output      = "./output/bivariate-models-nodem-65plus/predetermined-model
 
 # # single model
 mplus_generator_bivariate(
-  model_number        = "m08"
+  model_number        = "m07"
   ,model_type         = "nocov"
   ,covariates         = ""
-  ,process_a          = "mentalstatus_tot" # item name of process (A), goes into file name
-  ,process_b          = "social_support_mean"# item name of process (B), goes into file name
+  ,process_a          = "wrectoti" # item name of process (A), goes into file name
+  ,process_b          = "score_loneliness_3"# item name of process (B), goes into file name
   ,subset_group_1     = subset_group_1
   ,subset_condition_1 = subset_condition_2 # subset data to member of this group
   ,data_file          = "wide-dataset-b.dat"
-  ,path_prototype     = paste0("./manipulation/estimation/predetermined-bivariate-models/","Model_8_pALT-no-soc-slope.inp")
+  ,path_prototype     = paste0("./manipulation/estimation/predetermined-bivariate-models/","Model_7_pALT-fixed-soc-slope.inp")
   ,folder_data        = folder_data
   ,folder_output      = folder_output
   ,run_models         = TRUE # If TRUE then Mplus runs estimation to produce .out, .gh5, and/or, other files
@@ -219,11 +219,11 @@ mplus_generator_bivariate(
 #c("age","educ","health","sex","cohort)
 # single covariate model
 mplus_generator_bivariate(
-  model_number        = "m20"
+  model_number        = "m21"
   ,model_type         = "aehsc"
   ,covariates         = c("age","educ","health","sex","coh")
   ,process_a          = "mentalstatus_tot" # item name of process (A), goes into file name
-  ,process_b          = "social_support_mean"# item name of process (B), goes into file name
+  ,process_b          = "socialnetwork_total"# item name of process (B), goes into file name
   ,subset_group_1     = subset_group_1
   ,subset_condition_1 = subset_condition_2 # subset data to member of this group
   ,data_file          = "wide-dataset-b.dat"
