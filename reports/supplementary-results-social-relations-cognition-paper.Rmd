@@ -1,0 +1,293 @@
+
+---
+title             : "Supplementary Materials"
+shorttitle        : "Title"
+
+author: 
+  - name          : "Cassandra Brown"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Postal address"
+    email         : "clb@uvic.ca"
+  - name          : "Andrea Piccinin"
+    affiliation   : "1,2"
+
+affiliation:
+  - id            : "1"
+    institution   : "University of Victoria"
+  - id            : "2"
+    institution   : ""
+
+author_note: >
+  Complete departmental affiliations for each author (note the indentation, if you start a new paragraph).
+
+  Enter author note here.
+
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+figsintext        : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : yes
+
+lang              : "english"
+class             : "man"
+output            : papaja::apa6_word
+---
+
+
+<!--  The 2nd mandatory chunck  -->
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r, cache = FALSE, include=FALSE}
+library(knitr)
+knitr::opts_knit$set(root.dir=normalizePath('../'))
+
+inline_hook <- function (x) {
+  if (is.numeric(x)) {
+    # ifelse does a vectorized comparison
+    # If integer, print without decimal; otherwise print two places
+    res <- ifelse(x == round(x),
+      sprintf("%d", x),
+      sprintf("%.2f", x)
+    )
+    paste(res, collapse = ", ")
+  }
+}
+knit_hooks$set(inline = inline_hook)
+
+```
+
+
+```{r setup, echo=FALSE}
+opts_chunk$set(echo = FALSE, cache=FALSE)
+
+# connect to the file with the underlying R script  
+read_chunk("./reports/project1-predetermined-models-results.R") 
+
+```
+
+```{r include = FALSE}
+library("papaja")
+```
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+```{r load-packages}
+```
+
+```{r load-sources}
+```
+
+```{r load-data}
+```
+
+# Results from unconditional univariate models
+
+The univariate model results for each social and cognitive variable are presented in the supplemental Tables 1 through 7. The plots of the mean predicted trajectory for each process are presented as supplementary Figures 1 through 7.  
+
+## Immediate Word Recall 
+```{r}
+wrecti_ATL <- read.csv("./output/univariate-models/wrecti_model_parameters.csv")
+wrecti_par_list <- parameter_extraction_function(wrecti_ATL)
+
+
+```
+
+For immediate word recall, the full ALT model (model 3) evidenced the best model fit (see supplementary Table 1). The intercept of immediate word recall score was ($\mu_{t1}$ = `r wrecti_par_list[["ALT_intercept"]]`). Overall, immediate word recall performance decreased over time ($\beta$ = `r wrecti_par_list[["ALT_slope"]]` ,
+_p_ = `r wrecti_par_list[["ALT_slope_pval"]]`) the variance in slope was not significant ($\psi$ = 
+`r wrecti_par_list[["ALT_slope_variance"]]`, _p_ = `r wrecti_par_list[["ALT_slope_variance_pval"]]`). The ability of immediate word recall preformance to predict immediate word recall performance two years later, once overall trajectories were taken into account, was consistently small and not significant 
+($\rho_{21}$ = `r wrecti_par_list[["ALT_rho21"]]`, _p_ = `r wrecti_par_list[["ALT_rho21_pval"]]`; $\rho_{32}$ = 
+`r wrecti_par_list[["ALT_rho32"]]`, _p_ = `r wrecti_par_list[["ALT_rho32_pval"]]`; $\rho_{43}$ = `r wrecti_par_list[["ALT_rho43"]]`, 
+_p_ = `r wrecti_par_list[["ALT_rho43_pval"]]`; $\rho_{54}$ = `r wrecti_par_list[["ALT_rho54"]]`, _p_ = `r wrecti_par_list[["ALT_rho54_pval"]]`; $\rho_{65}$ = `r wrecti_par_list[["ALT_rho65"]]`, _p_ = `r wrecti_par_list[["ALT_rho65_pval"]]`). Supplementary Figure 1 shows the predicted mean trajectory for immediate word recall.
+
+## Delayed Word Recall
+```{r}
+wrectd_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/wrectd_model_parameters.csv")
+wrectd_par_list <- parameter_extraction_function(wrectd_parameters)
+```
+
+For delayed word recall, univariate model results indicate that the full ALT model (model 4) is the best model by fit indices (see supplementary Table 2). The intercept indicated that on average across all occasions participants recalled just under half of the ten words ($\mu_{\alpha}$ = `r wrectd_par_list[["ALT_intercept"]]`, _p_ = 
+`r wrectd_par_list[["ALT_intercept_pval"]]`). Overall, delayed word recall performance decreased over time 
+($\beta$ = `r wrectd_par_list[["ALT_slope"]]` ,
+_p_ = `r wrectd_par_list[["ALT_slope_pval"]]`) with significant variance in the slope ($\psi$ = `r wrecti_par_list[["ALT_slope_variance"]]`, 
+_p_ = `r wrectd_par_list[["ALT_slope_variance_pval"]]`). The ability of delayed word recall performance to predict later delayed word recall performance was not significant for the first to second wave
+($\rho_{21}$ = `r wrectd_par_list[["ALT_rho21"]]`, _p_ = `r wrectd_par_list[["ALT_rho21_pval"]]`). Previous delayed word recall performance significantly predicted future performance for the next three waves $\rho_{32}$ = 
+`r wrectd_par_list[["ALT_rho32"]]`, _p_ = `r wrectd_par_list[["ALT_rho32_pval"]]`; $\rho_{43}$ = `r wrectd_par_list[["ALT_rho43"]]`, 
+_p_ = `r wrectd_par_list[["ALT_rho43_pval"]]`; $\rho_{54}$ = `r wrectd_par_list[["ALT_rho54"]]`, _p_ = `r wrectd_par_list[["ALT_rho54_pval"]]`) but delayed word recall performance at time 5 (2012) did not significantly predict performance at time 6 (2014) $\rho_{65}$ = 
+`r wrectd_par_list[["ALT_rho65"]]`, _p_ = `r wrectd_par_list[["ALT_rho65_pval"]]` over and above the overall trajectory of change. A plot of the predicted mean trajectory is shown in supplementary Figure 2.
+ 
+## Mental Status
+```{r mental-status, echo=FALSE}
+```
+
+
+```{r}
+ms_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/mental_status_model_parameters.csv")
+ms_par_list <- parameter_extraction_function(ms_parameters)
+
+ms_social_network <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_socialnetwork_model_parameters.csv")
+ms_social_network_ALT <- bivariateALT_parameter_extraction_function(ms_social_network)
+
+ms_social_network_full <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_socialnetwork_fullmodel_parameters.csv")
+ms_social_network_fullALT <- bivariateALT_parameter_extraction_function(ms_social_network_full)
+```  
+
+
+```{r}
+ms_social_support <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_social_support_model_parameters.csv")
+ms_social_support_ALT <- bivariateALT_parameter_extraction_function(ms_social_support)
+
+ms_social_support_full <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_social_support_fullmodel_parameters.csv")
+ms_social_support_fullALT <- bivariateALT_parameter_extraction_function(ms_social_network_full)
+```  
+
+```{r}
+ms_social_contact <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_social_contact_model_parameters.csv")
+ms_social_contact_ALT <- bivariateALT_parameter_extraction_function(ms_social_support)
+
+ms_social_contact_full <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_social_contact_fullmodel_parameters.csv")
+ms_social_contact_fullALT <- bivariateALT_parameter_extraction_function(ms_social_network_full)
+```  
+
+```{r}
+ms_loneliness <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_loneliness_model_parameters.csv")
+ms_loneliness_ALT <- bivariateALT_parameter_extraction_function(ms_loneliness)
+
+ms_loneliness_full <- read.csv("./output/bivariate-models-nodem-65plus/mentalstatus_loneliness_fullmodel_parameters.csv")
+ms_loneliness_fullALT <- bivariateALT_parameter_extraction_function(ms_loneliness_full)
+```  
+  
+For the univariate mental status models, the full ALT model (model 4) shows the best model fit according to fit indicies (see supplementary Table 3). The estimate mental status intercept is high ($\mu_{\alpha}$ = `r ms_par_list[["ALT_intercept"]]`, _p_ = `r ms_par_list[["ALT_intercept_pval"]]`). With significant variability. Overall, mental status decreased over time ($\beta$ = `r ms_par_list[["ALT_slope"]]` , _p_ = `r ms_par_list[["ALT_slope_pval"]]`) with significant variance in the slope ($\psi$ = `r ms_par_list[["ALT_slope_variance"]]`, 
+_p_ = `r ms_par_list[["ALT_slope_variance_pval"]]`). The ability of earlier mental status to predict later mental status, over and above the overall trajectory of change was consistently significant ($\rho_{21}$ = `r ms_par_list[["ALT_rho21"]]`, _p_ = `r ms_par_list[["ALT_rho21_pval"]]`; $\rho_{32}$ = 
+`r ms_par_list[["ALT_rho32"]]`, _p_ = `r ms_par_list[["ALT_rho32_pval"]]`; $\rho_{43}$ = `r ms_par_list[["ALT_rho43"]]`, _p_ = `r ms_par_list[["ALT_rho43_pval"]]`; 
+$\rho_{54}$ = `r ms_par_list[["ALT_rho54"]]`, _p_ = `r ms_par_list[["ALT_rho54_pval"]]`; $\rho_{65}$ = `r ms_par_list[["ALT_rho65"]]`, _p_ = 
+`r ms_par_list[["ALT_rho65_pval"]]`). A plot of the predicted mean trajectory of mental status performance is shown in supplementary Figure 3. 
+
+## Loneliness
+```{r}
+loneliness_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/predetermined-models/loneliness_model_parameters.csv")
+lone_par_list <- parameter_extraction_function(loneliness_parameters)
+
+fullALT_loneliness_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/predetermined-models/loneliness_fullALTmodel_parameters.csv")
+fullALT_lone_par_list <- parameter_extraction_function(fullALT_loneliness_parameters)
+
+
+```  
+
+For the univariate loneliness models, the ALT model with only the level of loneliness estimated (no slope) and autoregressive parameters constrained to equality over time was the best fitting most parsimonious model according to fit indices (see supplementary Table 4). The intercept was $\mu_{\alpha}$ = `r lone_par_list[["ALT_intercept"]]`, _p_ = `r lone_par_list[["ALT_intercept_pval"]]`, with significant variability. Previous loneliness scores significantly predicted later loneliness $\rho_{t,t-1}$ = `r lone_par_list[["ALT_rho21"]]`, _p_ = `r lone_par_list[["ALT_rho21_pval"]]`. Supplementary Figure 4 shows the predicted mean trend of loneliness over time. Although, the ALT model with no slope for loneliness was indicated in the model comparison, when estimated in the full ALT model the slope term of loneliness was significant ($\beta$ = `r lone_par_list[["ALT_slope"]]` , _p_ = `r fullALT_lone_par_list[["ALT_slope_pval"]]`) with non-significant variance ($\psi$ = `r fullALT_lone_par_list[["ALT_slope_variance"]]`, _p_ = `r fullALT_lone_par_list[["ALT_slope_variance_pval"]]`).
+
+## Social Contact
+```{r}
+social_contact_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/social_contact_model_parameters.csv")
+sc_par_list <- parameter_extraction_function(social_contact_parameters)
+
+```  
+
+For social contact, the full ALT model was the best fitting model according to model fit indices (see supplementary Table 5). The estimated intercept was ($\mu_{\alpha}$ = `r sc_par_list[["ALT_intercept"]]`, _p_ = `r sc_par_list[["ALT_intercept_pval"]]`) with significant variability. 
+Social contact increased over time ($\beta$ = `r sc_par_list[["ALT_slope"]]` , _p_ = `r sc_par_list[["ALT_slope_pval"]]`) and the variance in the slope was not significant ($\psi$ = `r sc_par_list[["ALT_slope_variance"]]`, 
+_p_ = `r sc_par_list[["ALT_slope_variance_pval"]]`). The ability of earlier social contact to predict later social contact, over and above the overall trajectory of change was consistently significant but negative ($\rho_{21}$ = `r sc_par_list[["ALT_rho21"]]`, _p_ = `r sc_par_list[["ALT_rho21_pval"]]`; $\rho_{32}$ = `r sc_par_list[["ALT_rho32"]]`, _p_ = `r sc_par_list[["ALT_rho32_pval"]]`; $\rho_{43}$ = `r sc_par_list[["ALT_rho43"]]`, 
+_p_ = `r sc_par_list[["ALT_rho43_pval"]]`; $\rho_{54}$ = `r sc_par_list[["ALT_rho54"]]`, _p_ = `r sc_par_list[["ALT_rho54_pval"]]`; $\rho_{65}$ = `r sc_par_list[["ALT_rho65"]]`, _p_ = `r sc_par_list[["ALT_rho65_pval"]]`). When the autoregressive parameters are fixed over time, the slope becomes significant and negative. This suggests that when the autoregressive parameters are allowed to vary over time the decline in social contact over time is accounted for by the autoregressive parameters rather than in in the linear slope term, however, examing trajectory plots reveals that in both cases the mean predicted trajectory of social contact shows a decrease over time in social contact (see supplementary Figure 5).
+
+## Social Support  
+```{r}
+social_support_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/social_support_model_parameters.csv")
+ss_par_list <- parameter_extraction_function(social_support_parameters)
+
+```  
+ 
+For univariate social support models, comparing model results showed that autoregressive parameters to equality over time did not result in significantly poorer model fit compared to the full ALT model and so is retained as the more parsimonious model (see supplementary Table 6. The intercept is ($\mu_{\alpha}$ = `r ss_par_list[["ALT_intercept"]]`, _p_ = `r ss_par_list[["ALT_intercept_pval"]]`) with significant variability. Social support did not show a significant mean trend over time ($\beta$ = `r ss_par_list[["ALT_slope"]]` , _p_ = `r ss_par_list[["ALT_slope_pval"]]`) but there was significant variance in the slope ($\psi$ = `r ss_par_list[["ALT_slope_variance"]]`, _p_ = `r ss_par_list[["ALT_slope_variance_pval"]]`). Previous social support scores significantly predicted later social support, over and above the overall trajectory of social support ($\rho_{21}$ = 
+`r ss_par_list[["ALT_rho21"]]`, _p_ = `r ss_par_list[["ALT_rho21_pval"]]`). See supplementary Figure 6 for a plot of the mean predicted trajectory. 
+
+```{r social-support, echo=FALSE, results='asis'}
+```
+
+## Social Network
+```{r}
+social_network_parameters <- read.csv(file = "./output/univariate-models-nodem-65plus/social_network_model_parameters.csv")
+sn_par_list <- parameter_extraction_function(social_network_parameters)
+
+```  
+  
+Among the univariate social network models, the full ALT model showed significantly better fit than all models except the model with autoregressive parameters constrained across time which is superior as the more parsimonious model (see supplementary Table 7. The intercept was ($\mu_{\alpha}$ = 
+`r sn_par_list[["ALT_intercept"]]`, _p_ = `r sn_par_list[["ALT_intercept_pval"]]`) with significant variability. Social network size  significantly declined over time ($\beta$ = `r sn_par_list[["ALT_slope"]]` , _p_ = `r sn_par_list[["ALT_slope_pval"]]`) and there was significant variance in these trajectories ($\psi$ = `r sn_par_list[["ALT_slope_variance"]]`, _p_ = 
+`r sn_par_list[["ALT_slope_variance_pval"]]`). Previous social network scores significantly predicted later social network size, over and above the overall trajectory of social network ($\rho_{t,t-1}$ = 
+`r sn_par_list[["ALT_rho21"]]`, _p_ = `r sn_par_list[["ALT_rho21_pval"]]`). A plot of the predicted mean trajectory of social network is shown in supplementary Figure 7.
+
+\newpage
+
+
+```{r word-recall-delayed, echo=FALSE}
+```
+
+
+\newpage
+
+```{r immediate-word-recall-model-summaries, echo=FALSE, results='asis'}
+```
+
+
+\newpage
+```{r mental-status-model-summaries, echo=FALSE, results='asis'}
+```
+  
+
+```{r loneliness-summaries, echo=FALSE, results='asis'}
+```
+  
+  
+```{r social-contact-summaries, echo=FALSE, results='asis'}
+```
+  
+
+```{r social-support-summaries, echo=FALSE, results='asis'}
+```
+  
+
+```{r social-network-summaries, echo=FALSE, results='asis'}
+```  
+
+
+```{r immediate-word-recall-plot, echo=FALSE}
+```
+*Figure 1*. Predicted trajectory of immediate word recall performance.
+
+```{r delayed-word-recall-plot, echo=FALSE}
+```
+*Figure 2*. Predicted trajectory of delayed word recall performance. 
+
+\newpage
+
+```{r mental-status-plot, echo=FALSE, results='asis'}
+```
+*Figure 3*. Predicted trajectory of mental status.
+\newpage
+
+```{r loneliness, echo=FALSE}
+```
+
+```{r loneliness-plot, echo=FALSE}
+```
+*Figure 4*. Predicted trajectory of loneliness.
+\newpage
+
+```{r social-contact, echo=FALSE}
+```
+
+```{r social-contact-plot, echo=FALSE}
+```
+*Figure 5*. Predicted trajectory of social contact.
+\newpage
+
+```{r social-support, echo=FALSE}
+```
+
+```{r social-support-plot, echo=FALSE}
+```
+*Figure 6*. Predicted trajectory of social support.
+\newpage
+
+```{r social-network-plot, echo=FALSE}
+```
+*Figure 7*. Predicted trajectory of social network.

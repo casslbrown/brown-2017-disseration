@@ -222,8 +222,8 @@ mplus_generator_bivariate(
   model_number        = "m21"
   ,model_type         = "aehsc"
   ,covariates         = c("age","educ","health","sex","coh")
-  ,process_a          = "mentalstatus_tot" # item name of process (A), goes into file name
-  ,process_b          = "socialnetwork_total"# item name of process (B), goes into file name
+  ,process_a          = "wrectotd" # item name of process (A), goes into file name
+  ,process_b          = "social_contact_total"# item name of process (B), goes into file name
   ,subset_group_1     = subset_group_1
   ,subset_condition_1 = subset_condition_2 # subset data to member of this group
   ,data_file          = "wide-dataset-b.dat"

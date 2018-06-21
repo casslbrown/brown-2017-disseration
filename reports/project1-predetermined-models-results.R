@@ -139,10 +139,10 @@ bivariateALT_parameter_extraction_function <- function(d){
   
   par_list[["A_01_WITH_B_01"]] <- d[which(d[,"parameter"]=='A_01.WITH B_01'),"est"]
   par_list[["A_01_WITH_B_01_pval"]] <- d[which(d[,"parameter"]=='A_01.WITH B_01'),"pval"]
-  par_list[["IB_WITH_IA"]] <- d[which(d[,"parameter"]=='IB.WITH IA'),"est"]
-  par_list[["IB_WITH_IA_pval"]] <- d[which(d[,"parameter"]=='IB.WITH IA'),"pval"]
-  par_list[["SB_WITH_SA"]] <- d[which(d[,"parameter"]=='SB.WITH SA'),"est"]
-  par_list[["SB_WITH_SA_pval"]] <- d[which(d[,"parameter"]=='SB.WITH SA'),"pval"]
+  par_list[["IB_WITH_IA"]] <- d[which(d[,"parameter"]=='IA.WITH IB'),"est"]
+  par_list[["IB_WITH_IA_pval"]] <- d[which(d[,"parameter"]=='IA.WITH IB'),"pval"]
+  #par_list[["SB_WITH_SA"]] <- d[which(d[,"parameter"]=='SB.WITH SA'),"est"]
+  #par_list[["SB_WITH_SA_pval"]] <- d[which(d[,"parameter"]=='SB.WITH SA'),"pval"]
   
   par_list[["cog_rho21"]] <- d[which(d[,"parameter"]=='A_02.ON A_01'),"est"]
   par_list[["cog_rho21_pval"]] <- d[which(d[,"parameter"]=='A_02.ON A_01'),"pval"]
@@ -257,8 +257,55 @@ bivariate_quad_ALT_parameter_extraction_function <- function(d){
 }
 
 Covariates_ALT_parameter_extraction_function <- function(d){
-  #d <- wrectd_lonely_ATL
+  #d <- mentalstatus_sc_covATL_parameters
   par_list<- list()
+  par_list[["cog_slope"]] <- as.numeric(d[which(d[,"parameter"]=='Intercepts SA'),"est"])
+  par_list[["cog_slope_pval"]] <- as.numeric(d[which(d[,"parameter"]=='Intercepts SA'),"pval"])
+  par_list[["cog_intercept"]] <- as.numeric(d[which(d[,"parameter"]=='Intercepts IA'),"est"])
+  par_list[["cog_intercept_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='Intercepts IA'),"pval"])
+  par_list[["soc_intercept"]] <- as.numeric(d[which(d[,"parameter"]=='Intercepts IB'),"est"])
+  par_list[["soc_intercept_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='Intercepts IB'),"pval"])
+  par_list[["cog_rho21"]] <-      as.numeric(d[which(d[,"parameter"]=='A_02.ON A_01'),"est"] )
+  par_list[["cog_rho21_pval"]] <- as.numeric(d[which(d[,"parameter"]=='A_02.ON A_01'),"pval"])
+  par_list[["cog_rho32"]] <-      as.numeric(d[which(d[,"parameter"]=='A_03.ON A_02'),"est"])
+  par_list[["cog_rho32_pval"]] <- as.numeric(d[which(d[,"parameter"]=='A_03.ON A_02'),"pval"])
+  par_list[["cog_rho43"]] <-      as.numeric(d[which(d[,"parameter"]=='A_04.ON A_03'),"est"])
+  par_list[["cog_rho43_pval"]] <- as.numeric(d[which(d[,"parameter"]=='A_04.ON A_03'),"pval"])
+  par_list[["cog_rho54"]] <-      as.numeric(d[which(d[,"parameter"]=='A_05.ON A_04'),"est"])
+  par_list[["cog_rho54_pval"]] <- as.numeric(d[which(d[,"parameter"]=='A_05.ON A_04'),"pval"])
+  par_list[["cog_rho65"]] <-      as.numeric(d[which(d[,"parameter"]=='A_06.ON A_05'),"est"])
+  par_list[["cog_rho65_pval"]] <- as.numeric(d[which(d[,"parameter"]=='A_06.ON A_05'),"pval"])
+  par_list[["soc_rho21"]] <-      as.numeric(d[which(d[,"parameter"]=='B_02.ON B_01'),"est"])
+  par_list[["soc_rho21_pval"]] <- as.numeric(d[which(d[,"parameter"]=='B_02.ON B_01'),"pval"])
+  par_list[["soc_rho32"]] <-      as.numeric(d[which(d[,"parameter"]=='B_03.ON B_02'),"est"])
+  par_list[["soc_rho32_pval"]] <- as.numeric(d[which(d[,"parameter"]=='B_03.ON B_02'),"pval"])
+  par_list[["soc_rho43"]] <-      as.numeric(d[which(d[,"parameter"]=='B_04.ON B_03'),"est"])
+  par_list[["soc_rho43_pval"]] <- as.numeric(d[which(d[,"parameter"]=='B_04.ON B_03'),"pval"])
+  par_list[["soc_rho54"]] <-      as.numeric(d[which(d[,"parameter"]=='B_05.ON B_04'),"est"])
+  par_list[["soc_rho54_pval"]] <- as.numeric(d[which(d[,"parameter"]=='B_05.ON B_04'),"pval"])
+  par_list[["soc_rho65"]] <-      as.numeric(d[which(d[,"parameter"]=='B_06.ON B_05'),"est"])
+  par_list[["soc_rho65_pval"]] <- as.numeric(d[which(d[,"parameter"]=='B_06.ON B_05'),"pval"])
+  par_list[["A_02_B_01"]]       <- as.numeric(d[which(d[,"parameter"]=='A_02.ON B_01'),"est"] )
+  par_list[["A_02_B_01_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='A_02.ON B_01'),"pval"])
+  par_list[["A_03_B_02"]]       <- as.numeric(d[which(d[,"parameter"]=='A_03.ON B_02'),"est"])
+  par_list[["A_03_B_02_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='A_03.ON B_02'),"pval"])
+  par_list[["A_04_B_03"]]       <- as.numeric(d[which(d[,"parameter"]=='A_04.ON B_03'),"est"])
+  par_list[["A_04_B_03_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='A_04.ON B_03'),"pval"])
+  par_list[["A_05_B_04"]]       <- as.numeric(d[which(d[,"parameter"]=='A_05.ON B_04'),"est"])
+  par_list[["A_05_B_04_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='A_05.ON B_04'),"pval"])
+  par_list[["A_06_B_05"]]       <- as.numeric(d[which(d[,"parameter"]=='A_06.ON B_05'),"est"])
+  par_list[["A_06_B_05_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='A_06.ON B_05'),"pval"])
+
+  par_list[["B_02_A_01"]]       <- as.numeric(d[which(d[,"parameter"]=='B_02.ON A_01'),"est"])
+  par_list[["B_02_A_01_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='B_02.ON A_01'),"pval"])
+  par_list[["B_03_A_02"]]       <- as.numeric(d[which(d[,"parameter"]=='B_03.ON A_02'),"est"])
+  par_list[["B_03_A_02_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='B_03.ON A_02'),"pval"])
+  par_list[["B_04_A_03"]]       <- as.numeric(d[which(d[,"parameter"]=='B_04.ON A_03'),"est"])
+  par_list[["B_04_A_03_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='B_04.ON A_03'),"pval"])
+  par_list[["B_05_A_04"]]       <- as.numeric(d[which(d[,"parameter"]=='B_05.ON A_04'),"est"])
+  par_list[["B_05_A_04_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='B_05.ON A_04'),"pval"])
+  par_list[["B_06_A_05"]]       <- as.numeric(d[which(d[,"parameter"]=='B_06.ON A_05'),"est"])
+  par_list[["B_06_A_05_pval"]]  <- as.numeric(d[which(d[,"parameter"]=='B_06.ON A_05'),"pval"])
   par_list[["IA_age"]] <- d[which(d[,"parameter"]=='IA.ON AGE'),"est"]
   par_list[["IA_age_se"]] <- d[which(d[,"parameter"]=='IA.ON AGE'),"se"]
   par_list[["IA_educ"]] <- d[which(d[,"parameter"]=='IA.ON EDUC'),"est"]
@@ -346,6 +393,40 @@ bALT_plot_function <- function(t1cog, t1soc, parameter_list){
   return(values)
 }
 
+bALT_plot_function_nosocslope <- function(t1cog, t1soc, parameter_list){
+  #t1cog <- 8.515
+  #t1soc <- 30.298
+  #parameter_list <- sc_ms_ALTparameters
+  
+  # This part enters the mplus produced parameter values into the equations of the ALT model.
+  y1 <- t1cog # 2004, this value is within rounding error of the mplus output value
+  x1 <- t1soc
+  
+  y2 <- parameter_list[["cog_intercept"]]+2*parameter_list[["cog_slope"]]+parameter_list[["cog_rho21"]]*y1 + parameter_list[["A_02_B_01"]]*x1  #2006
+  x2 <- parameter_list[["soc_intercept"]]+parameter_list[["soc_rho21"]]*y1 + parameter_list[["B_02_A_01"]]*y1  #2006
+  
+  y3 <- parameter_list[["cog_intercept"]]+4*parameter_list[["cog_slope"]]+ parameter_list[["cog_rho32"]]*y2 + parameter_list[["A_03_B_02"]]*x2 #2008
+  x3 <- parameter_list[["soc_intercept"]]+parameter_list[["soc_rho32"]]*y2 + parameter_list[["B_03_A_02"]]*y2
+  
+  y4 <- parameter_list[["cog_intercept"]]+6*parameter_list[["cog_slope"]]+ parameter_list[["cog_rho43"]]*y3 + parameter_list[["A_04_B_03"]]*x3  #2010
+  x4 <- parameter_list[["soc_intercept"]]+parameter_list[["soc_rho43"]]*y3 + parameter_list[["B_04_A_03"]]*y3 
+  
+  y5 <- parameter_list[["cog_intercept"]]+8*parameter_list[["cog_slope"]]+ parameter_list[["cog_rho54"]]*y4 + parameter_list[["A_05_B_04"]]*x4  #2012
+  x5 <- parameter_list[["soc_intercept"]]+ parameter_list[["soc_rho54"]]*y4 + parameter_list[["B_05_A_04"]]*y4
+  
+  y6 <- parameter_list[["cog_intercept"]]+10*parameter_list[["cog_slope"]]+parameter_list[["cog_rho65"]]*y5 + parameter_list[["A_06_B_05"]]*x5  #2014
+  x6 <- parameter_list[["soc_intercept"]]+parameter_list[["soc_rho65"]]*y5 + parameter_list[["B_06_A_05"]]*y5  #2014
+  
+  
+  # Create a list of predicted values, for initial value at the mean
+  y_values <- c(y1,y2,y3,y4,y5,y6)
+  x_values <- c(x1, x2, x3, x4, x5, x6)
+  values <- list()
+  values[["y_values"]] <- y_values
+  values[["x_values"]] <- x_values
+  
+  return(values)
+}
 
 # This function produces a list of predicted values needed to produce a line plot of the predicted trajectory 
 # given a mean initial value for univariate unconditional ALT models
@@ -565,14 +646,11 @@ wrecti_fit_series4_table <- compare_models_function(wrecti_fit_series4, cm_row)
 # print(xtable(wrecti_fit_series4_table, caption = "Model Fit Comparison for Immediate Word Recall",landscape = TRUE),
 #       caption.placement="top", type = "latex")
 
-
 colnames(wrecti_fit_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
 # wrecti<- xtable(wrecti_fit_series4_table, caption = "Fit indices")
 # print(wrecti, sanitize.colnames.function = function(x) {x})
 
 apa_table.word(wrecti_fit_series4_table, caption = "Model Fit Indices for Immediate Word Recall")
-
-
 
 #----immediate-word-recall-results-------
 wrecti_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/predetermined-models/wrectoti/u03_nocov_wrectoti.out")
@@ -594,6 +672,17 @@ read.csv(file = "./output/univariate-models/wrecti_model_parameters.csv")
 # which(d[,"parameter"]=='Means SA'), wrecti_ATLwrecti_ATL["est"]
 
 ALT_slope <- wrecti_ATL[which(wrecti_ATL[,"parameter"]=='Means SA'),"est"]
+
+# ---- immediate-word-recall-plot ------
+wrecti_ALTparameters <- parameter_extraction_function(wrecti_ATL)
+
+# first value should be the 2004 mean, copy right from mplus output
+wrecti_plot_vals <- uALT_plot_function(5.434, wrecti_ALTparameters)
+
+# Plot the bar chart.
+wrecti_plot <- plot(wrecti_plot_vals, axes = F, ylim = c(0, 10), type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean")
+axis(1)
+axis(2)
 
 
 #----lgm-quadratic-immediate-word-recall-plot
@@ -673,6 +762,8 @@ wrecti_sn_covATL <- wrecti_sn_covATLparameters %>% dplyr::select(parameter, est,
 wrecti_sn_covATL$pval <- sprintf("%.3f", wrecti_sn_covATL$pval)
 wrecti_sn_covATL$est <- sprintf("%.3f", wrecti_sn_covATL$est)
 write.csv(wrecti_sn_covATL, file = "./output/bivariate-models-nodem-65plus/wrecti_social_network_cov_model_parameters.csv")
+
+
 
 # ---- immediate-word-recall-and-social-network-plot ----
 cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
@@ -846,6 +937,7 @@ wrectoti_loneliness_summary[11, "CM"] <- "10"
 cm_row <- wrectoti_loneliness_summary$CM
 
 wrectoti_loneliness_table <- compare_models_function(wrectoti_loneliness_summary, cm_row)
+
 # Note that model 15 appears to be the most parsimonious best fitting model. 
 
 colnames(wrectoti_loneliness_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
@@ -1042,8 +1134,8 @@ wrectd_sc_ATL <- wrectd_sc_ATLparameters %>% dplyr::select(parameter, est, se, p
 write.csv(wrectd_sc_ATL, file = "./output/bivariate-models-nodem-65plus/predetermined-models/wrectd_social_contact_model_parameters.csv")
 
 # covariate model delayed word recall and social contact
-wrectd_sc_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-social_contact_total/m20_aehsc_wrectotd_social_contact_total.out")
-
+#wrectd_sc_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-social_contact_total/m20_aehsc_wrectotd_social_contact_total.out")
+wrectd_sc_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-social_contact_total/m21_aehsc_wrectotd_social_contact_total.out")
 wrectd_sc_covALT_parameters <- as.data.frame(wrectd_sc_covALT_parameters[[1]]) 
 
 # # create a new column `parameter` with the two name columns paramHeader and param collapsed together
@@ -1065,6 +1157,24 @@ wrectd_sc_path_diagram <- graph_function_covariates_nosocslope()
 
 # Create a PNG of this graph
 tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrectd_sc_path_diagram)),'./reports/wrectd_sc_path_diagram.png'))
+
+# ---- social-contact-plot - bivariate model ------
+###########################################################################
+# creates a plot of the trajectory of each process based on the estimates from the bivariate model
+
+sc_wrectd_ALTparameters <- Covariates_ALT_parameter_extraction_function(wrectd_sc_covALT_parameters)
+
+# first value should be the time 2004 cognitive variable mean copied right from mplus output
+# second value is the 2004 social variable mean also copied directly from mplus output
+sc_wrectd_plot_vals <- bALT_plot_function_nosocslope(8.515, 30.298, sc_wrectd_ALTparameters)
+
+
+ms_social_contact_ms_plot <- plot(sc_ms_plot_vals$y_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                                  main = "Mental Status")
+
+sc_social_contact_ms_plot <- plot(sc_wrectd_plot_vals$x_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                                  main = "Social Contact")
+
 
 #----delayed-word-recall-social-support-summary--------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
@@ -1320,18 +1430,18 @@ tmp<-capture.output(rsvg_png(charToRaw(export_svg(mentalstatus_ss_path_diagram))
 
 #---- mental-status-social-contact --------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
-mental_social_support_contact<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_contact_total/converged-models")
-mental_social_support_contact["CM"] <- 4
-mental_social_support_contact[1:3, "CM"] <- "-"
-mental_social_support_contact[5:7, "CM"] <- "-"
-mental_social_support_contact[11, "CM"] <- 9
-mental_social_support_contact[13, "CM"] <- "9"
-mental_social_support_contact[14, "CM"] <- "12"
-mental_social_support_contact[15, "CM"] <- "12"
+mental_social_contact<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_contact_total/converged-models")
+mental_social_contact["CM"] <- 4
+mental_social_contact[1:3, "CM"] <- "-"
+mental_social_contact[5:7, "CM"] <- "-"
+mental_social_contact[11, "CM"] <- 9
+mental_social_contact[13, "CM"] <- "9"
+mental_social_contact[14, "CM"] <- "12"
+mental_social_contact[15, "CM"] <- "12"
 #mental_socialnetwork_summary[16, "CM"] <- "13"
-cm_row <- mental_social_support_contact$CM
+cm_row <- mental_social_contact$CM
 
-mental_social_contact_table <- compare_models_function(mental_social_support_contact, cm_row)
+mental_social_contact_table <- compare_models_function(mental_social_contact, cm_row)
 # Note that model 15 appears to be the most parsimonious best fitting model. 
 
 colnames(mental_social_contact_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
@@ -1379,27 +1489,20 @@ tmp<-capture.output(rsvg_png(charToRaw(export_svg(mentalstatus_sc_path_diagram))
 
 # ---- social-contact-plot - bivariate model ------
 ###########################################################################
-##### Working here. Task is to create a plot of the social contact trajectory as would be predited by the bivariate models. This is to compare the trajectories.
+# creates a plot of the trajectory of each process based on the estimates from the bivariate model
 
 sc_ms_ALTparameters <- Covariates_ALT_parameter_extraction_function(mentalstatus_sc_covATL_parameters)
 
-# first value should be the 2004 mean, copy right from mplus output
-sc_ms_plot_vals <- bALT_plot_function(30.298, diagram_parameters)
-
-# Plot the bar chart.
-social_contact_ms_plot <- plot(sc_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                            main = "Social Contact")
-
-wrectd_lone_value_list <- bivariateALT_parameter_extraction_function(wrectd_lonely_ATL)
-
-wrectd_lonely_plot_vals <- bALT_plot_function(mean(ds_wide$wrectotd_2004, na.rm = T), mean(ds_wide$score_loneliness_3_2004, na.rm = T), wrectd_lone_value_list)
+# first value should be the time 2004 cognitive variable mean copied right from mplus output
+# second value is the 2004 social variable mean also copied directly from mplus output
+sc_ms_plot_vals <- bALT_plot_function_nosocslope(8.515, 30.298, sc_ms_ALTparameters)
 
 
-wrectd_lone_plot <- plot(wrectd_lonely_plot_vals$y_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                         main = "Delayed Word Recall")
+ms_social_contact_ms_plot <- plot(sc_ms_plot_vals$y_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                         main = "Mental Status")
 
-lone_wrectd_plot <- plot(wrectd_lonely_plot_vals$x_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                         main = "Loneliness")
+sc_social_contact_ms_plot <- plot(sc_ms_plot_vals$x_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+                         main = "Social Contact")
 
 #---- mental-status-loneliness -----------------------------------------------------------------------------------------------
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
@@ -1506,8 +1609,9 @@ wrectdALTp <- parameter_extraction_function(wrectd_ATL)
 plotwrectd <- uALT_plot_function(ds_wide$wrectotd_2004, wrectdALTp)
 
 # Plot the bar chart.
-wrectd_plot <- plot(plotwrectd,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                    main = "Delayed Word Recall")
+wrectd_plot <- plot(plotwrectd, axes = F, ylim = c(0,10), type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean")
+axis(1)
+axis(2)
 
 
 
@@ -1549,8 +1653,9 @@ ms_ALTparameters <- parameter_extraction_function(ms_ATL)
 ms_plot_vals <- uALT_plot_function(8.517, ms_ALTparameters)
 
 # Plot the bar chart.
-ms_plot <- plot(ms_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                    main = "Mental Status")
+ms_plot <- plot(ms_plot_vals, axes = F, ylim = c(0,10), type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean")
+axis(1)
+axis(2)
 
 
 #---- loneliness-summaries --------------------------------------------------------------
@@ -1605,8 +1710,9 @@ lone_ALTparameters <- parameter_extraction_function(loneliness_ATL)
 loneliness_plot_vals <- uALT_noslope_plot_function(1.379, lone_ALTparameters)
 
 # Plot the bar chart.
-loneliness_plot <- plot(loneliness_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                    main = "Loneliness")
+loneliness_plot <- plot(loneliness_plot_vals, axes = F, ylim = c(0,3), type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean")
+axis(1)
+axis(2)
 
 #---- social-contact-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
@@ -1643,9 +1749,9 @@ sc_ALTparameters <- parameter_extraction_function(social_contact_ATL)
 sc_plot_vals <- uALT_plot_function(30.315, sc_ALTparameters)
 
 # Plot the bar chart.
-social_contact_plot <- plot(sc_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                        main = "Social Contact")
-
+social_contact_plot <- plot(sc_plot_vals, axes = F, ylim = c(0,35), type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean")
+axis(1)
+axis(2)
 
 
 #---- social-support-summaries --------------------------------------------------------------
@@ -1683,9 +1789,10 @@ ss_ALTparameters <- parameter_extraction_function(social_support_ATL)
 # first value should be the 2004 mean, copy right from mplus output
 ss_plot_vals <- uALT_plot_function(9.781, ss_ALTparameters)
 
-# Plot the bar chart.
-social_support_plot <- plot(ss_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                            main = "Social Support")
+# Plot the chart.
+social_support_plot <- plot(ss_plot_vals, axes = F, ylim = c(0,12), type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean")
+axis(1)
+axis(2)
 
 #---- social-network-summaries --------------------------------------------------------------
 # Extract the fit indices of relevant models
@@ -1700,7 +1807,7 @@ colnames(social_network_series4_table) <- c("Model", "$\\chi^2$", "df", "CM", "$
 
 apa_table.word(social_network_series4_table, caption = "Model Fit Indices for Social Network")
 
-#----social-network-----
+#----social-network-plot-----
 social_network_ATLparameters <- extractModelParameters("./output/univariate-models-nodem-65plus/predetermined-models/socialnetwork_total/u07_nocov_socialnetwork_total.out")
 
 social_network_ATL <- as.data.frame(social_network_ATLparameters[[1]])
@@ -1715,16 +1822,15 @@ social_network_ATL$parameter <- paste(social_network_ATL$paramHeader,social_netw
 social_network_ATL <- social_network_ATL %>% dplyr::select(parameter, est, se, pval)
 write.csv(social_network_ATL, file = "./output/univariate-models-nodem-65plus/social_network_model_parameters.csv")
 
-# ---- social-network-plot ------
 sn_ALTparameters <- parameter_extraction_function(social_network_ATL)
 
 # first value should be the 2004 mean, copy right from mplus output
 sn_plot_vals <- uALT_plot_function(3.388, sn_ALTparameters)
 
 # Plot the bar chart.
-social_network_plot <- plot(sn_plot_vals,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
-                            main = "Social Network")
-
+social_network_plot <- plot(sn_plot_vals, axes = F, ylim = c(0, 4), type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean")
+axis(1)
+axis(2)
 
 # ---- delayed-word-recall-loneliness-plot ---------
 wrectd_lone_value_list <- bivariateALT_parameter_extraction_function(wrectd_lonely_ATL)
@@ -1735,7 +1841,7 @@ wrectd_lonely_plot_vals <- bALT_plot_function(mean(ds_wide$wrectotd_2004, na.rm 
 wrectd_lone_plot <- plot(wrectd_lonely_plot_vals$y_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
                          main = "Delayed Word Recall")
 
-lone_wrectd_plot <- plot(wrectd_lonely_plot_vals$x_values,type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
+lone_wrectd_plot <- plot(wrectd_lonely_plot_vals$x_values,axes=F, type = "o", col = "BLACK", xlab = "Wave", ylab = "Predicted Mean",
                          main = "Loneliness")
 
 # ---- immediate-word-recall-loneliness-plot ---------
@@ -1753,7 +1859,7 @@ cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nR
 soc_labels <- c("Social&#92;nSupport 1", "Social&#92;nSupport 2","Social&#92;nSupport 3","Social&#92;nSupport 4","Social&#92;nSupport 5","Social&#92;nSupport 6")
 wrecti_socsup <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_support_model_parameters.csv")
 diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_socsup)
-wrecti_ss_path_diagram <- path_diagram_function()
+#wrecti_ss_path_diagram <- path_diagram_function()
 # Create a PNG of this graph
 tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_ss_path_diagram)),'./reports/wrecti_ss_path_diagram.png'))
 
@@ -1763,8 +1869,7 @@ soc_labels <- c("Social&#92;nNetwork 1", "Social&#92;nNetwork 2","Social&#92;nNe
 wrecti_sn <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_network_model_parameters.csv")
 diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_sn)
 wrecti_sn_path_diagram <- path_diagram_function()
-# Create a PNG of this graph
-tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_sn_path_diagram)),'./reports/wrecti_sn_path_diagram.png'))
+
 
 
 cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
@@ -1772,5 +1877,6 @@ soc_labels <- c("Social&#92;nNetwork 1", "Social&#92;nNetwork 2","Social&#92;nNe
 wrecti_sn <- read.csv("./output/bivariate-models-nodem-65plus/wrecti_social_network_model_parameters.csv")
 diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_sn)
 wrecti_sn_path_diagram <- graph_function_covariates()
-
+# Create a PNG of this graph
+tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_sn_path_diagram)),'./reports/wrecti_sn_path_diagram.png'))
 Covariates_ALT_parameter_extraction_function

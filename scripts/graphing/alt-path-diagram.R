@@ -115,9 +115,10 @@ digraph SEM {
             cog5 [pos = '2,1!', label = '@@6-5']
             cog6 [pos = '4,1!', label = '@@6-6']
             age [pos = '-10,2!', label = 'Age']
-            sex [pos ='-10,4!', label = 'Sex']
-            cohort [pos = '-10,0!', label = 'Cohort']
-            health [pos = '-10,-2!' label = 'Health&#92;nConditions']
+            educ [pos ='-10,4!', label = 'Education']
+            sex [pos ='-10,0!', label = 'Sex']
+            cohort [pos = '-10,-2!', label = 'Cohort']
+            health [pos = '-10,-4!' label = 'Health&#92;nConditions']
             
 
             intercepta [pos = '-5,-3!', label = '@@1', shape = circle]
@@ -139,6 +140,12 @@ digraph SEM {
             age->slopeb
             age->soc1
             age->cog1
+            educ->intercepta
+            educ->slopea
+            educ->interceptb
+            educ->slopeb
+            educ->soc1
+            educ->cog1
             sex->intercepta
             sex->slopea
             sex->interceptb
@@ -234,10 +241,11 @@ digraph SEM {
                     cog4 [pos = '0,1!', label = '@@5-4']
                     cog5 [pos = '2,1!', label = '@@5-5']
                     cog6 [pos = '4,1!', label = '@@5-6']
-                    age [pos = '-10,2!', label = 'Age']
-                    sex [pos ='-10,4!', label = 'Sex']
-                    cohort [pos = '-10,0!', label = 'Cohort']
-                    health [pos = '-10,-2!' label = 'Health&#92;nConditions']
+                    age [pos = '-10,4!', label = 'Age']
+                    educ [pos = '-10, -2!', label = 'Education']
+                    sex [pos ='-10,0!', label = 'Sex']
+                    cohort [pos = '-10,2!', label = 'Cohort']
+                    health [pos = '-10,-4!' label = 'Health&#92;nConditions']
                     
                     intercepta [pos = '-5,-3!', label = '@@1', shape = circle]
                     slopea [pos = '-2,-5!', label = '@@2', shape = circle]
@@ -256,6 +264,10 @@ digraph SEM {
                     age->interceptb [label = '@@4-37']
                     age->soc1       [label = '@@4-47']
                     age->cog1       [label = '@@4-42']
+                    educ->intercepta
+                    educ->slopea
+                    educ->interceptb
+                    educ->soc1
                     sex->intercepta [label = '@@4-31']
                     sex->slopea     [label = '@@4-36']
                     sex->interceptb [label = '@@4-41']                             

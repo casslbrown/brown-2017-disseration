@@ -1,6 +1,5 @@
 TITLE:
-12b - Predetermined ALT, no social slope, no time-correlations
-stationary social
+ALT-no social slope, stationary autoregressive, covariates
 DATA:
 File = wide-dataset-b.dat;
 VARIABLE:
@@ -76,7 +75,11 @@ b_04
 b_05
 b_06 
 	! covariates used in the model
-	;
+age
+educ
+health
+sex
+coh	;
 SUBPOPULATION are
 	!select a subset of observations
 age_baseline > 64 AND 
@@ -85,26 +88,29 @@ memory_disease_ever EQ 0
 CLUSTER = hhid;
 DEFINE:
   ! centre baseline age
-a = age_baseline - 69;
-	! assign variables to the process (A)
-a_01=wrectoti_2004;
-a_02=wrectoti_2006;
-a_03=wrectoti_2008;
-a_04=wrectoti_2010;
-a_05=wrectoti_2012;
-a_06=wrectoti_2014;
+age = age_baseline - 69;
+educ = raedyrs - 12;
+health = healthcond_mean - 2;
+sex = male-1; 
+coh = cohort;	
+! assign variables to the process (A)
+a_01=wrectotd_2004;
+a_02=wrectotd_2006;
+a_03=wrectotd_2008;
+a_04=wrectotd_2010;
+a_05=wrectotd_2012;
+a_06=wrectotd_2014;
 	! assign variables to the process (B)
-b_01=score_loneliness_3_2004;
-b_02=score_loneliness_3_2006;
-b_03=score_loneliness_3_2008;
-b_04=score_loneliness_3_2010;
-b_05=score_loneliness_3_2012;
-b_06=score_loneliness_3_2014;
+b_01=social_contact_total_2004;
+b_02=social_contact_total_2006;
+b_03=social_contact_total_2008;
+b_04=social_contact_total_2010;
+b_05=social_contact_total_2012;
+b_06=social_contact_total_2014;
 ANALYSIS:
 TYPE = COMPLEX RANDOM;
-model=nocovariances;
 COVERAGE=.00;  
-H1ITERATIONS = 10000;
+H1ITERATIONS = 15000;
 MODEL:
 	!LGM part
 	! assign process (A) to time points 
@@ -116,17 +122,17 @@ ib BY b_02@1 b_03@1 b_04@1 b_05@1 b_06@1;
 	!correlations between the first measurement points
 	!autoregressive part
 a_01 a_02 a_03 a_04 a_05 a_06;
-a_02 ON a_01;
-a_03 ON a_02;
-a_04 ON a_03; 
-a_05 ON a_04;
-a_06 ON a_05;
+a_02 ON a_01(1);
+a_03 ON a_02(1);
+a_04 ON a_03(1); 
+a_05 ON a_04(1);
+a_06 ON a_05(1);
 b_01 b_02 b_03 b_04 b_05 b_06;
-b_02 ON b_01(1);
-b_03 ON b_02(1);
-b_04 ON b_03(1);
-b_05 ON b_04(1);
-b_06 ON b_05(1);
+b_02 ON b_01(2);
+b_03 ON b_02(2);
+b_04 ON b_03(2);
+b_05 ON b_04(2);
+b_06 ON b_05(2);
 	!Cross lagged part
 a_02 ON b_01;
 a_03 ON b_02;
@@ -149,10 +155,9 @@ sa with a_01;
 ib with b_01;
 !sb with b_01;
 ia with ib;
-a_01 with b_01;
 !sa with sb;
 ! Time specific correlations
-b_01 WITH a_01; 
+a_01 WITH b_01;
 !b_02 WITH a_02;
 !b_03 WITH a_03;
 !b_04 WITH a_04;
@@ -166,5 +171,10 @@ b_01 WITH a_01;
 ![sb];
 [a_01];
 [b_01];
-	
+! Predictive part of the model
+ia sa ib a_01 b_01 ON age
+educ
+health
+sex
+coh;	
 OUTPUT: SAMPSTAT MODINDICES (3.0); TECH1; TECH4;
