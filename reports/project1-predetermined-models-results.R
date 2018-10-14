@@ -130,10 +130,10 @@ bivariateALT_parameter_extraction_function <- function(d){
   par_list[["cog_intercept"]] <- d[which(d[,"parameter"]=='Means IA'),"est"]
   par_list[["cog_intercept_pval"]]  <- d[which(d[,"parameter"]=='Means IA'),"pval"]
   
-  par_list[["soc_slope"]] <- d[which(d[,"parameter"]=='Means SB'),"est"]
-  par_list[["soc_slope_pval"]] <- d[which(d[,"parameter"]=='Means SB'),"pval"]
-  par_list[["soc_slope_variance"]] <- d[which(d[,"parameter"]=='Variances SB'),"est"]
-  par_list[["soc_slope_variance_pval"]] <- d[which(d[,"parameter"]=='Variances SB'),"pval"]
+  #par_list[["soc_slope"]] <- d[which(d[,"parameter"]=='Means SB'),"est"]
+  #par_list[["soc_slope_pval"]] <- d[which(d[,"parameter"]=='Means SB'),"pval"]
+  #par_list[["soc_slope_variance"]] <- d[which(d[,"parameter"]=='Variances SB'),"est"]
+  #par_list[["soc_slope_variance_pval"]] <- d[which(d[,"parameter"]=='Variances SB'),"pval"]
   par_list[["soc_intercept"]] <- d[which(d[,"parameter"]=='Means IB'),"est"]
   par_list[["soc_intercept_pval"]]  <- d[which(d[,"parameter"]=='Means IB'),"pval"]
   
@@ -718,9 +718,12 @@ wrecti_lgm_quadratic_plot <- plot(means_q,type = "o", col = "BLACK", xlab = "Wav
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
 wrectoti_social_network_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-socialnetwork_total/converged-models")
 wrectoti_social_network_summary["CM"] <- 4
-wrectoti_social_network_summary[1:3, "CM"] <- "-"
-#wrectoti_social_network_summary[10:11, "CM"] <- "9"
-
+wrectoti_social_network_summary[1:4, "CM"] <- "-"
+wrectoti_social_network_summary[6, "CM"] <- 5
+wrectoti_social_network_summary[7, "CM"] <- 6
+wrectoti_social_network_summary[8, "CM"] <- 6
+wrectoti_social_network_summary[9, "CM"] <- 8
+wrectoti_social_network_summary[10, "CM"] <- 9
 
 cm_row <- wrectoti_social_network_summary$CM
 
@@ -748,6 +751,7 @@ wrecti_sn_ATL$pval <- sprintf("%.3f", wrecti_sn_ATL$pval)
 wrecti_sn_ATL$est <- sprintf("%.3f", wrecti_sn_ATL$est)
 write.csv(wrecti_sn_ATL, file = "./output/bivariate-models-nodem-65plus/wrecti_social_network_model_parameters.csv")
 
+bivariateALT_parameter_extraction_function(wrecti_sn_ATL)
 # covariate model
 wrecti_sn_covATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-socialnetwork_total/m20_aech_wrectoti_socialnetwork_total.out")
 
@@ -829,7 +833,7 @@ wrecti_ss_path_diagram <- path_diagram_noslope_function()
 
 
 # covariate model 
-wrecti_ss_covATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-social_support_mean/m20_aehsc_wrectoti_social_support_mean.out")
+wrecti_ss_covATLparameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-social_support_mean/converged-models/m20_aehsc_wrectoti_social_support_mean.out")
 
 wrecti_ss_covATLparameters <- as.data.frame(wrecti_ss_covATLparameters[[1]]) 
 
@@ -958,6 +962,7 @@ wrecti_loneliness_ATLparameters$parameter <- paste(wrecti_loneliness_ATLparamete
 wrecti_loneliness_ATL <- wrecti_loneliness_ATLparameters %>% dplyr::select(parameter, est, se, pval)
 write.csv(wrecti_loneliness_ATL, file = "./output/bivariate-models-nodem-65plus/predetermined-models/wrecti_loneliness_model_parameters.csv")
 
+# to test: bivariateALT_parameter_extraction_function(wrecti_loneliness_ATL)
 # ---- immediate-word-recall-and-social-support-plot ----
 cog_labels <- c("Immediate&#92;nWord&#92;nRecall 1", "Immediate&#92;nWord&#92;nRecall 2","Immediate&#92;nWord&#92;nRecall 3","Immediate&#92;nWord&#92;nRecall 4","Immediate&#92;nWord&#92;nRecall 5","Immediate&#92;nWord&#92;nRecall 6")
 soc_labels <- c("Social&#92;nSupport 1", "Social&#92;nSupport 2","Social&#92;nSupport 3","Social&#92;nSupport 4","Social&#92;nSupport 5","Social&#92;nSupport 6")
@@ -966,7 +971,7 @@ diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_lonelines
 wrecti_lonelinessALT_path_diagram <- path_diagram_noslope_function()
 
 # covariate model
-wrecti_loneliness_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-score_loneliness_3/m20_aehsc_wrectoti_score_loneliness_3.out")
+wrecti_loneliness_covALT_parameters <- extractModelParameters("./output/bivariate-models-nodem-65plus/predetermined-models/wrectoti-score_loneliness_3/converged-models/m20_aehsc_wrectoti_score_loneliness_3.out")
 
 wrecti_loneliness_covALT_parameters <- as.data.frame(wrecti_loneliness_covALT_parameters[[1]]) 
 
@@ -990,6 +995,7 @@ wrecti_lone_path_diagram <- graph_function_covariates_nosocslope()
 # Create a PNG of this graph
 tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_lone_path_diagram)),'./reports/wrecti_lone_path_diagram.png'))
 
+
 #----delayed-word-recall-loneliness-summary--------------------------
 wrectotd_loneliness_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/wrectotd-score_loneliness_3/converged-models")
 wrectotd_loneliness_summary["CM"] <- 5
@@ -1006,7 +1012,7 @@ wrectotd_loneliness_table <- compare_models_function(wrectotd_loneliness_summary
 
 colnames(wrectotd_loneliness_table) <- c("Model", "$\\chi^2$", "df", "CM", "$\\Delta\\chi^2$", "df$\\Delta$", "CFI", "TLI", "RMSEA", "SRMR")
 
-apa_table.word(wrectotd_loneliness_table, caption = "Model Fit Indices for Delayed Word Recall and Loneliness")
+table <- apa_table.word(wrectotd_loneliness_table, caption = "Model Fit Indices for Delayed Word Recall and Loneliness")
 
 # ALT-12 model with fixed autoregressions for both cognitive and social. 
 # Add covariates to this model. 
@@ -1092,7 +1098,7 @@ wrectd_loneliness_covALT_parameters$pval <- sprintf("%.3f", wrectd_loneliness_co
 wrectd_loneliness_covALT_parameters$est <- sprintf("%.3f", wrectd_loneliness_covALT_parameters$est)
 write.csv(wrectd_loneliness_covALT_parameters, file = "./output/bivariate-models-nodem-65plus/wrectd_loneliness_cov_model_parameters.csv")
 
-# ---- immediate-word-recall-and-loneliness-covariate-plot ----
+# ---- delayed-word-recall-and-loneliness-covariate-plot ----
 cog_labels <- c("Delayed&#92;nWord&#92;nRecall 1", "Delayed&#92;nWord&#92;nRecall 2","Delayed&#92;nWord&#92;nRecall 3","Delayed&#92;nWord&#92;nRecall 4","Delayed&#92;nWord&#92;nRecall 5","Delayed&#92;nWord&#92;nRecall 6")
 soc_labels <- c("Loneliness 1", "Loneliness 2","Loneliness 3","Loneliness 4","Loneliness 5","Loneliness 6")
 wrectd_lone <- read.csv("./output/bivariate-models-nodem-65plus/wrectd_loneliness_cov_model_parameters.csv")
@@ -1317,7 +1323,10 @@ tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrectd_sn_path_diagram)),'./re
 mental_socialnetwork_summary<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-socialnetwork_total/converged-models")
 mental_socialnetwork_summary["CM"] <- 4
 mental_socialnetwork_summary[1:3, "CM"] <- "-"
-mental_socialnetwork_summary[8, "CM"] <- 9
+mental_socialnetwork_summary[7, "CM"] <- 5
+mental_socialnetwork_summary[8, "CM"] <- 5
+mental_socialnetwork_summary[7, "CM"] <- 5
+mental_socialnetwork_summary[10, "CM"] <- 8
 
 cm_row <- mental_socialnetwork_summary$CM
 
@@ -1432,12 +1441,11 @@ tmp<-capture.output(rsvg_png(charToRaw(export_svg(mentalstatus_ss_path_diagram))
 # TASKS TO COMPLETE: RENAME THE FILES SO THE TABLE PRODUCED CAN BE PUT IN MANUSCRIPT
 mental_social_contact<- extractModelSummaries("./output/bivariate-models-nodem-65plus/predetermined-models/mentalstatus_tot-social_contact_total/converged-models")
 mental_social_contact["CM"] <- 4
-mental_social_contact[1:3, "CM"] <- "-"
-mental_social_contact[5:7, "CM"] <- "-"
-mental_social_contact[11, "CM"] <- 9
-mental_social_contact[13, "CM"] <- "9"
-mental_social_contact[14, "CM"] <- "12"
-mental_social_contact[15, "CM"] <- "12"
+mental_social_contact[1:4, "CM"] <- "-"
+mental_social_contact[6, "CM"] <- 5
+mental_social_contact[9, "CM"] <- 5
+mental_social_contact[10, "CM"] <- 9
+
 #mental_socialnetwork_summary[16, "CM"] <- "13"
 cm_row <- mental_social_contact$CM
 
@@ -1511,7 +1519,8 @@ mental_loneliness<- extractModelSummaries("./output/bivariate-models-nodem-65plu
 #mental_loneliness_summary <- mental_loneliness$m01_nocov_mentalstatus_tot_score_loneliness_3.out$summaries
 mental_loneliness["CM"] <- 3
 mental_loneliness[1:3, "CM"] <- "-"
-mental_loneliness[10:11, "CM"] <- "9"
+mental_loneliness[10, "CM"] <- "9"
+mental_loneliness[11, "CM"] <- "10"
 mental_loneliness[12, "CM"] <- "9"
 mental_loneliness[13, "CM"] <- "9"
 mental_loneliness[14, "CM"] <- "12"
@@ -1879,4 +1888,6 @@ diagram_parameters <- ALT_diagram_parameter_extraction_function(wrecti_sn)
 wrecti_sn_path_diagram <- graph_function_covariates()
 # Create a PNG of this graph
 tmp<-capture.output(rsvg_png(charToRaw(export_svg(wrecti_sn_path_diagram)),'./reports/wrecti_sn_path_diagram.png'))
-Covariates_ALT_parameter_extraction_function
+
+
+# Correlations

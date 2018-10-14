@@ -72,6 +72,7 @@ ALTcov_diagram_parameter_extraction_function <- function(d){
   par_list[["age_cog_int"]] <- ifelse(d[which(d[,"parameter"]=='IA.ON AGE'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='IA.ON AGE'),"est"],"*"), d[which(d[,"parameter"]=='IA.ON AGE'), "est"])
   par_list[["educ_cog_int"]] <- ifelse(d[which(d[,"parameter"]=='IA.ON EDUC'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='IA.ON EDUC'),"est"],"*"), d[which(d[,"parameter"]=='IA.ON EDUC'), "est"])
   par_list[["coh_cog_int"]] <- ifelse(d[which(d[,"parameter"]=='IA.ON COH'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='IA.ON COH'),"est"],"*"), d[which(d[,"parameter"]=='IA.ON COH'), "est"])
+  #30
   par_list[["health_cog_int"]] <- ifelse(d[which(d[,"parameter"]=='IA.ON HEALTH'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='IA.ON HEALTH'),"est"],"*"), d[which(d[,"parameter"]=='IA.ON HEALTH'), "est"])
   par_list[["sex_cog_int"]] <- ifelse(d[which(d[,"parameter"]=='IA.ON SEX'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='IA.ON SEX'),"est"],"*"), d[which(d[,"parameter"]=='IA.ON SEX'), "est"])
   par_list[["age_cog_slope"]] <- ifelse(d[which(d[,"parameter"]=='SA.ON AGE'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='SA.ON AGE'),"est"],"*"), d[which(d[,"parameter"]=='SA.ON AGE'), "est"])
@@ -80,6 +81,7 @@ ALTcov_diagram_parameter_extraction_function <- function(d){
   par_list[["health_cog_slope"]] <- ifelse(d[which(d[,"parameter"]=='SA.ON HEALTH'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='SA.ON HEALTH'),"est"],"*"), d[which(d[,"parameter"]=='SA.ON HEALTH'), "est"])
   par_list[["sex_cog_slope"]] <- ifelse(d[which(d[,"parameter"]=='SA.ON SEX'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='SA.ON SEX'),"est"],"*"), d[which(d[,"parameter"]=='SA.ON SEX'), "est"])
   par_list[["age_soc_int"]] <- ifelse(d[which(d[,"parameter"]=='IB.ON AGE'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='IB.ON AGE'),"est"],"*"), d[which(d[,"parameter"]=='IB.ON AGE'), "est"])
+  #38
   par_list[["educ_soc_int"]] <- ifelse(d[which(d[,"parameter"]=='IB.ON EDUC'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='IB.ON EDUC'),"est"],"*"), d[which(d[,"parameter"]=='IB.ON EDUC'), "est"])
   par_list[["coh_soc_int"]] <- ifelse(d[which(d[,"parameter"]=='IB.ON COH'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='IB.ON COH'),"est"],"*"), d[which(d[,"parameter"]=='IB.ON COH'), "est"])
   par_list[["health_soc_int"]] <- ifelse(d[which(d[,"parameter"]=='IB.ON HEALTH'),"est"] < 0.05, paste0(d[which(d[,"parameter"]=='IB.ON HEALTH'),"est"],"*"), d[which(d[,"parameter"]=='IB.ON HEALTH'), "est"])
@@ -264,10 +266,10 @@ digraph SEM {
                     age->interceptb [label = '@@4-37']
                     age->soc1       [label = '@@4-47']
                     age->cog1       [label = '@@4-42']
-                    educ->intercepta
-                    educ->slopea
-                    educ->interceptb
-                    educ->soc1
+                    educ->intercepta [label = '@@4-28']
+                    educ->slopea     [label = '@@4-33']
+                    educ->interceptb [label = '@@4-38']
+                    educ->soc1       [label = '@@4-48']
                     sex->intercepta [label = '@@4-31']
                     sex->slopea     [label = '@@4-36']
                     sex->interceptb [label = '@@4-41']                             

@@ -358,8 +358,13 @@ ds <- ds %>%
   dplyr::mutate(
     interview_date = paste0(interview_mth,"/",interview_yr),
     interview_date = zoo::as.yearmon(interview_date, "%m/%Y"),
-    hrs_tscore = interview_date-dplyr::lag(interview_date)
-  )
+    hrs_tscore = interview_date-dplyr::lag(interview_date))
+
+# print cases for inspection
+ds %>%
+  dplyr::filter(id == 22860010|id==3010|id==10001010) %>%
+  dplyr::select_("id","hrs_tscore","interview_date") %>%
+  print(n=nrow(.))
 
 # create a variable to indicate 
 # create variables indicating if the respondent and spouse has ever reported memory problems, dementia, or alzheimers

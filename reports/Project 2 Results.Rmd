@@ -1,0 +1,91 @@
+
+---
+title             : "Project 2"
+shorttitle        : "Title"
+
+author: 
+  - name          : "Cassandra Brown"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Postal address"
+    email         : "clb@uvic.ca"
+  - name          : "Andrea Piccinin"
+    affiliation   : "1,2"
+
+affiliation:
+  - id            : "1"
+    institution   : "University of Victoria"
+  - id            : "2"
+    institution   : ""
+
+author_note: >
+  Complete departmental affiliations for each author (note the indentation, if you start a new paragraph).
+
+  Enter author note here.
+
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+figsintext        : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+lineno            : yes
+
+lang              : "english"
+class             : "man"
+output            : papaja::apa6_word
+---
+
+
+<!--  The 2nd mandatory chunck  -->
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r, cache = FALSE, include=FALSE}
+library(knitr)
+knitr::opts_knit$set(root.dir=normalizePath('../'))
+
+inline_hook <- function (x) {
+  if (is.numeric(x)) {
+    # ifelse does a vectorized comparison
+    # If integer, print without decimal; otherwise print two places
+    res <- ifelse(x == round(x),
+      sprintf("%d", x),
+      sprintf("%.2f", x)
+    )
+    paste(res, collapse = ", ")
+  }
+}
+knit_hooks$set(inline = inline_hook)
+
+```
+
+
+```{r setup, echo=FALSE}
+opts_chunk$set(echo = FALSE, cache=FALSE)
+
+# connect to the file with the underlying R script  
+read_chunk("./reports/4-caregivers-results.R") 
+
+```
+
+```{r include = FALSE}
+library("papaja")
+```
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+```{r load-packages}
+```
+
+```{r declare-globals}
+```
+
+```{r load-sources}
+```
+
+```{r load-data}
+```
+
+```{r descriptive-statistics, echo=FALSE, results='asis'}
+```
+

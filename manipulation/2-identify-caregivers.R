@@ -38,21 +38,21 @@ ds <- readRDS(path_input)
 
 variables_memory_problems <- c(
   "memry",
-  "memryq",
+  #"memryq",
   "smemry",
-  "smemryq",
+  #"smemryq",
   "memrye",
   "smemrye",
-  "memryf",
-  "smemryf",
+  #"memryf",
+  #"smemryf",
   "alzhe",
   "salzhe",
-  "alzheq",
-  "salzheq",
+  #"alzheq",
+  #"salzheq",
   "alzhee",
   "salzhee",
-  "alzhflag",
-  "salzhflag",
+  #"alzhflag",
+  #"salzhflag",
   "demen",
   "sdemen",
   "demenq",
@@ -69,7 +69,8 @@ variables_memory_problems <- c(
   "spouse_alzheimer_ever",
   "spouse_memoryproblems_ever",
   "spouse_memory_disease_ever",
-  "spouse_memory_disease"
+  "spouse_memory_disease",
+  "spdem_pattern_assigned"
 )
 
 variables_spouse_memory_problems <- c(
@@ -77,7 +78,13 @@ variables_spouse_memory_problems <- c(
   "salzhe",
   "sdemen",
   "spouse_memory_disease",
-  "spouse_memory_disease_pattern"
+  "spouse_memory_disease_pattern",
+  "spdem_2004",
+  "spdem_2006",
+  "spdem_2008",
+  "spdem_2010",
+  "spdem_2012",
+  "spdem_2014"
 )
   
 # create variables indicating if the respondent and spouse has ever reported memory problems, dementia, or alzheimers
@@ -97,6 +104,7 @@ ds <- ds %>%
   dplyr::ungroup()
 
 # creates a 0 or 1 variable to indicate memory disease status.
+# Need to find a way to create a variable that corrects for NA based on previous values. 
 ds <- ds %>%
   dplyr::group_by(id, year) %>%
   dplyr::mutate(
@@ -124,17 +132,357 @@ ds <- ds %>%
   ) %>%
   dplyr::ungroup()
 
+table(ds$spouse_memory_disease_pattern)
+#Create a variable that uses the spouse_memory_disease_pattern to input NA's for a time varying covariate spouse_dementia
+#WORKING HERE
+# Step 1: Create six separate variables that ind
+spouse_memory_disease_011111 <- c(
+"011111",
+"011NANANA",
+"011110",      
+"0111NANA",
+"01NANANANA",
+"01111NA",
+"011NA11"
+)
+
+spouse_memory_disease_001111 <- c(
+  "00111NA",
+  "001NANANA",
+  "0011NANA",
+  "NA0111NA",
+  "NA011NANA",
+  "001NA11",
+  "NA01NANANA",  
+  "001111",
+  "0NA1NANANA",
+  "001NA1NA",
+  "001NANA1"
+)
+# excluded, uncertain, 00NA11NA.
+spouse_memory_disease_000111 <- c(
+ "00011NA",
+ "000111", 
+ "NA0011NA",
+ "0001NANA",
+ "NANA011NA",   
+ "NA00111",
+ "NA001NANA",    
+ "0NA01NANA",
+  "0NA011NA"
+)
+
+spouse_memory_disease_000011 <- c(
+ "00001NA",      
+ "000011",      
+ "NANANA011", 
+ "NA00011",
+  "0NA001NA",
+  "00NA01NA",     
+  "00NA011",
+  "0NANA011"
+)
+
+spouse_memory_disease_000001 <- c(
+  "00NANA01",
+  "000001",      
+  "NANANA001",      
+  "NA00001" ,  
+  "000NA01" ,
+  "NANANANA01",   
+  "00NA001",       
+  "0NANANA01"
+)
+
+spouse_memory_disease_000000 <- c(
+  "000000",     
+  "0000NA0",
+  "NANANANA00",
+  "NANANA000",
+  "NANANANANA0",  
+  "00000NA",
+  "000NANANA",
+  "0000NANA",
+  "00NANANANA",
+  "0NANANANANANA",
+  "NA000NANA",      
+  "NANA0NA0NA",
+  "NANA00NANA",
+  "NANANA00NA",  
+  "NANANA0NANA", 
+  "NA00000",         
+  "NANA0000"
+)
+
+spouse_memory_disease_111111 <- c(
+  "1NANANANANA",     
+  "1NA111NA",       
+  "1NA11NANA",   
+  "1NA1NANANA",
+  "1NA1111",     
+  "1111NANA",
+  "111NANANA",   
+  "1NANA111"
+)
+
+table(ds$spouse_memory_disease_pattern)
+# Code separate variables for the first pattern
+ds <- ds %>% 
+  #group_by(id) %>% 
+  dplyr::mutate(
+    spdem_pattern_assigned = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, "011111", NA),
+    spdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 0, NA),
+    spdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 1, NA),
+    spdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 1, NA),
+    spdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 1, NA),
+    spdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 1, NA),
+    spdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 1, NA)
+  ) #%>%
+  #dplyr::ungroup()
+
+table(ds$spouse_dem_cov1)
+
+
+# Code variables for second pattern
+ds <- ds %>% 
+  group_by(id) %>% 
+  dplyr::mutate(
+    spdem_pattern_assigned = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, "001111", spdem_pattern_assigned),
+    spdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 0, spdem_2004),
+    spdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 0, spdem_2006),
+    spdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 1, spdem_2008),
+    spdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 1, spdem_2010),
+    spdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 1, spdem_2012),
+    spdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 1, spdem_2014)
+  ) %>%
+  dplyr::ungroup()
+
+
+
+# Code variables for third pattern
+ds <- ds %>% 
+  group_by(id) %>% 
+  dplyr::mutate(
+    spdem_pattern_assigned = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, "000111", spdem_pattern_assigned),
+    spdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, spdem_2004),
+    spdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, spdem_2006),
+    spdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, spdem_2008),
+    spdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 1, spdem_2010),
+    spdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 1, spdem_2012),
+    spdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 1, spdem_2014)
+  ) %>%
+  dplyr::ungroup()
+
+# Code variables for fourth pattern
+ds <- ds %>% 
+  group_by(id) %>% 
+  dplyr::mutate(
+    spdem_pattern_assigned = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, "000111", spdem_pattern_assigned),
+    spdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, spdem_2004),
+    spdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, spdem_2006),
+    spdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, spdem_2008),
+    spdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 1, spdem_2010),
+    spdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 1, spdem_2012),
+    spdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 1, spdem_2014)
+  ) %>%
+  dplyr::ungroup()
+
+# Code variables for fourth pattern
+ds <- ds %>% 
+  group_by(id) %>% 
+  dplyr::mutate(
+    spdem_pattern_assigned = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, "000011", spdem_pattern_assigned),
+    spdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 0, spdem_2004),
+    spdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 0, spdem_2006),
+    spdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 0, spdem_2008),
+    spdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 0, spdem_2010),
+    spdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 1, spdem_2012),
+    spdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 1, spdem_2014)
+  ) %>%
+  dplyr::ungroup()
+
+# Code variables for fifth pattern
+ds <- ds %>% 
+  group_by(id) %>% 
+  dplyr::mutate(
+    spdem_pattern_assigned = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, "000001", spdem_pattern_assigned),
+    spdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, spdem_2004),
+    spdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, spdem_2006),
+    spdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, spdem_2008),
+    spdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, spdem_2010),
+    spdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, spdem_2012),
+    spdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 1, spdem_2014)
+  ) %>%
+  dplyr::ungroup()
+
+# Code variables for sixth pattern
+ds <- ds %>% 
+  group_by(id) %>% 
+  dplyr::mutate(
+    spdem_pattern_assigned = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, "000000", spdem_pattern_assigned),
+    spdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, spdem_2004),
+    spdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, spdem_2006),
+    spdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, spdem_2008),
+    spdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, spdem_2010),
+    spdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, spdem_2012),
+    spdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, spdem_2014),
+    spouse_memory_disease_000000 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 1, 0)
+  ) %>%
+  dplyr::ungroup()
+
+# Code variables for seventh pattern
+ds <- ds %>% 
+  group_by(id) %>% 
+  dplyr::mutate(
+    spdem_pattern_assigned = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, "111111", spdem_pattern_assigned),
+    spdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 1, spdem_2004),
+    spdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 1, spdem_2006),
+    spdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 1, spdem_2008),
+    spdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 1, spdem_2010),
+    spdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 1, spdem_2012),
+    spdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 1, spdem_2014)
+  ) %>%
+  dplyr::ungroup()
+
+table(ds$spdem_pattern_assigned)
+
+# Checking the number of individuals with each assigned pattern. 
+d_test <- ds %>% 
+  filter(spdem_pattern_assigned=="000000")
+length(unique(d_test$id))
+
+table(ds$spdem_pattern_assigned)
+
+
+# Code separate variables for the first pattern cumulative effect
+ds <- ds %>% 
+  #group_by(id) %>% 
+  dplyr::mutate(
+    cspdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 0, NA),
+    cspdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 1, NA),
+    cspdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 2, NA),
+    cspdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 3, NA),
+    cspdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 4, NA),
+    cspdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_011111 == T, 5, NA)
+  ) #%>%
+#dplyr::ungroup()
+
+
+
+
+# Code variables for second pattern
+ds <- ds %>% 
+  dplyr::mutate(
+    cspdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 0, cspdem_2004),
+    cspdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 0, cspdem_2006),
+    cspdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 1, cspdem_2008),
+    cspdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 2, cspdem_2010),
+    cspdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 3, cspdem_2012),
+    cspdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_001111 == T, 4, cspdem_2014)
+  ) 
+
+
+
+# Code variables for third pattern
+ds <- ds %>% 
+  dplyr::mutate(
+    cspdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, cspdem_2004),
+    cspdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, cspdem_2006),
+    cspdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, cspdem_2008),
+    cspdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 1, cspdem_2010),
+    cspdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 2, cspdem_2012),
+    cspdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 3, cspdem_2014)
+  ) 
+
+# Code variables for fourth pattern
+ds <- ds %>% 
+  dplyr::mutate(
+    cspdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, cspdem_2004),
+    cspdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, cspdem_2006),
+    cspdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 0, cspdem_2008),
+    cspdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 1, cspdem_2010),
+    cspdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 2, cspdem_2012),
+    cspdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000111 == T, 3, cspdem_2014)
+  ) 
+
+# Code variables for fourth pattern
+ds <- ds %>% 
+  dplyr::mutate(
+    cspdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 0, cspdem_2004),
+    cspdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 0, cspdem_2006),
+    cspdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 0, cspdem_2008),
+    cspdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 0, cspdem_2010),
+    cspdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 1, cspdem_2012),
+    cspdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000011 == T, 2, cspdem_2014)
+  ) 
+
+# Code variables for fifth pattern
+ds <- ds %>% 
+  dplyr::mutate(
+    cspdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, cspdem_2004),
+    cspdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, cspdem_2006),
+    cspdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, cspdem_2008),
+    cspdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, cspdem_2010),
+    cspdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 0, cspdem_2012),
+    cspdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000001 == T, 1, cspdem_2014)
+  ) 
+
+# Code variables for sixth pattern
+ds <- ds %>% 
+  dplyr::mutate(
+    cspdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, cspdem_2004),
+    cspdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, cspdem_2006),
+    cspdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, cspdem_2008),
+    cspdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, cspdem_2010),
+    cspdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, cspdem_2012),
+    cspdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_000000 == T, 0, cspdem_2014)
+  ) 
+
+# Code variables for seventh pattern
+ds <- ds %>% 
+  dplyr::mutate(
+    cspdem_2004 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 1, cspdem_2004),
+    cspdem_2006 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 2, cspdem_2006),
+    cspdem_2008 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 3, cspdem_2008),
+    cspdem_2010 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 4, cspdem_2010),
+    cspdem_2012 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 5, cspdem_2012),
+    cspdem_2014 = ifelse(spouse_memory_disease_pattern %in% spouse_memory_disease_111111 == T, 6, cspdem_2014)
+  ) 
+
+# Create a variable to indicate widowhood
+ds <- ds %>% 
+  dplyr::mutate(
+    widow = ifelse(ds$rmaritalst== 7, 1, 0)
+)
+
+
 # view a sample of data for checking
-set.seed(42)
+set.seed(32)
 # ids_1000 <- sample(unique(ds$id), 
 d <- ds %>% 
   select_("id", "year", .dots = variables_spouse_memory_problems) %>% 
   filter(id %in% sample(unique(id),50)) 
 d
+
+# view a sample of data for checking
+set.seed(66)
+# ids_1000 <- sample(unique(ds$id), 
+d <- ds %>% 
+  select_("id", "year", .dots = variables_spouse_memory_problems) %>% 
+  filter(id %in% sample(unique(id),50)) 
+d
+
+# ide = 17031010 was the suspect case this no longer appears suspect. 
+d <- ds %>%
+  select_("id", "year", .dots = variables_memory_problems) %>%
+  filter(id==17031010)
+d
+
+# To examine spouses with memory disease only.
 ds1 <- ds %>% 
   filter(spouse_memory_disease_ever == TRUE)
 
 # ---- save-to-disk ----------------------------------------
-saveRDS(ds1, path_output)
+saveRDS(ds, path_output)
 
-######### Developmental script beyond this point #############
+

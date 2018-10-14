@@ -46,7 +46,7 @@ ds <- readRDS(path_input)
 
 # ---- inspect-data -------------------------------------------------------------
 names(ls)
-
+names(ds)
 # ---- merge-assembles-scales ----------------------------------
 # you can recreate ds from ls by running the following merging script:
 # merge multiple datasets that are stored as elements of a list
